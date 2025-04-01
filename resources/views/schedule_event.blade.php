@@ -1,47 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schedule Event</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
-<body>
-    <h2>Schedule Event Date</h2>
-    
-    @if(session('success'))
-        <p style="color: green;">{{ session('success') }}</p>
-    @endif
+@extends('nav.navbar')
 
-    <form action="{{route('schedule-event')}}" method="POST">
-        @csrf
-        <label>Date:</label>
-        <input type="date" name="date" required><br>
 
-        <label>Venue:</label>
-        <input type="text" name="venue" required><br>
+@section('content')
 
-        <label>Time:</label>
-        <input type="time" name="time" required><br>
+<div class="container">
+   <div class="d-flex justify-content-center align-items-center vh-0.025">
+    <div class="card shadow-lg p-0.25 col-md-5 m-4 mt-1 text-center">
+        <h1>Welcome to University of Vauniya Event Schedule System</h1>
+    </div>
+</div>
 
-        <h3>Booking Person Details:</h3>
 
-        <label>ID:</label>
-        <input type="text" name="person_id" required><br>
+    <div class="row mt-5 ms-5" >
+        <div class="card shadow-lg p-4 col-md-5 m-4" style="opacity: 0.85">
+            <div class="card-header text-white text-center" style="background-color:#670047 ;">
+                <h3>Schedule your Event Date</h3>
+            </div>
+            @if(session('success'))
+                <p style="color: green;">{{ session('success') }}</p>
+            @endif
+            <div class="card-body">
+            <form action="{{route('schedule-event')}}" method="POST">
+                @csrf
+                <div class="mb-3">
+                <label for="date" class="form-label">Date:</label>
+                <input type="date" id="date" name="date" class="form-control" required><br>
+                </div>
+                <div class="mb-3">
+                <labelfor="venue" class="form-label" >Venue:</label>
+                <input type="text" name="venue"class="form-control" required><br>
+                </div>
+                <div class="mb-3">
+                <label for="time" class="form-label">Time:</label>
+                <input type="time" name="time" class="form-control" required><br>
+                </div>
+        
+            </div>
+        </div>
 
-        <label>Contact:</label>
-        <input type="text" name="contact" required><br>
+        <div class="card shadow-lg p-4 col-md-5 m-4" style="opacity: 0.85">
+            <div class="card-header text-white text-center" style="background-color:#670047 ;">
+            <h3>Booking Person Details:</h3>
+            </div>
+            
+            <label>ID:</label>
+            <input class="form-control" type="text" name="person_id" required><br>
 
-        <label>Email:</label>
-        <input type="email" name="email" required><br>
+            <label>Contact:</label>
+            <input class="form-control" type="text" name="contact" required><br>
 
-        <label>Reg No:</label>
-        <input type="text" name="reg_no" required><br>
+            <label>Email:</label>
+            <input class="form-control" type="email" name="email" required><br>
 
-        <label>Faculty:</label>
-        <input type="text" name="faculty" required><br>
+            <label>Reg No:</label>
+            <input class="form-control" type="text" name="reg_no" required><br>
 
-        <button type="submit">Submit</button>
-    </form>
-</body>
-</html>
+            <label>Faculty:</label>
+            <input class="form-control" type="text" name="faculty" required><br>
+
+            <div class="text-center">
+            <button type="submit" class="btn btn-success">Submit & download letter</button>
+                            
+            </div>
+        </form>
+
+
+    </div>
+
+</div>
+@endsection
