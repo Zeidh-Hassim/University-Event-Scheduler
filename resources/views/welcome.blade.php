@@ -35,7 +35,7 @@
 <body>
     <div class="button-container">
         <a href="{{ route('sheduler') }}" class="btn">Shedule Event</a>
-        <a href="{{ route('sheduler') }}" class="btn">Admin</a>
+        <a href="{{ route('loginpage') }}" class="btn">Admin</a>
     </div>
 </body>
 </html>
