@@ -1,10 +1,8 @@
-@extends('layouts.app')
-
+@extends('nav.navbar')
 <div class="container">
     <div class="row">
         <div class="col-md-5" style="padding-top:15%">
-            <h1 class="text-center" style="color:#B22222">The Shoe Box</h1>
-            <h3 class="text-center">Login</h3><p class="text-center"><a style="text-decoration: none;color:#B22222" href="{{ route('signup') }}">Create an account</a></p>
+            <h3 class="text-center">Login</h3>
         </div>
         <div class="col-md-7" style="padding:10%">
             <form action="{{ route('loginsubmit') }}" method="POST">
