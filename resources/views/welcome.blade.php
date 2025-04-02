@@ -34,8 +34,8 @@
 </head>
 <body>
     <div class="button-container">
-        <a href="#" class="btn">Submit</a>
-        <a href="#" class="btn">Admin</a>
+        <a href="{{ route('sheduler') }}" class="btn">Submit</a>
+        <a href="{{ route('sheduler') }}" class="btn">Admin</a>
     </div>
 </body>
 </html>

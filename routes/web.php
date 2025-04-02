@@ -7,6 +7,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/schedule-event', [EventController::class, 'index']);
+Route::get('/schedule-event', [EventController::class, 'index'])->name('sheduler');
 Route::post('/schedule-event',[EventController::class,'store'])->name('schedule-event');
 //Route::post('/schedule-event', [EventController::class, 'store']);
