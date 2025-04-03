@@ -32,7 +32,7 @@
         }
     </style>
 </head>
-<body>
+<body style="background-color: #670047;">
     <div class="button-container">
         <a href="{{ route('sheduler') }}" class="btn">Shedule Event</a>
         <a href="{{ route('loginpage') }}" class="btn">Admin</a>
