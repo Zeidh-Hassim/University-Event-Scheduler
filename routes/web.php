@@ -15,6 +15,9 @@ Route::post('/schedule-event',[EventController::class,'store'])->name('schedule-
 Route::get('/login',[AuthController::class,'loginpage'])->name('loginpage');
 Route::post('/login',[AuthController::class,'login'])->name('loginsubmit');
 
+Route::get('/sign',[AuthController::class,'signpage'])->name('signpage');
+Route::post('/sign',[AuthController::class,'sign'])->name('signsubmit');
+
 Route::get('/admin',function (){ 
     return view('admin');
 });
