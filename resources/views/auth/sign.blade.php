@@ -13,7 +13,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Designation</label>
-                    <input type="email" name="designation" class="form-control" id="email" placeholder="Enter your email" required>
+                    <input type="text" name="designation" class="form-control" id="email" placeholder="Enter your designation" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
