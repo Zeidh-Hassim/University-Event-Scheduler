@@ -37,4 +37,11 @@ class EventController extends Controller
         return $pdf->download('event_details.pdf');
     }
 
+    public function scheduledEvents()
+{
+    $events = Event::all(); // or filtered/sorted
+    return view('scheduled_events', compact('events'));
+}
+
+
 }

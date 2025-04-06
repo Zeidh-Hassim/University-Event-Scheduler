@@ -21,7 +21,9 @@ return new class extends Migration
         $table->string('email');
         $table->string('reg_no');
         $table->string('faculty');
+        $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
         $table->timestamps();
+        
     });
 }
 

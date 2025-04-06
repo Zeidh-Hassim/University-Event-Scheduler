@@ -18,3 +18,9 @@ Route::get('/sign',[AuthController::class,'signpage'])->name('signpage');
 Route::post('/sign',[AuthController::class,'sign'])->name('signsubmit');
 
 Route::get('/admin',[AuthController::class,'admin'])->name('admin');
+
+// Route::get('/scheduled-events', function () {
+//     return view('scheduled_events');
+// })->name('scheduled.events');
+
+Route::get('/scheduled-events', [EventController::class, 'scheduledEvents'])->name('scheduled-events');
