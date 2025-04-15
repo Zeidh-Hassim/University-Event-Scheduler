@@ -17,6 +17,8 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'event_name' => 'required|string',
+            'society' => 'required|string',
             'date' => 'required|date',
             'venue' => 'required|string',
             'time' => 'required',
@@ -30,11 +32,14 @@ class EventController extends Controller
         // Save event details in the database
         $event = Event::create($request->all());
 
+        // Flash success message to session
+        return redirect()->route('sheduler')->with('success', 'Event successfully saved!');
+
         // Generate PDF
-        $pdf = Pdf::loadView('pdf.event_details', compact('event'));
+        //$pdf = Pdf::loadView('pdf.event_details', compact('event'));
 
         // Return PDF for download
-        return $pdf->download('event_details.pdf');
+        //return $pdf->download('event_details.pdf');
     }
 
     public function scheduledEvents()

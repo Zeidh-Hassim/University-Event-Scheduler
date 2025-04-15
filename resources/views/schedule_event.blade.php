@@ -23,6 +23,16 @@
             <form action="{{route('schedule-event')}}" method="POST">
                 @csrf
                 <div class="mb-3">
+                <labelfor="society" class="form-label" >Society:</label>
+                <input type="text" name="society"class="form-control" required><br>
+                </div>
+                <div class="mb-3">
+                <labelfor="event_name" class="form-label" >Event Name:</label>
+                <input type="text" name="event_name"class="form-control" required><br>
+                </div>
+
+
+                <div class="mb-3">
                 <label for="date" class="form-label">Date:</label>
                 <input type="date" id="date" name="date" class="form-control" required><br>
                 </div>
