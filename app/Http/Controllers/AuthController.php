@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Event;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -51,4 +52,30 @@ class AuthController extends Controller
 
         return redirect()->route('loginpage')->with('success','User created successfully');
     }
+
+        public function pendingEvents()
+    {
+        $pendingEvents = Event::where('status', 'pending')->get();
+        return view('admin', compact('pendingEvents'));
+    }
+
+    public function accept($id)
+{
+    $event = Event::findOrFail($id);
+    $event->status = 'accepted';
+    $event->save();
+
+    return redirect()->route('admin')->with('success', 'Event accepted.');
+}
+
+public function reject($id)
+{
+    $event = Event::findOrFail($id);
+    $event->status = 'rejected';
+    $event->save();
+
+    return redirect()->route('admin')->with('success', 'Event rejected.');
+}
+
+
 }

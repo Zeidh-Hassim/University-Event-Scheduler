@@ -24,3 +24,9 @@ Route::get('/admin',[AuthController::class,'admin'])->name('admin');
 // })->name('scheduled.events');
 
 Route::get('/scheduled-events', [EventController::class, 'scheduledEvents'])->name('scheduled-events');
+
+
+Route::get('/admin', [AuthController::class, 'pendingEvents'])->name('admin');
+
+Route::patch('/admin/accept/{id}', [AuthController::class, 'accept'])->name('admin.accept');
+Route::patch('/admin/reject/{id}', [AuthController::class, 'reject'])->name('admin.reject');
