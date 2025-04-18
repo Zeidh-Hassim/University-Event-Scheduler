@@ -42,11 +42,23 @@ class EventController extends Controller
         //return $pdf->download('event_details.pdf');
     }
 
-    public function scheduledEvents()
+        public function scheduledEvents()
+    {
+        $events = Event::all(); // or filtered/sorted
+        return view('scheduled_events', compact('events'));
+    }
+
+public function showSchedule(Request $request)
 {
-    $events = Event::all(); // or filtered/sorted
-    return view('scheduled_events', compact('events'));
+    $status = $request->query('status'); // get filter from dropdown
+
+    $events = Event::when($status && $status !== 'all', function ($query) use ($status) {
+        $query->where('status', $status);
+    })->get();
+
+    return view('scheduled_events', compact('events', 'status'));
 }
+
 
 
 }

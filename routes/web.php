@@ -30,3 +30,6 @@ Route::get('/admin', [AuthController::class, 'pendingEvents'])->name('admin');
 
 Route::patch('/admin/accept/{id}', [AuthController::class, 'accept'])->name('admin.accept');
 Route::patch('/admin/reject/{id}', [AuthController::class, 'reject'])->name('admin.reject');
+
+Route::get('/schedule', [EventController::class, 'showSchedule'])->name('schedule');
+

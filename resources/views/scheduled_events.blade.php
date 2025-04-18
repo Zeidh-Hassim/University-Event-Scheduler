@@ -93,48 +93,40 @@
               <button class="btn btn-tickets">Get Tickets</button>
             </div> --}}
           
-            <div class="filter-select">
-              Filter By: <select class="form-select d-inline w-auto" aria-label="Filter Places">
-                <option selected>All Places</option>
-                <option value="1">Main Stage</option>
-                <option value="2">Sinclair Room</option>
-              </select>
-            </div>
-          
-            <div class="day-header">Sat., May 01</div>
+            <div class="filter-select mb-4">
+              <form method="GET" action="{{ route('schedule') }}">
+                  <label for="status">Filter By Status: </label>
+                  <select name="status" class="form-select d-inline w-auto" onchange="this.form.submit()">
+                      <option value="all" {{ ($status ?? '') == 'all' ? 'selected' : '' }}>All</option>
+                      <option value="pending" {{ ($status ?? '') == 'pending' ? 'selected' : '' }}>Pending</option>
+                      <option value="accepted" {{ ($status ?? '') == 'accepted' ? 'selected' : '' }}>Accepted</option>
+                      <option value="rejected" {{ ($status ?? '') == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                  </select>
+              </form>
+          </div>
           
             <!-- Event Items -->
-            <div class="event-item d-flex">
-              <div class="event-time">7:00 p.m. - 7:45 p.m.</div>
-              <div>
-                <div class="event-title">Opening Session: Global Outlook</div>
-                <div class="event-location">📍 Main Stage</div>
-              </div>
+           
+            @if($events->count())
+    @foreach($events as $event)
+        <div class="event-item d-flex align-items-center">
+            <div class="pe-4 text-nowrap">
+                <div class="event-date">{{ \Carbon\Carbon::parse($event->date)->format('D, M d Y') }}</div>
+                <div class="event-time">{{ \Carbon\Carbon::parse($event->time)->format('g:i A') }}</div>
             </div>
+            <div>
+                <div class="event-title">{{ $event->event_name }}</div>
+                <div class="event-location">📍 {{ $event->venue }}</div>
+                <div class="text-muted small">Status: {{ ucfirst($event->status) }}</div>
+            </div>
+        </div>
+    @endforeach
+@else
+    <p class="text-center">No events found.</p>
+@endif
+
           
-            <div class="event-item d-flex">
-              <div class="event-time">7:00 p.m. - 7:45 p.m.</div>
-              <div>
-                <div class="event-title">Ask the Experts</div>
-                <div class="event-location">📍 Sinclair Room</div>
-              </div>
-            </div>
-          
-            <div class="event-item d-flex">
-              <div class="event-time">8:00 p.m. - 9:30 p.m.</div>
-              <div>
-                <div class="event-title">The Future of Solar Roofing</div>
-                <div class="event-location">📍 Sinclair Room</div>
-              </div>
-            </div>
-          
-            <div class="event-item d-flex">
-              <div class="event-time">8:00 p.m. - 8:45 p.m.</div>
-              <div>
-                <div class="event-title">Offshore Wind Farms</div>
-                <div class="event-location">📍 Main Stage</div>
-              </div>
-            </div>
+            
           
           </div>
           
