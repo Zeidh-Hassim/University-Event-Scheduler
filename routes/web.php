@@ -33,3 +33,5 @@ Route::patch('/admin/reject/{id}', [AuthController::class, 'reject'])->name('adm
 
 Route::get('/schedule', [EventController::class, 'showSchedule'])->name('schedule');
 
+Route::get('/', [EventController::class, 'home'])->name('home');
+

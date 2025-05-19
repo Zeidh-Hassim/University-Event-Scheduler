@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Models\Event;
+use Carbon\Carbon;
 
 
 class EventController extends Controller
@@ -13,6 +14,14 @@ class EventController extends Controller
     {
         return view('schedule_event');
     }
+
+    public function home()
+{
+    $today = Carbon::today()->toDateString(); // "2025-05-15"
+    $eventCount = Event::whereDate('date', $today)->count();
+
+    return view('welcome', compact('today', 'eventCount'));
+}
 
     public function store(Request $request)
     {
