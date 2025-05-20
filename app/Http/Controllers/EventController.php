@@ -18,7 +18,8 @@ class EventController extends Controller
     public function home()
 {
     $today = Carbon::today()->toDateString(); // "2025-05-15"
-    $eventCount = Event::whereDate('date', $today)->count();
+    //$eventCount = Event::whereDate('date', $today)->count();
+    $eventCount = Event::whereDate('date', $today)->where('status', 'accepted')->count();
 
     return view('welcome', compact('today', 'eventCount'));
 }
