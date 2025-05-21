@@ -13,7 +13,6 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            position: relative;
         }
 
         h2, h3 {
@@ -28,33 +27,18 @@
         }
 
         col.label-col {
-            width: 10%;
+            width: 30%;
         }
 
         col.value-col {
-            width: 90%;
+            width: 70%;
         }
 
-        /* table, th, td {
+        table, th, td {
             border: 1px solid black;
             padding: 8px;
             text-align: left;
-        } */
-
-        table, th, td {
-            /* add table border */
-            border: 1px solid black;
-            padding: 0;              /* remove padding */
-            margin: 0;               /* remove any margin */
-            text-align: center;
         }
-
-
-        /* table, th, td {
-        padding: 8px;
-        text-align: left;
-        } */
-
 
         th {
             background-color: black;
@@ -62,7 +46,6 @@
         }
 
         .cardmy {
-            /* add border to the event and detail section  */
             border: 2px solid black;
             border-radius: 10px;
             padding: 15px;
@@ -95,9 +78,8 @@
         }
 
         .signature-table {
-            position: fixed;
-            bottom: 30mm;
             width: 100%;
+            margin-top: 80px;
         }
 
         .signature-table td {
@@ -127,9 +109,9 @@
                 <col class="label-col">
                 <col class="value-col">
             </colgroup>
-            <tr><td><strong>Date: </strong></td><td>{{ $event['date'] }}</td></tr>
-            <tr><td><strong>Venue: </strong></td><td>{{ $event['venue'] }}</td></tr>
-            <tr><td><strong>Time: </strong></td><td>{{ $event['time'] }}</td></tr>
+            <tr><td><strong>Date: </strong></td><td>dadwe</td></tr>
+            <tr><td><strong>Venue: </strong></td><td>vdszvsav</td></tr>
+            <tr><td><strong>Time: </strong></td><td>svsa</td></tr>
         </table>
     </div>
 
@@ -141,17 +123,15 @@
                 <col class="label-col">
                 <col class="value-col">
             </colgroup>
-            <tr><td><strong>ID: </strong></td><td>{{ $event['person_id'] }}</td></tr>
-            <tr><td><strong>Contact: </strong></td><td>{{ $event['contact'] }}</td></tr>
-            <tr><td><strong>Email: </strong></td><td>{{ $event['email'] }}</td></tr>
-            <tr><td><strong>Reg No: </strong></td><td>{{ $event['reg_no'] }}</td></tr>
-            <tr><td><strong>Faculty: </strong></td><td>{{ $event['faculty'] }}</td></tr>
-
-           
+            <tr><td><strong>ID: </strong></td><td>1111</td></tr>
+            <tr><td><strong>Contact: </strong></td><td>022222</td></tr>
+            <tr><td><strong>Email: </strong></td><td>fafawfwa</td></tr>
+            <tr><td><strong>Reg No: </strong></td><td>wfwaef</td></tr>
+            <tr><td><strong>Faculty: </strong></td><td>fas</td></tr>
         </table>
     </div>
 
-    <!-- Signature Section at Bottom -->
+    <!-- Signature Section -->
     <table class="signature-table">
         <tr>
             <td>

@@ -8,7 +8,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/schedule-event', [EventController::class, 'index'])->name('sheduler');
+Route::get('/som', function () {
+    return view('som');
+})->name('som');
+
+
+Route::get('/schedule-event', [EventController::class, 'schedule'])->name('sheduler');
 Route::post('/schedule-event',[EventController::class,'store'])->name('schedule-event');
 
 Route::get('/login',[AuthController::class,'loginpage'])->name('loginpage');

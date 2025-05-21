@@ -1,81 +1,120 @@
 @extends('nav.navbar')
 
-
 @section('content')
 
-<div class="container">
-   <div class="d-flex justify-content-center align-items-center vh-0.025">
-    <div class="card shadow-lg p-0.25 col-md-5 m-4 mt-1 text-center">
-        <h1>Welcome to University of Vauniya Event Schedule System</h1>
+<style>
+    a.btn.custom {
+        background-color: white !important;
+        color: black !important;
+        padding: 15px 30px !important;
+        font-size: 18px !important;
+        border: none !important;
+        cursor: pointer;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    a.btn.custom:hover {
+        background-color: lightgray !important;
+    }
+</style>
+
+<div class="container my-5">
+
+    <div class="d-flex justify-content-center align-items-center vh-25">
+        <div class="card shadow-lg p-3 col-md-8 m-4 text-center">
+            <h1>Welcome to University of Vauniya Event Schedule System</h1>
+        </div>
     </div>
-</div>
 
+    <div class="row justify-content-center">
 
-    <div class="row mt-5 ms-5" >
-        <div class="card shadow-lg p-4 col-md-5 m-4" style="opacity: 0.85">
-            <div class="card-header text-white text-center" style="background-color:#670047 ;">
+        <div class="card shadow-lg p-4 col-md-5 m-4" style="opacity: 0.85;">
+            <div class="card-header text-white text-center" style="background-color:#670047;">
                 <h3>Schedule your Event Date</h3>
             </div>
+
             @if(session('success'))
-                <p style="color: green;">{{ session('success') }}</p>
+                <p class="text-success text-center my-3">{{ session('success') }}</p>
             @endif
+
             <div class="card-body">
-            <form action="{{route('schedule-event')}}" method="POST">
-                @csrf
-                <div class="mb-3">
-                <labelfor="society" class="form-label" >Society:</label>
-                <input type="text" name="society"class="form-control" required><br>
-                </div>
-                <div class="mb-3">
-                <labelfor="event_name" class="form-label" >Event Name:</label>
-                <input type="text" name="event_name"class="form-control" required><br>
-                </div>
+                <form action="{{ route('schedule-event') }}" method="POST">
+                    @csrf
 
+                    <div class="mb-3">
+                        <label for="society" class="form-label">Society:</label>
+                        <input type="text" id="society" name="society" class="form-control" required>
+                    </div>
 
-                <div class="mb-3">
-                <label for="date" class="form-label">Date:</label>
-                <input type="date" id="date" name="date" class="form-control" required><br>
-                </div>
-                <div class="mb-3">
-                <labelfor="venue" class="form-label" >Venue:</label>
-                <input type="text" name="venue"class="form-control" required><br>
-                </div>
-                <div class="mb-3">
-                <label for="time" class="form-label">Time:</label>
-                <input type="time" name="time" class="form-control" required><br>
-                </div>
-        
+                    <div class="mb-3">
+                        <label for="event_name" class="form-label">Event Name:</label>
+                        <input type="text" id="event_name" name="event_name" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Date:</label>
+                        <input type="date" id="date" name="date" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="venue" class="form-label">Venue:</label>
+                        <input type="text" id="venue" name="venue" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="time" class="form-label">Time:</label>
+                        <input type="time" id="time" name="time" class="form-control" required>
+                    </div>
             </div>
         </div>
 
-        <div class="card shadow-lg p-4 col-md-5 m-4" style="opacity: 0.85">
-            <div class="card-header text-white text-center" style="background-color:#670047 ;">
-            <h3>Booking Person Details:</h3>
+        <div class="card shadow-lg p-4 col-md-5 m-4" style="opacity: 0.85;">
+            <div class="card-header text-white text-center" style="background-color:#670047;">
+                <h3>Booking Person Details:</h3>
             </div>
-            
-            <label>ID:</label>
-            <input class="form-control" type="text" name="person_id" required><br>
 
-            <label>Contact:</label>
-            <input class="form-control" type="text" name="contact" required><br>
+            <div class="card-body">
 
-            <label>Email:</label>
-            <input class="form-control" type="email" name="email" required><br>
+                <div class="mb-3">
+                    <label for="person_id" class="form-label">ID:</label>
+                    <input type="text" id="person_id" name="person_id" class="form-control" required>
+                </div>
 
-            <label>Reg No:</label>
-            <input class="form-control" type="text" name="reg_no" required><br>
+                <div class="mb-3">
+                    <label for="contact" class="form-label">Contact:</label>
+                    <input type="text" id="contact" name="contact" class="form-control" required>
+                </div>
 
-            <label>Faculty:</label>
-            <input class="form-control" type="text" name="faculty" required><br>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
 
-            <div class="text-center">
-            <button type="submit" class="btn btn-success">Submit & download letter</button>
-                            
+                <div class="mb-3">
+                    <label for="reg_no" class="form-label">Reg No:</label>
+                    <input type="text" id="reg_no" name="reg_no" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="faculty" class="form-label">Faculty:</label>
+                    <input type="text" id="faculty" name="faculty" class="form-control" required>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success px-5">Submit & Download Letter</button>
+                </div>
+            </form>
             </div>
-        </form>
+        </div>
 
+    </div> <!-- row -->
 
+    <div class="text-center mt-5">
+        <button type="button" class="btn btn-secondary" onclick="history.back()">Back</button>
     </div>
 
-</div>
+</div> <!-- container -->
+
 @endsection

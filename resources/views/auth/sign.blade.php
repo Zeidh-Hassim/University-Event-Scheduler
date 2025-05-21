@@ -24,3 +24,7 @@
         </div>
     </div>
 </div>
+
+<div class="text-center mt-5">
+    <button type="button" class="btn btn-secondary" onclick="history.back()">Back</button>
+</div>

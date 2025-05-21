@@ -1,5 +1,23 @@
 @extends('nav.navbar')
 
+<style>
+    a.btn.custom {
+        background-color: white !important;
+        color: black !important;
+        padding: 15px 30px !important;
+        font-size: 18px !important;
+        border: none !important;
+        cursor: pointer;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    a.btn.custom:hover {
+        background-color: lightgray !important;
+    }
+</style>
+
 <h1>Hello I am admin</h1>
 
 <div class="container mt-5">
@@ -28,4 +46,9 @@
         </div>
     </div>
     @endforeach
+</div>
+
+
+<div class="text-center mt-5">
+    <a href="{{route('home') }}" class="btn btn-secondary">Back</a>
 </div>

@@ -10,10 +10,13 @@ use Carbon\Carbon;
 
 class EventController extends Controller
 {
-    public function index()
+  
+
+    public function schedule()
     {
         return view('schedule_event');
     }
+
 
     public function home()
 {
@@ -43,13 +46,13 @@ class EventController extends Controller
         $event = Event::create($request->all());
 
         // Flash success message to session
-        return redirect()->route('sheduler')->with('success', 'Event successfully saved!');
+        //return redirect()->route('sheduler')->with('success', 'Event successfully saved!');
 
         // Generate PDF
-        //$pdf = Pdf::loadView('pdf.event_details', compact('event'));
+        $pdf = Pdf::loadView('pdf.event_details', compact('event'));
 
         // Return PDF for download
-        //return $pdf->download('event_details.pdf');
+        return $pdf->download('event_details.pdf');
     }
 
         public function scheduledEvents()
