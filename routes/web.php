@@ -40,3 +40,20 @@ Route::get('/schedule', [EventController::class, 'showSchedule'])->name('schedul
 
 Route::get('/', [EventController::class, 'home'])->name('home');
 
+
+
+Route::get('/ar', function () {
+    return view('university_Level.ar');
+})->name('ar.page')->middleware('auth');
+
+Route::get('/marshall', function () {
+    return view('university_Level.marshall');
+})->name('marshall.page')->middleware('auth');
+
+Route::get('/proctor', function () {
+    return view('university_Level.proctor');
+})->name('proctor.page')->middleware('auth');
+
+Route::get('/vice_chancellor', function () {
+    return view('university_Level.vice_chancellor');
+})->name('vice_chancellor.page')->middleware('auth');

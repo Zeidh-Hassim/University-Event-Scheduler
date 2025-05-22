@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Event;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
+
 
 class AuthController extends Controller
 {
@@ -14,19 +16,61 @@ class AuthController extends Controller
         return view('admin');
     }
 
-    public function login(Request $request){
-        $request->validate([
-            'email' => 'required|string|max:255',
-            'password' => 'required|string|min:8',
-        ]);
+    // public function login(Request $request){
+    //     $request->validate([
+    //         'email' => 'required|string|max:255',
+    //         'password' => 'required|string|min:8',
+    //     ]);
 
-        if(Auth::attempt($request->only('email','password'))){
-            return redirect()->route('admin')->with('success','Login successful');
-        }else{
-            return redirect()->back()->with('error','Invalid credentials');
-        }
+    //     if(Auth::attempt($request->only('email','password'))){
+    //         return redirect()->route('admin')->with('success','Login successful');
+    //     }else{
+    //         return redirect()->back()->with('error','Invalid credentials');
+    //     }
     
+    // }
+
+
+    //////
+
+    public function login(Request $request): RedirectResponse
+{
+    $request->validate([
+        'email' => 'required|string|max:255',
+        'password' => 'required|string|min:8',
+    ]);
+
+    if (Auth::attempt($request->only('email', 'password'))) {
+        $request->session()->regenerate();
+
+        $user = Auth::user();
+
+        // Redirect based on user role
+        if ($user->designation === 'Assistant Registrar') {
+            return redirect()->route('ar.page');
+        } elseif ($user->designation === 'Marshal') {
+            return redirect()->route('marshall.page');
+        }elseif ($user->designation === 'Proctor') {
+            return redirect()->route('proctor.page');
+        }elseif ($user->designation === 'Vice Chancellor') {
+            return redirect()->route('vice_chancellor.page');
+        }elseif ($user->designation === 'Administrator') {
+            return redirect()->route('admin');
+        } 
     }
+
+    return redirect()->back()->with('error','Invalid credentials');
+}
+
+
+
+
+
+
+
+
+
+    /////
 
     public function loginpage(){
         return view('auth.login');
