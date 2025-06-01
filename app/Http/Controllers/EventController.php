@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Models\UniversityEventApproval;
 use Carbon\Carbon;
 
 
@@ -44,6 +45,11 @@ class EventController extends Controller
 
         // Save event details in the database
         $event = Event::create($request->all());
+
+        UniversityEventApproval::create([
+        'event_id' => $event->id,
+        // other default approval statuses will be defaulted by DB
+    ]);
 
         // Flash success message to session
         //return redirect()->route('sheduler')->with('success', 'Event successfully saved!');
