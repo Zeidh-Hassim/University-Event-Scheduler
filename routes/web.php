@@ -5,25 +5,28 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UniversityEventApprovalController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Index Route
+Route::get('/', [EventController::class, 'home'])->name('home');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/som', function () {
-    return view('som');
-})->name('som');
+// Route::get('/som', function () {
+//     return view('som');
+// })->name('som');
 
-
+// Event Scheduling Routes
 Route::get('/schedule-event', [EventController::class, 'schedule'])->name('sheduler');
 Route::post('/schedule-event',[EventController::class,'store'])->name('schedule-event');
 
+// Auth Routes
 Route::get('/login',[AuthController::class,'loginpage'])->name('loginpage');
 Route::post('/login',[AuthController::class,'login'])->name('loginsubmit');
 
 Route::get('/sign',[AuthController::class,'signpage'])->name('signpage');
 Route::post('/sign',[AuthController::class,'sign'])->name('signsubmit');
 
-Route::get('/admin',[AuthController::class,'admin'])->name('admin');
+// Route::get('/admin',[AuthController::class,'admin'])->name('admin');
 
 // Route::get('/scheduled-events', function () {
 //     return view('scheduled_events');
@@ -31,22 +34,8 @@ Route::get('/admin',[AuthController::class,'admin'])->name('admin');
 
 Route::get('/scheduled-events', [EventController::class, 'scheduledEvents'])->name('scheduled-events');
 
-
-
-
-Route::get('/admin', [AuthController::class, 'pendingEvents'])->name('admin');
-
-Route::patch('/admin/accept/{id}', [AuthController::class, 'accept'])->name('admin.accept');
-Route::patch('/admin/reject/{id}', [AuthController::class, 'reject'])->name('admin.reject');
-
+//scheduled events
 Route::get('/schedule', [EventController::class, 'showSchedule'])->name('schedule');
-
-Route::get('/', [EventController::class, 'home'])->name('home');
-
-
-
-
-
 
 // University Level Approval Starts Here 
 
@@ -88,6 +77,12 @@ Route::patch('/proctor/reject/{id}', [UniversityEventApprovalController::class, 
 Route::get('/vice-chancellor-pending-requests', [UniversityEventApprovalController::class, 'showPendingVcRequests'])->name('vice_chancellor.pending.requests')->middleware('auth');;
 Route::patch('/vice-chancellor/accept/{id}', [UniversityEventApprovalController::class, 'VcAccept'])->name('vice_chancellor.accept');
 Route::patch('/vice-chancellor/reject/{id}', [UniversityEventApprovalController::class, 'VcReject'])->name('vice_chancellor.reject');
+
+//Administrator Routes
+Route::get('/admin', [AuthController::class, 'pendingEvents'])->name('admin');
+
+Route::patch('/admin/accept/{id}', [AuthController::class, 'accept'])->name('admin.accept');
+Route::patch('/admin/reject/{id}', [AuthController::class, 'reject'])->name('admin.reject');
 
 Route::delete('/faculties/{id}', [AuthController::class, 'FacultyDestroy'])->name('faculties.destroy');
 Route::post('/faculties', [AuthController::class, 'FacultyStore'])->name('faculties.store');
