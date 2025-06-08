@@ -20,6 +20,9 @@
 
 <h1>Hello I am admin</h1>
 
+
+
+{{-- Display Pending Requests  --}}
 <div class="container mt-5">
     <h4>Pending Requests</h4>
 
@@ -49,6 +52,35 @@
 </div>
 
 
+
+
+{{-- Display All Faculties  --}}
+<div class="container mt-5">
+    <h4>Faculties</h4>
+
+    @if($faculties->isEmpty())
+        <p>No faculties available.</p>
+    @else
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Faculty Name</th>
+                    <th>Faculty Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($faculties as $faculty)
+                    <tr>
+                        <td>{{ $faculty->name }}</td>
+                        <td>{{ $faculty->code }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+</div>
+
+{{-- Back Button  --}}
 <div class="text-center mt-5">
     <a href="{{route('home') }}" class="btn btn-secondary">Back</a>
 </div>

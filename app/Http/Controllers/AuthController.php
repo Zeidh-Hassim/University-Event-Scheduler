@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Event;
+use App\Models\Faculty;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 
@@ -90,11 +91,11 @@ class AuthController extends Controller
         return redirect()->route('loginpage')->with('success', 'User created successfully');
     }
 
-    public function pendingEvents()
-    {
-        $pendingEvents = Event::where('status', 'pending')->get();
-        return view('admin', compact('pendingEvents'));
-    }
+    // public function pendingEvents()
+    // {
+    //     $pendingEvents = Event::where('status', 'pending')->get();
+    //     return view('admin', compact('pendingEvents'));
+    // }
 
     public function accept($id)
     {
@@ -113,4 +114,16 @@ class AuthController extends Controller
 
         return redirect()->route('admin')->with('success', 'Event rejected.');
     }
+
+    
+
+    public function pendingEvents()
+    {
+        
+        $faculties = Faculty::all();
+        $pendingEvents = Event::where('status', 'pending')->get();
+
+        return view('admin', compact('pendingEvents', 'faculties'));
+    }
+
 }

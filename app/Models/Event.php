@@ -11,7 +11,6 @@ class Event extends Model
     
     protected $fillable = ['event_name', 'society', 'date', 'venue', 'time', 'person_id', 'contact', 'email', 'reg_no', 'faculty'];
 
-    // app/Models/Event.php
 
 public function universityEventApproval()
 {
