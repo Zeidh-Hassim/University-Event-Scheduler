@@ -18,13 +18,18 @@
     }
 </style>
 
-<h1>Hello I am admin</h1>
+<h1 class="text-center mb-3 text-white">Administrator</h1>
 
 {{-- Display Pending Requests --}}
 <div class="container mt-5">
     <h3 class="text-center mb-3 text-white">Pending Requests</h3>
 
-    @foreach($pendingEvents as $event)
+    @php
+        $showAll = request()->has('show_all');
+        $eventsToShow = $showAll ? $pendingEvents : $pendingEvents->take(5);
+    @endphp
+
+    @foreach($eventsToShow as $event)
         <div class="card mb-3 p-3 d-flex flex-row justify-content-between align-items-center">
             <div class="d-flex align-items-center">
                 <div>
@@ -47,7 +52,19 @@
             </div>
         </div>
     @endforeach
+
+    {{-- Show More / Show Less Button --}}
+    @if($pendingEvents->count() > 5)
+        <div class="text-center mt-3">
+            @if($showAll)
+                <a href="{{ route('admin') }}" class="btn btn-secondary">Show Less</a>
+            @else
+                <a href="{{ route('admin', ['show_all' => 1]) }}" class="btn btn-secondary">Show All</a>
+            @endif
+        </div>
+    @endif
 </div>
+
 
 {{-- Display All Faculties --}}
 <div class="container mt-5">
@@ -99,13 +116,17 @@
 
 {{-- Display All Venues --}}
 <div class="container mt-5">
-    
     <h3 class="text-center mb-3 text-white">Venues</h3>
+
+    @php
+        $showAllVenues = request()->has('show_all_venues');
+        $venuesToShow = $showAllVenues ? $venues : $venues->take(5);
+    @endphp
 
     @if($venues->isEmpty())
         <p>No Venues available.</p>
     @else
-        @foreach($venues as $venue)
+        @foreach($venuesToShow as $venue)
             <div class="card mb-3 p-3 d-flex flex-row justify-content-between align-items-center">
                 <div>
                     <h6 class="mb-1">{{ $venue->name }}</h6>
@@ -120,7 +141,20 @@
                 </div>
             </div>
         @endforeach
+
+        {{-- Show All / Show Less Button --}}
+        <div class="text-center mt-3">
+            @if($venues->count() > 5)
+                @if($showAllVenues)
+                    <a href="{{ route('admin') }}" class="btn btn-secondary">Show Less</a>
+                @else
+                    <a href="{{ route('admin', ['show_all_venues' => 1]) }}" class="btn btn-secondary">Show All</a>
+                @endif
+            @endif
+        </div>
     @endif
+
+
 
     {{-- Add Venue Form --}}
     <div class="card mt-4 p-4">
@@ -147,7 +181,7 @@
             </div>
         </form>
     </div>
-
+</div>
 
 {{-- Back Button --}}
 <div class="text-center mt-5">
