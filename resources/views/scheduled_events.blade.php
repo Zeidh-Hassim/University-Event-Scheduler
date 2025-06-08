@@ -90,14 +90,8 @@
     </style>
 </head>
 <body>
-
     <div class="container">
-        <div class="d-flex justify-content-center align-items-center vh-0.025">
-            <div class="card shadow-lg p-0.25 col-md-5 m-4 mt-1 text-center">
-                <h1>Schedule</h1>
-            </div>
-        </div>
-
+                <h1 class="text-center mb-3 text-white">Schedule</h1>
         <div class="schedule-wrapper">
             <div class="container">
 
