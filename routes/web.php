@@ -88,3 +88,9 @@ Route::patch('/proctor/reject/{id}', [UniversityEventApprovalController::class, 
 Route::get('/vice-chancellor-pending-requests', [UniversityEventApprovalController::class, 'showPendingVcRequests'])->name('vice_chancellor.pending.requests')->middleware('auth');;
 Route::patch('/vice-chancellor/accept/{id}', [UniversityEventApprovalController::class, 'VcAccept'])->name('vice_chancellor.accept');
 Route::patch('/vice-chancellor/reject/{id}', [UniversityEventApprovalController::class, 'VcReject'])->name('vice_chancellor.reject');
+
+Route::delete('/faculties/{id}', [AuthController::class, 'FacultyDestroy'])->name('faculties.destroy');
+Route::post('/faculties', [AuthController::class, 'FacultyStore'])->name('faculties.store');
+
+Route::delete('/venues/{id}', [AuthController::class, 'VenueDestroy'])->name('venues.destroy');
+Route::post('/venues', [AuthController::class, 'VenueStore'])->name('venues.store');

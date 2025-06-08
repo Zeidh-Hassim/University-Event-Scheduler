@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Event;
 use App\Models\Faculty;
+use App\Models\Venue;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 
@@ -119,11 +120,59 @@ class AuthController extends Controller
 
     public function pendingEvents()
     {
-        
+        $venues = Venue::all();
         $faculties = Faculty::all();
         $pendingEvents = Event::where('status', 'pending')->get();
 
-        return view('admin', compact('pendingEvents', 'faculties'));
+        return view('admin', compact('pendingEvents', 'faculties',  'venues'));
+    }
+
+    public function FacultyDestroy($id)
+    {
+        $faculty = Faculty::findOrFail($id);
+        $faculty->delete();
+
+        return redirect()->back()->with('success', 'Faculty deleted successfully.');
+    }
+
+    public function FacultyStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'code' => 'required|string|max:10|unique:faculties,code',
+        ]);
+
+        Faculty::create([
+            'name' => $request->name,
+            'code' => $request->code,
+        ]);
+
+        return redirect()->back()->with('success', 'Faculty added successfully.');
+    }
+
+    public function VenueDestroy($id)
+    {
+        $venues = Venue::findOrFail($id);
+        $venues->delete();
+
+        return redirect()->back()->with('success', 'Venue deleted successfully.');
+    }
+
+    public function VenueStore(Request $request)
+    {
+        $request->validate([
+            'FacultyCode' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'code' => 'required|string|max:10|unique:faculties,code',
+        ]);
+
+        Venue::create([
+            'faculty' => $request->FacultyCode,
+            'name' => $request->name,
+            'code' => $request->code,
+        ]);
+
+        return redirect()->back()->with('success', 'Venue added successfully.');
     }
 
 }
