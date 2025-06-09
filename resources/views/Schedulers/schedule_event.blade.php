@@ -163,8 +163,8 @@
 
         </div>
 
-        <div class="text-center">
-            <button type="button" class="btn btn-secondary" onclick="history.back()">Back</button>
+        <div class="text-center mt-5">
+            <a href="{{route('home') }}" class="btn btn-secondary">Back</a>
         </div>
 
     </div>

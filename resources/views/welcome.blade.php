@@ -1,3 +1,9 @@
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap JS and Popper (required for dropdowns) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,13 +93,22 @@
     </div>
 
 
-  <!-- Buttons -->
   <div class="button-container">
-    <a href="{{ route('sheduler') }}" class="btn">Shedule Event</a>
-    <a href="{{ route('loginpage') }}" class="btn">Admin</a>
-    <a href="{{ route('scheduled-events') }}" class="btn">Scheduled Events</a>
-
+    <div class="dropdown  btn-secondary">
+        <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Schedule Event
+        </a>
+        <ul class="dropdown-menu ">
+            <li><a class="dropdown-item" href="{{ route('schedule.university') }}">University Level Union/Society</a></li>
+            <li><a class="dropdown-item" href="{{ route('schedule.union') }}">Faculty Union</a></li>
+            <li><a class="dropdown-item" href="{{ route('schedule.society') }}">Faculty Level Society</a></li>
+            <li><a class="dropdown-item" href="{{ route('schedule.batch') }}">Faculty Level Batch</a></li>
+        </ul>
+    </div>
+    <a href="{{ route('loginpage') }}" class="btn btn-secondary">Admin</a>
+    <a href="{{ route('scheduled-events') }}" class="btn btn-secondary">Scheduled Events</a>
 </div>
+
 
   <!-- JavaScript to Set Dynamic Date -->
   <script>

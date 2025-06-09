@@ -11,22 +11,21 @@ use Carbon\Carbon;
 
 class EventController extends Controller
 {
-  
-
     public function schedule()
     {
-        return view('schedule_event');
+        return view('Schedulers.schedule_event');
     }
 
-
     public function home()
-{
-    $today = Carbon::today()->toDateString(); // "2025-05-15"
-    //$eventCount = Event::whereDate('date', $today)->count();
-    $eventCount = Event::whereDate('date', $today)->where('status', 'accepted')->count();
+    {
+        $today = Carbon::today()->toDateString(); // "2025-05-15"
+        //$eventCount = Event::whereDate('date', $today)->count();
+        $eventCount = Event::whereDate('date', $today)->where('status', 'accepted')->count();
 
-    return view('welcome', compact('today', 'eventCount'));
-}
+        return view('welcome', compact('today', 'eventCount'));
+    }
+
+        
 
     public function store(Request $request)
     {
@@ -49,7 +48,7 @@ class EventController extends Controller
         UniversityEventApproval::create([
         'event_id' => $event->id,
         // other default approval statuses will be defaulted by DB
-    ]);
+        ]);
 
         // Flash success message to session
         //return redirect()->route('sheduler')->with('success', 'Event successfully saved!');
@@ -67,17 +66,15 @@ class EventController extends Controller
         return view('scheduled_events', compact('events'));
     }
 
-public function showSchedule(Request $request)
-{
-    $status = $request->query('status'); // get filter from dropdown
+    public function showSchedule(Request $request)
+    {
+        $status = $request->query('status'); // get filter from dropdown
 
-    $events = Event::when($status && $status !== 'all', function ($query) use ($status) {
-        $query->where('status', $status);
-    })->get();
+        $events = Event::when($status && $status !== 'all', function ($query) use ($status) {
+            $query->where('status', $status);
+        })->get();
 
-    return view('scheduled_events', compact('events', 'status'));
-}
-
-
+        return view('scheduled_events', compact('events', 'status'));
+    }
 
 }

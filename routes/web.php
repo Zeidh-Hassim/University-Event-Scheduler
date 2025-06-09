@@ -4,9 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UniversityEventApprovalController;
+use App\Http\Controllers\FacultyLevelUnionController;
 
 //Index Route
 Route::get('/', [EventController::class, 'home'])->name('home');
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -89,3 +91,33 @@ Route::post('/faculties', [AuthController::class, 'FacultyStore'])->name('facult
 
 Route::delete('/venues/{id}', [AuthController::class, 'VenueDestroy'])->name('venues.destroy');
 Route::post('/venues', [AuthController::class, 'VenueStore'])->name('venues.store');
+
+
+
+
+
+
+
+
+Route::get('/schedule/university', function () {
+    return view('Schedulers.schedule_event'); // Make sure this view exists
+})->name('schedule.university');
+
+Route::get('/schedule/Union', function () {
+    return view('Schedulers.FacultyLevelUnion'); // Make sure this view exists
+})->name('schedule.union');
+
+Route::get('/schedule/society', function () {
+    return view('Schedulers.FacultyLevelSocieties'); // Make sure this view exists
+})->name('schedule.society');
+
+Route::get('/schedule/Batch', function () {
+    return view('Schedulers.FacultyLevelBatch'); // Make sure this view exists
+})->name('schedule.batch');
+
+
+Route::get('/schedule/union', [FacultyLevelUnionController::class, 'showUnionForm'])->name('schedule.union');
+Route::get('/get-halls/{facultyCode}', [FacultyLevelUnionController::class, 'getHalls'])->name('get.halls');
+
+
+
