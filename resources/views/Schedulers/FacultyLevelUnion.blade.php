@@ -89,7 +89,7 @@
                 @endif
 
                 <div class="card-body">
-                    <form action="{{ route('schedule-event') }}" method="POST">
+                    <form action="{{ route('scheduleUnionEvent') }}" method="POST">
                         @csrf
 
                         <div class="mb-3 row">
