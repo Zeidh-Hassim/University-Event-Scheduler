@@ -29,29 +29,33 @@
         $eventsToShow = $showAll ? $pendingEvents : $pendingEvents->take(5);
     @endphp
 
-    @foreach($eventsToShow as $event)
-        <div class="card mb-3 p-3 d-flex flex-row justify-content-between align-items-center">
-            <div class="d-flex align-items-center">
+    @if($eventsToShow->isEmpty())
+        <p class="text-center text-white">No Pending Events Available.</p>
+    @else
+        @foreach($eventsToShow as $event)
+            <div class="card mb-3 p-3 d-flex flex-row justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h6 class="mb-0">{{ $event->event_name }} ({{ $event->society }})</h6>
+                        <small class="text-muted">{{ $event->person_id }} wants to book {{ $event->venue }} on {{ $event->date }} at {{ $event->time }}</small>
+                    </div>
+                </div>
                 <div>
-                    <h6 class="mb-0">{{ $event->event_name }} ({{ $event->society }})</h6>
-                    <small class="text-muted">{{ $event->person_id }} wants to book {{ $event->venue }} on {{ $event->date }} at {{ $event->time }}</small>
+                    <form action="{{ route('admin.accept', $event->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('PATCH')
+                        <button class="btn btn-success btn-sm me-2">Accept</button>
+                    </form>
+
+                    <form action="{{ route('admin.reject', $event->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('PATCH')
+                        <button class="btn btn-danger btn-sm">Reject</button>
+                    </form>
                 </div>
             </div>
-            <div>
-                <form action="{{ route('admin.accept', $event->id) }}" method="POST" class="d-inline">
-                    @csrf
-                    @method('PATCH')
-                    <button class="btn btn-success btn-sm me-2">Accept</button>
-                </form>
-
-                <form action="{{ route('admin.reject', $event->id) }}" method="POST" class="d-inline">
-                    @csrf
-                    @method('PATCH')
-                    <button class="btn btn-danger btn-sm">Reject</button>
-                </form>
-            </div>
-        </div>
-    @endforeach
+        @endforeach
+    @endif
 
     {{-- Show More / Show Less Button --}}
     @if($pendingEvents->count() > 5)

@@ -48,7 +48,7 @@ class AuthController extends Controller
             // Redirect based on user role
             if ($user->designation === 'Assistant Registrar') {
                 return redirect()->route('ar.pending.requests');
-            } elseif ($user->designation === 'Marshal') {
+            } elseif ($user->designation === 'Marshall') {
                 return redirect()->route('marshall.pending.requests');
             } elseif ($user->designation === 'Proctor') {
                 return redirect()->route('proctor.pending.requests');

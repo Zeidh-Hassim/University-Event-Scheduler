@@ -123,7 +123,7 @@
                         <div class="mb-3 row">
                             <label for="venue" class="form-label">Venue:</label>
 
-                             {{-- Faculty Dropdown --}}
+                            {{-- Faculty Dropdown --}}
                             <div class="col-md-6">
                                 <label for="facultyForVenue" class="form-label">Faculty:</label>
                                 <select name="faculty_for_venue" id="facultyForVenue" class="form-control" required>
@@ -141,9 +141,7 @@
                                 <select id="hall" name="hall" class="form-control" required>
                                     <option value="" disabled selected>Select Hall</option>
                                 </select>
-                            </div>
-
-                            
+                            </div>   
                         </div>
 
                         
