@@ -74,6 +74,7 @@
 
         <div class="text-center mb-3 text-white">
             <h1>Welcome to University of Vavuniya Event Schedule System</h1>
+            <p>University-level events/activities organized by the Students' Union/approved student societies</p>
         </div>
 
         <div class="row justify-content-center g-1">
@@ -157,7 +158,7 @@
             <!-- Booking Person Details -->
             <div class="card shadow-sm col-md-5 m-2" style="opacity: 0.95;">
                 <div class="card-header text-white text-center" style="background-color:#670047;">
-                    <h3>Booking Person Details</h3>
+                    <h3>Applicant Details</h3>
                 </div>
 
                 <div class="card-body">
@@ -168,7 +169,7 @@
                     </div>
 
                     <div class="mb-2">
-                        <label for="applicant" class="form-label">President/Secretary (Applicant):</label>
+                        <label for="applicant" class="form-label">Name of Applicant (President/Secretary):</label>
                         <input type="text" id="applicant" name="applicant" class="form-control" required>
                     </div>
 

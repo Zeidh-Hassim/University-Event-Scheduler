@@ -74,6 +74,7 @@
 
         <div class="text-center mb-3 text-white">
             <h1>Welcome to University of Vavuniya Event Schedule System</h1>
+            <p>Faculty-level events/activities organized by the Students' Union</p>
         </div>
 
         <div class="row justify-content-center g-1">
@@ -93,15 +94,15 @@
                         @csrf
 
                         <div class="mb-3 row">
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <label for="society" class="form-label">Society:</label>
                                 <input type="text" id="society" name="society" class="form-control" required>
-                            </div>
+                            </div> --}}
 
                             <div class="col-md-6">
-                                <label for="faculty" class="form-label">Faculty:</label>
+                                {{-- <label for="faculty" class="form-label">Faculty:</label> --}}
                                 <select name="faculty" id="faculty" class="form-control" required>
-                                    <option value="" disabled selected>Select Faculty</option>
+                                    <option value="" disabled selected>Select Union</option>
                                     @foreach($faculties as $faculty)
                                         <option value="{{ $faculty->name }}">{{ $faculty->name }}</option>
                                     @endforeach
@@ -125,7 +126,7 @@
 
                             {{-- Faculty Dropdown --}}
                             <div class="col-md-6">
-                                <label for="facultyForVenue" class="form-label">Faculty:</label>
+                                {{-- <label for="facultyForVenue" class="form-label">Faculty:</label> --}}
                                 <select name="faculty_for_venue" id="facultyForVenue" class="form-control" required>
                                     <option value="" disabled selected>Select Faculty</option>
                                     @foreach($faculties as $faculty)
@@ -137,7 +138,7 @@
 
                             {{-- Venue Dropdown (Dynamic) --}}
                             <div class="col-md-6">
-                                <label for="hall" class="form-label">Hall:</label>
+                                {{-- <label for="hall" class="form-label">Hall:</label> --}}
                                 <select id="hall" name="hall" class="form-control" required>
                                     <option value="" disabled selected>Select Hall</option>
                                 </select>
@@ -151,25 +152,56 @@
                             <input type="text" id="venue" name="venue" class="form-control" required>
                         </div> --}}
 
+                        <div class="mb-3 row">
+                            <label for="venue" class="form-label">Time:</label>
+
+                             {{-- Start Time --}}
+                            <div class="col-md-6">   
+                                <label for="starttime" class="form-label">Start Time:</label>
+                                <input type="time" id="starttime" name="starttime" class="form-control" required>
+                            </div>
+
+                            {{-- Venue Dropdown (Dynamic) --}}
+                            <div class="col-md-6">   
+                                <label for="endtime" class="form-label">End Time:</label>
+                                <input type="time" id="endtime" name="endtime" class="form-control" required>
+                            </div>
+                        </div>
+
                         <div class="mb-2">
-                            <label for="time" class="form-label">Time:</label>
-                            <input type="time" id="time" name="time" class="form-control" required>
+                            <label for="participants" class="form-label">Participants:</label>
+                        
+                            <select id="participants" name="participants" class="form-control" required>
+                                <option value="" disabled selected>Select Type</option>
+                                <option value="University Students">University Students</option>
+                                <option value="Outside Visitors">Outside Visitors</option>
+                            </select>
                         </div>
 
                 </div>
             </div>
 
-            <!-- Booking Person Details -->
+             <!-- Booking Person Details -->
             <div class="card shadow-sm col-md-5 m-2" style="opacity: 0.95;">
                 <div class="card-header text-white text-center" style="background-color:#670047;">
-                    <h3>Booking Person Details</h3>
+                    <h3>Applicant Details</h3>
                 </div>
 
                 <div class="card-body">
 
                     <div class="mb-2">
-                        <label for="person_id" class="form-label">ID:</label>
-                        <input type="text" id="person_id" name="person_id" class="form-control" required>
+                        <label for="society" class="form-label">Name of Society:</label>
+                        <input type="text" id="society" name="society" class="form-control" required>
+                    </div>
+
+                    <div class="mb-2">
+                        <label for="applicant" class="form-label"> Name of Applicant (President/Secretary):</label>
+                        <input type="text" id="applicant" name="applicant" class="form-control" required>
+                    </div>
+
+                    <div class="mb-2">
+                        <label for="reg_no" class="form-label">Registration No:</label>
+                        <input type="text" id="reg_no" name="reg_no" class="form-control" required>
                     </div>
 
                     <div class="mb-2">
@@ -182,11 +214,6 @@
                         <input type="email" id="email" name="email" class="form-control" required>
                     </div>
 
-                    <div class="mb-2">
-                        <label for="reg_no" class="form-label">Reg No:</label>
-                        <input type="text" id="reg_no" name="reg_no" class="form-control" required>
-                    </div>
-
                     {{-- <div class="mb-2">
                         <label for="faculty" class="form-label">Faculty:</label>
                         <input type="text" id="faculty" name="faculty" class="form-control" required>
@@ -195,19 +222,14 @@
                     <div class="text-center mt-3">
                         <button type="submit" class="btn btn-success px-4">Submit & Download Receipt</button>
                     </div>
-
                 </form>
                 </div>
             </div>
-
         </div>
-
         <div class="text-center mt-5">
             <a href="{{route('home') }}" class="btn btn-secondary">Back</a>
         </div>
-
     </div>
-
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {

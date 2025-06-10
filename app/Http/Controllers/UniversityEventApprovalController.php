@@ -6,13 +6,63 @@ use App\Models\UniversityEventApproval;
 use App\Models\Faculty;
 use App\Models\Venue;
 use Barryvdh\DomPDF\Facade\Pdf;
-
-
-
 use Illuminate\Http\Request;
 
 class UniversityEventApprovalController extends Controller
 {
+    public function store(Request $request)
+    {
+        // Validate the form inputs
+        $request->validate([
+            'event_name' => 'required|string|max:255',
+            'date' => 'required|date',
+            'faculty_for_venue' => 'required|string',
+            'hall' => 'required|string',
+            'starttime' => 'required',
+            'endtime' => 'required|after:starttime',
+            'participants' => 'required|string',
+
+            'society' => 'required|string|max:255',
+            'applicant' => 'required|string|max:255',
+            'reg_no' => 'required|string|max:100',
+            'contact' => 'required|string|max:20',
+            'email' => 'required|email|max:255',
+        ]);
+
+        // Combine faculty and hall to create the venue string
+        $venue = $request->faculty_for_venue . ' : ' . $request->hall;
+
+        // Create and save the event
+        $event=Event::create([
+            'event_name'    => $request->event_name,
+            'event_Type'    => 'University Level Union/Society', // Assuming this is a university-level event
+            'date'          => $request->date,
+            'venue'         => $venue,
+            'start_time'    => $request->starttime,
+            'end_time'      => $request->endtime,
+            'participants'  => $request->participants,
+            'society'       => $request->society,
+            'applicant'     => $request->applicant,
+            'registration_number' => $request->reg_no,
+            'contact'       => $request->contact,
+            'email'         => $request->email,
+            'status'        => 'Pending', // default status
+            'faculty'       => 'University', // Assuming this is a university-level event
+        ]);
+
+        UniversityEventApproval::create([
+            'event_id' => $event->id,
+            // other default approval statuses will be defaulted by DB
+            ]);
+
+        // Generate PDF
+            $pdf = Pdf::loadView('pdf.ReceiptUniversityLevel', compact('event'));
+
+        // Return PDF for download
+            return $pdf->download('event_details.pdf');
+        // return redirect()->back()->with('success', 'Event scheduled successfully!');
+    }
+    
     // For Assistant Registrar 
     public function showPendingARRequests()
     {
@@ -20,7 +70,7 @@ class UniversityEventApprovalController extends Controller
             $query->where('ar_status', 'Pending');
         })->get();
 
-        return view('University_Level.ar', compact('pendingEvents'));
+        return view('Users.ar', compact('pendingEvents'));
     }
     public function ArAccept($id)
     {
@@ -61,7 +111,7 @@ class UniversityEventApprovalController extends Controller
             $query->where('marshall_status', 'Pending');
         })->get();
 
-        return view('University_Level.marshall', compact('pendingEvents'));
+        return view('Users.marshall', compact('pendingEvents'));
     }
 
     public function MarshallAccept($id)
@@ -101,7 +151,7 @@ class UniversityEventApprovalController extends Controller
             $query->where('proctor_status', 'Pending');
         })->get();
 
-        return view('University_Level.proctor', compact('pendingEvents'));
+        return view('Users.proctor', compact('pendingEvents'));
     }
 
     public function ProctorAccept($id)
@@ -141,24 +191,24 @@ class UniversityEventApprovalController extends Controller
             $query->where('vc_status', 'Pending');
         })->get();
 
-        return view('University_Level.vice_chancellor', compact('pendingEvents'));
+        return view('Users.vice_chancellor', compact('pendingEvents'));
     }
 
     public function VcAccept($id)
-{
-    $approval = UniversityEventApproval::where('event_id', $id)->first();
+    {
+        $approval = UniversityEventApproval::where('event_id', $id)->first();
 
-    if ($approval) {
-        $approval->vc_status = 'Approved';
-        $approval->final_status = 'Approved';
-        $approval->save();
+        if ($approval) {
+            $approval->vc_status = 'Approved';
+            $approval->final_status = 'Approved';
+            $approval->save();
 
-        // Automatically update the related Event status
-        $this->update_event($id);
+            // Automatically update the related Event status
+            $this->update_event($id);
+        }
+
+        return redirect()->back()->with('success', 'Request accepted.');
     }
-
-    return redirect()->back()->with('success', 'Request accepted.');
-}
 
 
 
@@ -208,72 +258,4 @@ class UniversityEventApprovalController extends Controller
         $halls = Venue::where('faculty', $facultyCode)->get(['name']);
         return response()->json($halls);
     }
-
-
-
-
-
-
-
-
-
-public function store(Request $request)
-{
-    // Validate the form inputs
-    $request->validate([
-        'event_name' => 'required|string|max:255',
-        'date' => 'required|date',
-        'faculty_for_venue' => 'required|string',
-        'hall' => 'required|string',
-        'starttime' => 'required',
-        'endtime' => 'required|after:starttime',
-        'participants' => 'required|string',
-
-        'society' => 'required|string|max:255',
-        'applicant' => 'required|string|max:255',
-        'reg_no' => 'required|string|max:100',
-        'contact' => 'required|string|max:20',
-        'email' => 'required|email|max:255',
-    ]);
-
-    // Combine faculty and hall to create the venue string
-    $venue = $request->faculty_for_venue . ' : ' . $request->hall;
-
-    // Create and save the event
-    $event=Event::create([
-        'event_name'    => $request->event_name,
-        'date'          => $request->date,
-        'venue'         => $venue,
-        'start_time'    => $request->starttime,
-        'end_time'      => $request->endtime,
-        'participants'  => $request->participants,
-        'society'       => $request->society,
-        'applicant'     => $request->applicant,
-        'registration_number' => $request->reg_no,
-        'contact'       => $request->contact,
-        'email'         => $request->email,
-        'status'        => 'Pending', // default status
-        'faculty'       => 'University', // Assuming this is a university-level event
-    ]);
-
-    UniversityEventApproval::create([
-        'event_id' => $event->id,
-        // other default approval statuses will be defaulted by DB
-        ]);
-
-    // Generate PDF
-        $pdf = Pdf::loadView('pdf.ReceiptUniversityLevel', compact('event'));
-
-    // Return PDF for download
-        return $pdf->download('event_details.pdf');
-    // return redirect()->back()->with('success', 'Event scheduled successfully!');
-}
-
-
-
-
-
-
-
-
 }

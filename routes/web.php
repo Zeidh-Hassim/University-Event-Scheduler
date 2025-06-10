@@ -99,13 +99,13 @@ Route::post('/venues', [AuthController::class, 'VenueStore'])->name('venues.stor
 
 
 
-Route::get('/schedule/university', function () {
-    return view('Schedulers.schedule_event'); // Make sure this view exists
-})->name('schedule.university');
+// Route::get('/schedule/university', function () {
+//     return view('Schedulers.schedule_event'); // Make sure this view exists
+// })->name('schedule.university');
 
-Route::get('/schedule/Union', function () {
-    return view('Schedulers.FacultyLevelUnion'); // Make sure this view exists
-})->name('schedule.union');
+// Route::get('/schedule/Union', function () {
+//     return view('Schedulers.FacultyLevelUnion'); // Make sure this view exists
+// })->name('schedule.union');
 
 Route::get('/schedule/society', function () {
     return view('Schedulers.FacultyLevelSocieties'); // Make sure this view exists
@@ -115,11 +115,11 @@ Route::get('/schedule/Batch', function () {
     return view('Schedulers.FacultyLevelBatch'); // Make sure this view exists
 })->name('schedule.batch');
 
+Route::get('/schedule/university', [UniversityEventApprovalController::class, 'showUnionForm'])->name('schedule.university');
+Route::get('/get-halls/{facultyCode}', [UniversityEventApprovalController::class, 'getHalls'])->name('get.halls');
+Route::post('/scheduleUniversityEvent',[UniversityEventApprovalController::class,'store'])->name('scheduleUniEvent');
 
 Route::get('/schedule/union', [FacultyLevelUnionController::class, 'showUnionForm'])->name('schedule.union');
 Route::get('/get-halls/{facultyCode}', [FacultyLevelUnionController::class, 'getHalls'])->name('get.halls');
 Route::post('/scheduleUnionEvent',[FacultyLevelUnionController::class,'store'])->name('scheduleUnionEvent');
 
-Route::get('/schedule/union', [UniversityEventApprovalController::class, 'showUnionForm'])->name('schedule.university');
-Route::get('/get-halls/{facultyCode}', [UniversityEventApprovalController::class, 'getHalls'])->name('get.halls');
-Route::post('/scheduleUniversityEvent',[UniversityEventApprovalController::class,'store'])->name('scheduleUniEvent');

@@ -24,56 +24,60 @@ class FacultyLevelUnionController extends Controller
         return response()->json($halls);
     }
 
-     public function store(Request $request)
-        {
-            $request->validate([
-            'event_name' => 'required|string',
-            'society' => 'required|string',
+    public function store(Request $request)
+    {
+        // Validate the form inputs
+        $request->validate([
+            'faculty' => 'required|string|max:255',
+            'event_name' => 'required|string|max:255',
             'date' => 'required|date',
-            'hall' => 'required|string', // validate `hall`, not `venue`
-            'time' => 'required',
-            'person_id' => 'required|string',
-            'contact' => 'required|string',
-            'email' => 'required|email',
-            'reg_no' => 'required|string',
-            'faculty' => 'required|string',
+            'faculty_for_venue' => 'required|string',
+            'hall' => 'required|string',
+            'starttime' => 'required',
+            'endtime' => 'required|after:starttime',
+            'participants' => 'required|string',
+
+            'society' => 'required|string|max:255',
+            'applicant' => 'required|string|max:255',
+            'reg_no' => 'required|string|max:100',
+            'contact' => 'required|string|max:20',
+            'email' => 'required|email|max:255',
         ]);
 
-        // Combine faculty and hall to make venue like "FAS:LH1"
-        $venue = $request->faculty . ' : ' . $request->hall;
+        // Combine faculty and hall to create the venue string
+        $venue = $request->faculty_for_venue . ' : ' . $request->hall;
 
-        $event = Event::create([
-            'event_name' => $request->event_name,
-            'society' => $request->society,
-            'date' => $request->date,
-            'venue' => $venue,
-            'time' => $request->time,
-            'person_id' => $request->person_id,
-            'contact' => $request->contact,
-            'email' => $request->email,
-            'reg_no' => $request->reg_no,
-            'faculty' => $request->faculty,
+        // Create and save the event
+        $event=Event::create([
+            'faculty'       => $request->faculty, 
+            'event_name'    => $request->event_name,
+            'event_Type'    => 'Faculty Union',
+            'date'          => $request->date,
+            'venue'         => $venue,
+            'start_time'    => $request->starttime,
+            'end_time'      => $request->endtime,
+            'participants'  => $request->participants,
+            'society'       => $request->society,
+            'applicant'     => $request->applicant,
+            'registration_number' => $request->reg_no,
+            'contact'       => $request->contact,
+            'email'         => $request->email,
+            'status'        => 'Pending', // default status
+            
         ]);
-
-        // Save event details in the database
-        // $event = Event::create($request->all());
 
         // UniversityEventApproval::create([
-        // 'event_id' => $event->id,
-        // other default approval statuses will be defaulted by DB
-        // ]);
-
-        // Flash success message to session
-        //return redirect()->route('sheduler')->with('success', 'Event successfully saved!');
+        //     'event_id' => $event->id,
+        //     // other default approval statuses will be defaulted by DB
+        //     ]);
 
         // Generate PDF
-        $pdf = Pdf::loadView('pdf.event_details', compact('event'));
+            $pdf = Pdf::loadView('pdf.ReceiptFacultyUnion', compact('event'));
 
         // Return PDF for download
-        return $pdf->download('event_details.pdf');
+            return $pdf->download('faculty_event_details.pdf');
+        // return redirect()->back()->with('success', 'Event scheduled successfully!');
     }
-
-
 }
 
 
