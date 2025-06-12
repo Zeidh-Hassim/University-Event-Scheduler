@@ -65,6 +65,21 @@ Route::get('/ar-pending-requests', [UniversityEventApprovalController::class, 's
 Route::patch('/ar/accept/{id}', [UniversityEventApprovalController::class, 'ArAccept'])->name('ar.accept');
 Route::patch('/ar/reject/{id}', [UniversityEventApprovalController::class, 'ArReject'])->name('ar.reject');
 
+// FAS Assistant Registrar
+Route::get('/fas-ar-pending-requests', [UniversityEventApprovalController::class, 'showPendingFASARRequests'])->name('fasar.pending.requests')->middleware('auth');;
+Route::patch('/fas-ar/accept/{id}', [UniversityEventApprovalController::class, 'FASArAccept'])->name('fasar.accept');
+Route::patch('/fas-ar/reject/{id}', [UniversityEventApprovalController::class, 'FASArReject'])->name('fasar.reject');
+
+// FBS Assistant Registrar
+Route::get('/fbs-ar-pending-requests', [UniversityEventApprovalController::class, 'showPendingFBSARRequests'])->name('fbsar.pending.requests')->middleware('auth');;
+Route::patch('/fbs-ar/accept/{id}', [UniversityEventApprovalController::class, 'FBSArAccept'])->name('fbsar.accept');
+Route::patch('/fbs-ar/reject/{id}', [UniversityEventApprovalController::class, 'FBSArReject'])->name('fbsar.reject');
+
+// FTS Assistant Registrar
+Route::get('/fts-ar-pending-requests', [UniversityEventApprovalController::class, 'showPendingFTSARRequests'])->name('ftsar.pending.requests')->middleware('auth');;
+Route::patch('/fts-ar/accept/{id}', [UniversityEventApprovalController::class, 'FTSArAccept'])->name('ftsar.accept');
+Route::patch('/fts-ar/reject/{id}', [UniversityEventApprovalController::class, 'FTSArReject'])->name('ftsar.reject');
+
 // Marshall 
 Route::get('/marshall-pending-requests', [UniversityEventApprovalController::class, 'showPendingMarshallRequests'])->name('marshall.pending.requests')->middleware('auth');;
 Route::patch('/marshall/accept/{id}', [UniversityEventApprovalController::class, 'MarshallAccept'])->name('marshall.accept');
@@ -136,17 +151,17 @@ Route::post('/scheduleUnionEvent',[FacultyLevelUnionController::class,'store'])-
 
 
 
-Route::get('/fas-assistant-registrar', function () {
-    return view('Users.fas_ar');
-})->name('fasar.pending.requests')->middleware('auth');
+// Route::get('/fas-assistant-registrar', function () {
+//     return view('Users.fas_ar');
+// })->name('fasar.pending.requests')->middleware('auth');
 
-Route::get('/fbs-assistant-registrar', function () {
-    return view('Users.fbs_ar');
-})->name('fbsar.pending.requests')->middleware('auth');
+// Route::get('/fbs-assistant-registrar', function () {
+//     return view('Users.fbs_ar');
+// })->name('fbsar.pending.requests')->middleware('auth');
 
-Route::get('/fts-assistant-registrar', function () {
-    return view('Users.fts_ar');
-})->name('ftsar.pending.requests')->middleware('auth');
+// Route::get('/fts-assistant-registrar', function () {
+//     return view('Users.fts_ar');
+// })->name('ftsar.pending.requests')->middleware('auth');
 
 Route::get('/fas-deputy-proctor', function () {
     return view('Users.fas_dp');

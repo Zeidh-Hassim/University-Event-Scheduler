@@ -50,10 +50,26 @@ class UniversityEventApprovalController extends Controller
             'faculty'       => 'University', // Assuming this is a university-level event
         ]);
 
-        UniversityEventApproval::create([
-            'event_id' => $event->id,
+        // UniversityEventApproval::create([
+        //     'event_id' => $event->id,
             // other default approval statuses will be defaulted by DB
-            ]);
+            // ]);
+         // Set the correct AR status based on faculty_for_venue
+        $approvalData = ['event_id' => $event->id];
+
+        switch (strtoupper($request->faculty_for_venue)) {
+            case 'FAS':
+                $approvalData['fasar_status'] = 'Pending';
+                break;
+            case 'FBS':
+                $approvalData['fbsar_status'] = 'Pending';
+                break;
+            case 'FTS':
+                $approvalData['ftsar_status'] = 'Pending';
+                break;
+        }
+        // Create approval entry
+        UniversityEventApproval::create($approvalData);
 
         // Generate PDF
             $pdf = Pdf::loadView('pdf.ReceiptUniversityLevel', compact('event'));
@@ -100,6 +116,139 @@ class UniversityEventApprovalController extends Controller
 
         return redirect()->back()->with('error', 'Request rejected.');
     }
+
+
+    // For FAS Assistant Registrar 
+    public function showPendingFASARRequests()
+    {
+        $pendingEvents = Event::whereHas('universityEventApproval', function ($query) {
+            $query->where('fasar_status', 'Pending');
+        })->get();
+
+        return view('Users.fas_ar', compact('pendingEvents'));
+    }
+    public function FASArAccept($id)
+    {
+        $approval = UniversityEventApproval::where('event_id', $id)->first();
+
+        if ($approval) {
+            $approval->fasar_status = 'Approved';
+            $approval->marshall_status = 'Pending';
+            $approval->save();
+        }
+
+        return redirect()->back()->with('success', 'Request accepted.');
+    }
+
+    public function FASArReject($id)
+    {
+        $approval = UniversityEventApproval::where('event_id', $id)->first();
+
+        
+        if ($approval) {
+            $approval->fasar_status = 'Rejected';
+            $approval->final_status = 'Rejected';
+            $approval->save();
+
+            // Automatically update the related Event status
+             $this->update_event($id);
+        }
+
+        return redirect()->back()->with('error', 'Request rejected.');
+    }
+
+    // FBS Assistant Registrar
+    public function showPendingFBSARRequests()
+    {
+        $pendingEvents = Event::whereHas('universityEventApproval', function ($query) {
+            $query->where('fbsar_status', 'Pending');
+        })->get();
+
+        return view('Users.fbs_ar', compact('pendingEvents'));
+    }
+    public function FBSArAccept($id)
+    {
+        $approval = UniversityEventApproval::where('event_id', $id)->first();
+
+        if ($approval) {
+            $approval->fbsar_status = 'Approved';
+            $approval->marshall_status = 'Pending';
+            $approval->save();
+        }
+
+        return redirect()->back()->with('success', 'Request accepted.');
+    }
+    public function FBSArReject($id)
+    {
+        $approval = UniversityEventApproval::where('event_id', $id)->first();
+
+        if ($approval) {
+            $approval->fbsar_status = 'Rejected';
+            $approval->final_status = 'Rejected';
+            $approval->save();
+
+            // Automatically update the related Event status
+             $this->update_event($id);
+        }
+
+        return redirect()->back()->with('error', 'Request rejected.');
+    }
+
+// FTS Assistant Registrar
+    public function showPendingFTSARRequests()
+    {
+        $pendingEvents = Event::whereHas('universityEventApproval', function ($query) {
+            $query->where('ftsar_status', 'Pending');
+        })->get();
+
+        return view('Users.fts_ar', compact('pendingEvents'));
+    }
+    public function FTSArAccept($id)
+    {
+        $approval = UniversityEventApproval::where('event_id', $id)->first();
+
+        if ($approval) {
+            $approval->ftsar_status = 'Approved';
+            $approval->marshall_status = 'Pending';
+            $approval->save();
+        }
+
+        return redirect()->back()->with('success', 'Request accepted.');
+    }
+    public function FTSArReject($id)
+    {
+        $approval = UniversityEventApproval::where('event_id', $id)->first();
+
+        if ($approval) {
+            $approval->ftsar_status = 'Rejected';
+            $approval->final_status = 'Rejected';
+            $approval->save();
+
+            // Automatically update the related Event status
+             $this->update_event($id);
+        }
+
+        return redirect()->back()->with('error', 'Request rejected.');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
 
    

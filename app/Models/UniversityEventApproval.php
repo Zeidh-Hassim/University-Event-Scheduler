@@ -8,7 +8,9 @@ class UniversityEventApproval extends Model
 {
     protected $fillable = [
         'event_id',
-        'ar_status',
+        'fasar_status',
+        'fbsar_status',
+        'ftsar_status',
         'marshall_status',
         'proctor_status',
         'vc_status',
