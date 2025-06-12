@@ -33,6 +33,35 @@ class AuthController extends Controller
 
     //////
 
+    // public function login(Request $request): RedirectResponse
+    // {
+    //     $request->validate([
+    //         'email' => 'required|string|max:255',
+    //         'password' => 'required|string|min:8',
+    //     ]);
+
+    //     if (Auth::attempt($request->only('email', 'password'))) {
+    //         $request->session()->regenerate();
+
+    //         $user = Auth::user();
+
+    //         // Redirect based on user role
+    //         if ($user->designation === 'Assistant Registrar') {
+    //             return redirect()->route('ar.pending.requests');
+    //         } elseif ($user->designation === 'Marshall') {
+    //             return redirect()->route('marshall.pending.requests');
+    //         } elseif ($user->designation === 'Proctor') {
+    //             return redirect()->route('proctor.pending.requests');
+    //         } elseif ($user->designation === 'Vice Chancellor') {
+    //             return redirect()->route('vice_chancellor.pending.requests');
+    //         } elseif ($user->designation === 'Administrator') {
+    //             return redirect()->route('admin');
+    //         } 
+    //     }
+
+    //     return redirect()->back()->with('error', 'Invalid credentials');
+    // }
+
     public function login(Request $request): RedirectResponse
     {
         $request->validate([
@@ -45,22 +74,38 @@ class AuthController extends Controller
 
             $user = Auth::user();
 
-            // Redirect based on user role
-            if ($user->designation === 'Assistant Registrar') {
-                return redirect()->route('ar.pending.requests');
-            } elseif ($user->designation === 'Marshall') {
-                return redirect()->route('marshall.pending.requests');
-            } elseif ($user->designation === 'Proctor') {
-                return redirect()->route('proctor.pending.requests');
-            } elseif ($user->designation === 'Vice Chancellor') {
-                return redirect()->route('vice_chancellor.pending.requests');
-            } elseif ($user->designation === 'Administrator') {
-                return redirect()->route('admin');
-            } 
+            // Mapping of designations to route names
+            $routes = [
+                'Assistant Registrar'     => 'ar.pending.requests',
+                'FAS Assistant Registrar' => 'fasar.pending.requests',
+                'FBS Assistant Registrar' => 'fbsar.pending.requests',
+                'FTS Assistant Registrar' => 'ftsar.pending.requests',
+                'Marshall'                => 'marshall.pending.requests',
+                'FAS Deputy Proctor'      => 'fasdp.pending.requests',
+                'FBS Deputy Proctor'      => 'fbsdp.pending.requests',
+                'FTS Deputy Proctor'      => 'ftsdp.pending.requests',
+                'FAS HOD'                 => 'fashod.pending.requests',
+                'FBS HOD'                 => 'fbshod.pending.requests',
+                'FTS HOD'                 => 'ftshod.pending.requests',
+
+                'Proctor'                 => 'proctor.pending.requests',
+                'Vice Chancellor'         => 'vice_chancellor.pending.requests',
+                'Administrator'           => 'admin',
+            ];
+
+            // Redirect based on user designation
+            if (isset($routes[$user->designation])) {
+                return redirect()->route($routes[$user->designation]);
+            } else {
+                // Optional: log out if role is unknown
+                Auth::logout();
+                return redirect()->back()->with('error', 'Unauthorized designation');
+            }
         }
 
         return redirect()->back()->with('error', 'Invalid credentials');
     }
+
 
     /////
 

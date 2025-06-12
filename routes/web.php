@@ -18,8 +18,8 @@ Route::get('/', [EventController::class, 'home'])->name('home');
 // })->name('som');
 
 // Event Scheduling Routes
-Route::get('/schedule-event', [EventController::class, 'schedule'])->name('sheduler');
-Route::post('/schedule-event',[EventController::class,'store'])->name('schedule-event');
+// Route::get('/schedule-event', [EventController::class, 'schedule'])->name('sheduler');
+// Route::post('/schedule-event',[EventController::class,'store'])->name('schedule-event');
 
 // Auth Routes
 Route::get('/login',[AuthController::class,'loginpage'])->name('loginpage');
@@ -123,3 +123,55 @@ Route::get('/schedule/union', [FacultyLevelUnionController::class, 'showUnionFor
 Route::get('/get-halls/{facultyCode}', [FacultyLevelUnionController::class, 'getHalls'])->name('get.halls');
 Route::post('/scheduleUnionEvent',[FacultyLevelUnionController::class,'store'])->name('scheduleUnionEvent');
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+Route::get('/fas-assistant-registrar', function () {
+    return view('Users.fas_ar');
+})->name('fasar.pending.requests')->middleware('auth');
+
+Route::get('/fbs-assistant-registrar', function () {
+    return view('Users.fbs_ar');
+})->name('fbsar.pending.requests')->middleware('auth');
+
+Route::get('/fts-assistant-registrar', function () {
+    return view('Users.fts_ar');
+})->name('ftsar.pending.requests')->middleware('auth');
+
+Route::get('/fas-deputy-proctor', function () {
+    return view('Users.fas_dp');
+})->name('fasdp.pending.requests')->middleware('auth');
+
+Route::get('/fbs-deputy-proctor', function () {
+    return view('Users.fbs_dp');
+})->name('fbsdp.pending.requests')->middleware('auth');
+
+Route::get('/fts-deputy-proctor', function () {
+    return view('Users.fts_dp');
+})->name('ftsdp.pending.requests')->middleware('auth');
+
+
+
+
+
+Route::get('/fas-hod', function () {
+    return view('Users.fas_hod');
+})->name('fashod.pending.requests')->middleware('auth');
+
+Route::get('/fbs-hod', function () {
+    return view('Users.fbs_hod');
+})->name('fbshod.pending.requests')->middleware('auth');
+
+Route::get('/fts-hod', function () {
+    return view('Users.fts_hod');
+})->name('ftshod.pending.requests')->middleware('auth');
