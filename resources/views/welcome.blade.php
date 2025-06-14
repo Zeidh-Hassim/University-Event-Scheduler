@@ -1,7 +1,5 @@
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Bootstrap JS and Popper (required for dropdowns) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <!DOCTYPE html>
@@ -9,117 +7,111 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Buttons Page</title>
+  <title>Calendar Page</title>
   <style>
     body {
       background-color: #670047;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
-
-    .calendar-icon {
-      width: 100px;
-      height: 100px;
-      background-color: white;
-      border-radius: 10px;
-      text-align: center;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      margin-bottom: 40px;
-      position: relative;
-    }
-
-    .calendar-header {
-      background-color: #d32f2f;
       color: white;
-      padding: 5px 0;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      margin: 30px auto;
+      max-width: 600px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      color: black;
+    }
+
+    .calendar .day {
+      text-align: center;
+      padding: 15px;
+      border-radius: 8px;
       font-weight: bold;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-      font-size: 14px;
     }
 
-    .calendar-date {
-      font-size: 50px;
+    .calendar .header {
+      background-color: #f0f0f0;
       font-weight: bold;
-      color: #333;
-      margin-top: 10px;
     }
 
-    .calendar-year {
-      font-size: 12px;
-      color: #666;
+    .today {
+      background-color: #4CAF50 !important;
+      color: white !important;
     }
 
-    .button-container {
-      display: flex;
-      gap: 20px;
+    .event-day {
+      background-color: #d32f2f !important;
+      color: white !important;
     }
 
     .btn {
-      background-color: white;
-      color: black;
-      padding: 15px 30px;
-      font-size: 18px;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-      text-decoration: none;
       font-weight: bold;
-    }
-
-    .btn:hover {
-      background-color: lightgray;
     }
   </style>
 </head>
 <body>
 
-  <!-- Calendar Box -->
-  {{-- <div class="calendar-icon">
-    <div class="calendar-header" id="calendar-month">---</div>
-    <div class="calendar-date" id="calendar-day">--</div>
-    <div class="calendar-year" id="calendar-year">----</div>
-  </div> --}}
+  <div class="text-center">
+    <h2>{{ \Carbon\Carbon::parse($today)->format('F Y') }} Calendar</h2>
+    <p class="text-light">Today: {{ \Carbon\Carbon::parse($today)->format('j M Y') }}</p>
+  </div>
 
-    <div class="calendar-icon">
-        <div class="calendar-header" id="calendar-full-date">---</div>
-        <div class="calendar-date">{{ $eventCount }}</div>
-        {{-- <div class="calendar-year">zeidh</div> --}}
-    </div>
+  <div class="calendar">
+    @php
+      use Carbon\Carbon;
 
+      $startOfMonth = Carbon::parse($today)->startOfMonth();
+      $endOfMonth = Carbon::parse($today)->endOfMonth();
+      $startDayOfWeek = $startOfMonth->dayOfWeekIso; // Monday = 1
+      $totalDays = $endOfMonth->day;
+      $currentDay = Carbon::parse($today)->format('Y-m-d');
+    @endphp
 
-  <div class="button-container">
-    <div class="dropdown  btn-secondary">
+    <!-- Days of the week -->
+    @foreach (['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as $day)
+      <div class="day header">{{ $day }}</div>
+    @endforeach
+
+    <!-- Empty cells for offset -->
+    @for ($i = 1; $i < $startDayOfWeek; $i++)
+      <div class="day"></div>
+    @endfor
+
+    <!-- Fill the days -->
+    @for ($day = 1; $day <= $totalDays; $day++)
+      @php
+        $date = Carbon::parse($startOfMonth)->day($day)->format('Y-m-d');
+        $isToday = $date === $currentDay;
+        $hasEvent = in_array($date, $eventDates);
+        $class = $isToday ? 'today' : ($hasEvent ? 'event-day' : '');
+      @endphp
+      <div class="day {{ $class }}">{{ $day }}</div>
+    @endfor
+  </div>
+
+  <div class="text-center mt-4">
+    <div class="button-container d-flex justify-content-center gap-3 flex-wrap">
+      <div class="dropdown btn-secondary">
         <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Schedule Event
+          Schedule Event
         </a>
-        <ul class="dropdown-menu ">
-            <li><a class="dropdown-item" href="{{ route('schedule.university') }}">University Level Union/Society</a></li>
-            <li><a class="dropdown-item" href="{{ route('schedule.union') }}">Faculty Union</a></li>
-            <li><a class="dropdown-item" href="{{ route('schedule.society') }}">Faculty Level Society</a></li>
-            <li><a class="dropdown-item" href="{{ route('schedule.batch') }}">Faculty Level Batch</a></li>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="{{ route('schedule.university') }}">University Level Union/Society</a></li>
+          <li><a class="dropdown-item" href="{{ route('schedule.union') }}">Faculty Union</a></li>
+          <li><a class="dropdown-item" href="{{ route('schedule.society') }}">Faculty Level Society</a></li>
+          <li><a class="dropdown-item" href="{{ route('schedule.batch') }}">Faculty Level Batch</a></li>
         </ul>
+      </div>
+      <a href="{{ route('loginpage') }}" class="btn btn-secondary">Admin</a>
+      <a href="{{ route('scheduled-events') }}" class="btn btn-secondary">Scheduled Events</a>
     </div>
-    <a href="{{ route('loginpage') }}" class="btn btn-secondary">Admin</a>
-    <a href="{{ route('scheduled-events') }}" class="btn btn-secondary">Scheduled Events</a>
-</div>
-
-
-  <!-- JavaScript to Set Dynamic Date -->
-  <script>
-    const today = new Date(@json($today)); // Laravel passed date
-
-    // document.getElementById("calendar-month").textContent = today.toLocaleString('default', { month: 'short' }).toUpperCase();
-    // document.getElementById("calendar-day").textContent = today.getDate();
-    // document.getElementById("calendar-year").textContent = today.getFullYear();
-document.getElementById("calendar-full-date").textContent = `${today.getDate()} ${today.toLocaleString('default', { month: 'short' }).toUpperCase()} ${today.getFullYear()}`;
-</script>
-
+  </div>
 
 </body>
 </html>

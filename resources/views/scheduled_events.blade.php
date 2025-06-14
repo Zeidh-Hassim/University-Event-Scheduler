@@ -91,7 +91,7 @@
 </head>
 <body>
     <div class="container">
-                <h1 class="text-center mb-3 text-white">Schedule</h1>
+                <h1 class="text-center mb-3 text-white">Scheduled Events</h1>
         <div class="schedule-wrapper">
             <div class="container">
 
@@ -118,7 +118,7 @@
                         <div class="event-item d-flex align-items-center">
                             <div class="pe-4 text-nowrap">
                                 <div class="event-date">{{ \Carbon\Carbon::parse($event->date)->format('D, M d Y') }}</div>
-                                <div class="event-time">{{ \Carbon\Carbon::parse($event->time)->format('g:i A') }}</div>
+                                <div class="event-time">{{ \Carbon\Carbon::parse($event->start_time)->format('g:i A') }} : {{ \Carbon\Carbon::parse($event->end_time)->format('g:i A') }}</div>
                             </div>
                             <div>
                                 <div class="event-title">{{ $event->event_name }}</div>

@@ -33,6 +33,11 @@ public function universityEventApproval()
     return $this->hasOne(UniversityEventApproval::class, 'event_id');
 }
 
+public function facultyUnionEventApproval()
+{
+    return $this->hasOne(FacultyUnionEventApproval::class, 'event_id');
+}
+
 }
 
 

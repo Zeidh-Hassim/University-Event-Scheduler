@@ -61,32 +61,34 @@ Route::get('/schedule', [EventController::class, 'showSchedule'])->name('schedul
 
 
 // Assistant Registrar 
-Route::get('/ar-pending-requests', [UniversityEventApprovalController::class, 'showPendingARRequests'])->name('ar.pending.requests')->middleware('auth');;
+Route::get('/ar-pending-requests', [UniversityEventApprovalController::class, 'showPendingARRequests'])->name('ar.pending.requests')->middleware('auth');
 Route::patch('/ar/accept/{id}', [UniversityEventApprovalController::class, 'ArAccept'])->name('ar.accept');
 Route::patch('/ar/reject/{id}', [UniversityEventApprovalController::class, 'ArReject'])->name('ar.reject');
 
 // FAS Assistant Registrar
-Route::get('/fas-ar-pending-requests', [UniversityEventApprovalController::class, 'showPendingFASARRequests'])->name('fasar.pending.requests')->middleware('auth');;
+Route::get('/fas-ar-pending-requests', [UniversityEventApprovalController::class, 'showPendingFASARRequests'])->name('fasar.pending.requests')->middleware('auth');
 Route::patch('/fas-ar/accept/{id}', [UniversityEventApprovalController::class, 'FASArAccept'])->name('fasar.accept');
 Route::patch('/fas-ar/reject/{id}', [UniversityEventApprovalController::class, 'FASArReject'])->name('fasar.reject');
+Route::get('/fas-ar-union-pending-requests', [FacultyLevelUnionController::class, 'showPendingFASARUnionRequests'])->name('fasar.union.pending.requests')->middleware('auth');
+
 
 // FBS Assistant Registrar
-Route::get('/fbs-ar-pending-requests', [UniversityEventApprovalController::class, 'showPendingFBSARRequests'])->name('fbsar.pending.requests')->middleware('auth');;
+Route::get('/fbs-ar-pending-requests', [UniversityEventApprovalController::class, 'showPendingFBSARRequests'])->name('fbsar.pending.requests')->middleware('auth');
 Route::patch('/fbs-ar/accept/{id}', [UniversityEventApprovalController::class, 'FBSArAccept'])->name('fbsar.accept');
 Route::patch('/fbs-ar/reject/{id}', [UniversityEventApprovalController::class, 'FBSArReject'])->name('fbsar.reject');
 
 // FTS Assistant Registrar
-Route::get('/fts-ar-pending-requests', [UniversityEventApprovalController::class, 'showPendingFTSARRequests'])->name('ftsar.pending.requests')->middleware('auth');;
+Route::get('/fts-ar-pending-requests', [UniversityEventApprovalController::class, 'showPendingFTSARRequests'])->name('ftsar.pending.requests')->middleware('auth');
 Route::patch('/fts-ar/accept/{id}', [UniversityEventApprovalController::class, 'FTSArAccept'])->name('ftsar.accept');
 Route::patch('/fts-ar/reject/{id}', [UniversityEventApprovalController::class, 'FTSArReject'])->name('ftsar.reject');
 
 // Marshall 
-Route::get('/marshall-pending-requests', [UniversityEventApprovalController::class, 'showPendingMarshallRequests'])->name('marshall.pending.requests')->middleware('auth');;
+Route::get('/marshall-pending-requests', [UniversityEventApprovalController::class, 'showPendingMarshallRequests'])->name('marshall.pending.requests')->middleware('auth');
 Route::patch('/marshall/accept/{id}', [UniversityEventApprovalController::class, 'MarshallAccept'])->name('marshall.accept');
 Route::patch('/marshall/reject/{id}', [UniversityEventApprovalController::class, 'MarshallReject'])->name('marshall.reject');
 
 // Proctor 
-Route::get('/proctor-pending-requests', [UniversityEventApprovalController::class, 'showPendingProctorRequests'])->name('proctor.pending.requests')->middleware('auth');;
+Route::get('/proctor-pending-requests', [UniversityEventApprovalController::class, 'showPendingProctorRequests'])->name('proctor.pending.requests')->middleware('auth');
 Route::patch('/proctor/accept/{id}', [UniversityEventApprovalController::class, 'ProctorAccept'])->name('proctor.accept');
 Route::patch('/proctor/reject/{id}', [UniversityEventApprovalController::class, 'ProctorReject'])->name('proctor.reject');
 

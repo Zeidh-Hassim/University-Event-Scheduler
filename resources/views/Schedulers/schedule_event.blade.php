@@ -69,9 +69,7 @@
 </style>
 
 <div class="vh-full">
-
     <div class="container">
-
         <div class="text-center mb-3 text-white">
             <h1>Welcome to University of Vavuniya Event Schedule System</h1>
             <p>University-level events/activities organized by the Students' Union/approved student societies</p>
@@ -100,15 +98,13 @@
 
                         <div class="mb-2">
                             <label for="date" class="form-label">Date:</label>
-                            <input type="date" id="date" name="date" class="form-control" required>
+                            <input type="date" id="date" name="date" class="form-control" required min="{{ date('Y-m-d') }}">
                         </div>
 
                         <div class="mb-3 row">
                             <label for="venue" class="form-label">Venue:</label>
 
-                            {{-- Faculty Dropdown --}}
                             <div class="col-md-6">
-                                {{-- <label for="facultyForVenue" class="form-label">Faculty:</label> --}}
                                 <select name="faculty_for_venue" id="facultyForVenue" class="form-control" required>
                                     <option value="" disabled selected>Select Faculty</option>
                                     @foreach($faculties as $faculty)
@@ -117,10 +113,7 @@
                                 </select>
                             </div>
 
-
-                            {{-- Venue Dropdown (Dynamic) --}}
                             <div class="col-md-6">
-                                {{-- <label for="hall" class="form-label">Hall:</label> --}}
                                 <select id="hall" name="hall" class="form-control" required>
                                     <option value="" disabled selected>Select Hall</option>
                                 </select>
@@ -130,13 +123,11 @@
                         <div class="mb-3 row">
                             <label for="venue" class="form-label">Time:</label>
 
-                             {{-- Start Time --}}
                             <div class="col-md-6">   
                                 <label for="starttime" class="form-label">Start Time:</label>
                                 <input type="time" id="starttime" name="starttime" class="form-control" required>
                             </div>
 
-                            {{-- Venue Dropdown (Dynamic) --}}
                             <div class="col-md-6">   
                                 <label for="endtime" class="form-label">End Time:</label>
                                 <input type="time" id="endtime" name="endtime" class="form-control" required>
@@ -145,7 +136,6 @@
 
                         <div class="mb-2">
                             <label for="participants" class="form-label">Participants:</label>
-                        
                             <select id="participants" name="participants" class="form-control" required>
                                 <option value="" disabled selected>Select Type</option>
                                 <option value="University Students">University Students</option>
@@ -188,13 +178,6 @@
                         <input type="email" id="email" name="email" class="form-control" required>
                     </div>
 
-                    
-
-                    {{-- <div class="mb-2">
-                        <label for="faculty" class="form-label">Faculty:</label>
-                        <input type="text" id="faculty" name="faculty" class="form-control" required>
-                    </div> --}}
-
                     <div class="text-center mt-3">
                         <button type="submit" class="btn btn-success px-4">Submit & Download Receipt</button>
                     </div>
@@ -202,20 +185,21 @@
                 </form>
                 </div>
             </div>
-
         </div>
 
         <div class="text-center mt-5">
-            <a href="{{route('home') }}" class="btn btn-secondary">Back</a>
+            <a href="{{ route('home') }}" class="btn btn-secondary">Back</a>
         </div>
     </div>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    
         const facultyDropdown = document.getElementById('facultyForVenue');
         const hallDropdown = document.getElementById('hall');
+        const dateInput = document.getElementById('date');
+        const startTimeInput = document.getElementById('starttime');
+        const endTimeInput = document.getElementById('endtime');
 
         facultyDropdown.addEventListener('change', function () {
             const selectedFaculty = this.value;
@@ -235,6 +219,39 @@
                     console.error('Error fetching halls:', error);
                     hallDropdown.innerHTML = '<option value="" disabled selected>Error loading halls</option>';
                 });
+        });
+
+        dateInput.addEventListener('change', function () {
+            const selectedDate = new Date(dateInput.value);
+            const today = new Date();
+            const now = new Date();
+
+            if (selectedDate.toDateString() === today.toDateString()) {
+                const currentTime = now.toTimeString().slice(0, 5);
+                startTimeInput.min = currentTime;
+                endTimeInput.min = currentTime;
+            } else {
+                startTimeInput.removeAttribute('min');
+                endTimeInput.removeAttribute('min');
+            }
+        });
+
+        startTimeInput.addEventListener('change', function () {
+            const startTime = startTimeInput.value;
+            endTimeInput.min = startTime;
+            if (endTimeInput.value && endTimeInput.value <= startTime) {
+                endTimeInput.value = '';
+                alert('End time must be after start time.');
+            }
+        });
+
+        endTimeInput.addEventListener('change', function () {
+            const startTime = startTimeInput.value;
+            const endTime = endTimeInput.value;
+            if (endTime <= startTime) {
+                alert('End time must be after start time.');
+                endTimeInput.value = '';
+            }
         });
     });
 </script>

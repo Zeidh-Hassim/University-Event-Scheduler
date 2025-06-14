@@ -34,7 +34,7 @@ class UniversityEventApprovalController extends Controller
 
         // Create and save the event
         $event=Event::create([
-            'event_name'    => $request->event_name,
+            'event_name'    => (strtoupper($request->event_name)),
             'event_Type'    => 'University Level Union/Society', // Assuming this is a university-level event
             'date'          => $request->date,
             'venue'         => $venue,
@@ -118,44 +118,7 @@ class UniversityEventApprovalController extends Controller
     }
 
 
-    // For FAS Assistant Registrar 
-    public function showPendingFASARRequests()
-    {
-        $pendingEvents = Event::whereHas('universityEventApproval', function ($query) {
-            $query->where('fasar_status', 'Pending');
-        })->get();
-
-        return view('Users.fas_ar', compact('pendingEvents'));
-    }
-    public function FASArAccept($id)
-    {
-        $approval = UniversityEventApproval::where('event_id', $id)->first();
-
-        if ($approval) {
-            $approval->fasar_status = 'Approved';
-            $approval->marshall_status = 'Pending';
-            $approval->save();
-        }
-
-        return redirect()->back()->with('success', 'Request accepted.');
-    }
-
-    public function FASArReject($id)
-    {
-        $approval = UniversityEventApproval::where('event_id', $id)->first();
-
-        
-        if ($approval) {
-            $approval->fasar_status = 'Rejected';
-            $approval->final_status = 'Rejected';
-            $approval->save();
-
-            // Automatically update the related Event status
-             $this->update_event($id);
-        }
-
-        return redirect()->back()->with('error', 'Request rejected.');
-    }
+    
 
     // FBS Assistant Registrar
     public function showPendingFBSARRequests()
@@ -164,7 +127,15 @@ class UniversityEventApprovalController extends Controller
             $query->where('fbsar_status', 'Pending');
         })->get();
 
-        return view('Users.fbs_ar', compact('pendingEvents'));
+         $approvedEvents = Event::whereHas('universityEventApproval', function ($query) {
+            $query->where('fbsar_status', 'Approved');
+        })->get();
+
+        $rejectedEvents = Event::whereHas('universityEventApproval', function ($query) {
+            $query->where('fbsar_status', 'Rejected');
+        })->get();
+
+        return view('Users.fbs_ar', compact('pendingEvents', 'approvedEvents', 'rejectedEvents'));
     }
     public function FBSArAccept($id)
     {
@@ -201,7 +172,15 @@ class UniversityEventApprovalController extends Controller
             $query->where('ftsar_status', 'Pending');
         })->get();
 
-        return view('Users.fts_ar', compact('pendingEvents'));
+        $approvedEvents = Event::whereHas('universityEventApproval', function ($query) {
+            $query->where('ftsar_status', 'Approved');
+        })->get();
+
+        $rejectedEvents = Event::whereHas('universityEventApproval', function ($query) {
+            $query->where('ftsar_status', 'Rejected');
+        })->get();
+
+        return view('Users.fts_ar', compact('pendingEvents', 'approvedEvents', 'rejectedEvents'));
     }
     public function FTSArAccept($id)
     {
@@ -259,8 +238,14 @@ class UniversityEventApprovalController extends Controller
         $pendingEvents = Event::whereHas('universityEventApproval', function ($query) {
             $query->where('marshall_status', 'Pending');
         })->get();
+        $approvedEvents = Event::whereHas('universityEventApproval', function ($query) {
+            $query->where('marshall_status', 'Approved');
+        })->get();
+        $rejectedEvents = Event::whereHas('universityEventApproval', function ($query) {
+            $query->where('marshall_status', 'Rejected');
+        })->get();
 
-        return view('Users.marshall', compact('pendingEvents'));
+        return view('Users.marshall', compact('pendingEvents', 'approvedEvents', 'rejectedEvents'));
     }
 
     public function MarshallAccept($id)
@@ -299,8 +284,14 @@ class UniversityEventApprovalController extends Controller
         $pendingEvents = Event::whereHas('universityEventApproval', function ($query) {
             $query->where('proctor_status', 'Pending');
         })->get();
+        $approvedEvents = Event::whereHas('universityEventApproval', function ($query) {
+            $query->where('proctor_status', 'Approved');
+        })->get();
+        $rejectedEvents = Event::whereHas('universityEventApproval', function ($query) {
+            $query->where('proctor_status', 'Rejected');
+        })->get();
 
-        return view('Users.proctor', compact('pendingEvents'));
+        return view('Users.proctor', compact('pendingEvents', 'approvedEvents', 'rejectedEvents'));
     }
 
     public function ProctorAccept($id)
@@ -339,8 +330,14 @@ class UniversityEventApprovalController extends Controller
         $pendingEvents = Event::whereHas('universityEventApproval', function ($query) {
             $query->where('vc_status', 'Pending');
         })->get();
+        $approvedEvents = Event::whereHas('universityEventApproval', function ($query) {
+            $query->where('vc_status', 'Approved');
+        })->get();
+        $rejectedEvents = Event::whereHas('universityEventApproval', function ($query) {
+            $query->where('vc_status', 'Rejected');
+        })->get();
 
-        return view('Users.vice_chancellor', compact('pendingEvents'));
+        return view('Users.vice_chancellor', compact('pendingEvents', 'approvedEvents', 'rejectedEvents'));
     }
 
     public function VcAccept($id)
@@ -407,4 +404,122 @@ class UniversityEventApprovalController extends Controller
         $halls = Venue::where('faculty', $facultyCode)->get(['name']);
         return response()->json($halls);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    // For FAS Assistant Registrar 
+   public function showPendingFASARRequests()
+{
+    $pendingEvents = Event::with('universityEventApproval')
+        ->whereHas('universityEventApproval', function ($query) {
+            $query->where('fasar_status', 'Pending');
+        })->get();
+
+    $approvedEvents = Event::with('universityEventApproval')
+        ->whereHas('universityEventApproval', function ($query) {
+            $query->where('fasar_status', 'Approved');
+        })->get();
+
+    $rejectedEvents = Event::with('universityEventApproval')
+        ->whereHas('universityEventApproval', function ($query) {
+            $query->where('fasar_status', 'Rejected');
+        })->get();
+
+    $allEventApprovals = UniversityEventApproval::with('event')->get();
+
+    return view('Users.fas_ar', compact(
+        'pendingEvents',
+        'approvedEvents',
+        'rejectedEvents',
+        'allEventApprovals'
+    ));
 }
+
+    public function FASArAccept($id)
+    {
+        $approval = UniversityEventApproval::where('event_id', $id)->first();
+
+        if ($approval) {
+            $approval->fasar_status = 'Approved';
+            $approval->marshall_status = 'Pending';
+            $approval->save();
+        }
+
+        return redirect()->back()->with('success', 'Request accepted.');
+    }
+
+    public function FASArReject($id)
+    {
+        $approval = UniversityEventApproval::where('event_id', $id)->first();
+
+        
+        if ($approval) {
+            $approval->fasar_status = 'Rejected';
+            $approval->final_status = 'Rejected';
+            $approval->save();
+
+            // Automatically update the related Event status
+             $this->update_event($id);
+        }
+
+        return redirect()->back()->with('error', 'Request rejected.');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

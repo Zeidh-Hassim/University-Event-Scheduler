@@ -21,7 +21,7 @@
 <h1 class="text-center mb-3 text-white">Administrator</h1>
 
 {{-- Display Pending Requests --}}
-<div class="container mt-5">
+{{-- <div class="container mt-5">
     <h3 class="text-center mb-3 text-white">Pending Requests</h3>
 
     @php
@@ -57,7 +57,7 @@
         @endforeach
     @endif
 
-    {{-- Show More / Show Less Button --}}
+    Show More / Show Less Button
     @if($pendingEvents->count() > 5)
         <div class="text-center mt-3">
             @if($showAll)
@@ -67,7 +67,7 @@
             @endif
         </div>
     @endif
-</div>
+</div> --}}
 
 
 {{-- Display All Faculties --}}
