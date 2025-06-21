@@ -88,7 +88,7 @@
                 @endif
 
                 <div class="card-body">
-                    <form action="{{ route('scheduleUniEvent') }}" method="POST">
+                    <form action="{{ route('scheduleUniEvent') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="mb-2">
@@ -113,6 +113,20 @@
                         </div>
 
                         <div class="mb-3 row">
+                            <label for="venue" class="form-label">Time:</label>
+
+                            <div class="col-md-6">   
+                                <label for="starttime" class="form-label">Start Time:</label>
+                                <input type="time" id="starttime" name="starttime" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6">   
+                                <label for="endtime" class="form-label">End Time:</label>
+                                <input type="time" id="endtime" name="endtime" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
                             <label for="venue" class="form-label">Venue:</label>
 
                             <div class="col-md-6">
@@ -131,19 +145,7 @@
                             </div>   
                         </div>
 
-                        <div class="mb-3 row">
-                            <label for="venue" class="form-label">Time:</label>
-
-                            <div class="col-md-6">   
-                                <label for="starttime" class="form-label">Start Time:</label>
-                                <input type="time" id="starttime" name="starttime" class="form-control" required>
-                            </div>
-
-                            <div class="col-md-6">   
-                                <label for="endtime" class="form-label">End Time:</label>
-                                <input type="time" id="endtime" name="endtime" class="form-control" required>
-                            </div>
-                        </div>
+                        
 
                         <div class="mb-2" id="reasonField">
                             <label for="reason" class="form-label">Reason for Booking on other day except Wednesday:</label>
@@ -165,10 +167,22 @@
                         <input type="text" id="society" name="society" class="form-control" required>
                     </div>
 
-                    <div class="mb-2">
-                        <label for="applicant" class="form-label">Name of Applicant (President/Secretary):</label>
-                        <input type="text" id="applicant" name="applicant" class="form-control" required>
-                    </div>
+                    <div class="mb-3 row">
+    <div class="col-md-6">
+        <label for="position" class="form-label">Position:</label>
+        <select id="position" name="position" class="form-control" required>
+            <option value="" disabled selected>Select position</option>
+            <option value="President">President</option>
+            <option value="Secretary">Secretary</option>
+        </select>
+    </div>
+
+    <div class="col-md-6">
+        <label for="applicant" class="form-label">Name:</label>
+        <input type="text" id="applicant" name="applicant" class="form-control" required>
+    </div>
+</div>
+
 
                     <div class="mb-2">
                         <label for="reg_no" class="form-label">Registration No:</label>
@@ -184,6 +198,11 @@
                         <label for="email" class="form-label">Email:</label>
                         <input type="email" id="email" name="email" class="form-control" required>
                     </div>
+
+                    <div class="mb-3">
+    <label for="event_image" class="form-label">Upload Event Poster/Image (optional):</label>
+    <input type="file" class="form-control" id="event_image" name="event_image" accept="image/*">
+</div>
 
                     <div class="text-center mt-3">
                         <button type="submit" class="btn btn-success px-4">Submit & Download Receipt</button>

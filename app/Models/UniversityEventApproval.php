@@ -15,6 +15,7 @@ class UniversityEventApproval extends Model
         'proctor_status',
         'vc_status',
         'final_status',
+        'rejection_reason',
     ];
 
     public function event()

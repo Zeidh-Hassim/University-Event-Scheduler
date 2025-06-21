@@ -21,40 +21,47 @@ class UniversityEventApprovalController extends Controller
             'starttime' => 'required',
             'endtime' => 'required|after:starttime',
             'participants' => 'required|string',
+            'reason' => 'required|string',
+            'position' => 'required|string',
 
             'society' => 'required|string|max:255',
             'applicant' => 'required|string|max:255',
             'reg_no' => 'required|string|max:100',
             'contact' => 'required|string|max:20',
             'email' => 'required|email|max:255',
+            'event_image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
         ]);
 
         // Combine faculty and hall to create the venue string
         $venue = $request->faculty_for_venue . ' : ' . $request->hall;
+        $applicantname = $request->position . ' - ' . $request->applicant;
+
+        $imagePath = null;
+        if ($request->hasFile('event_image')) {
+            $imagePath = $request->file('event_image')->store('event_images', 'public');
+        }
 
         // Create and save the event
-        $event=Event::create([
-            'event_name'    => (strtoupper($request->event_name)),
-            'event_Type'    => 'University Level Union/Society', // Assuming this is a university-level event
-            'date'          => $request->date,
-            'venue'         => $venue,
-            'start_time'    => $request->starttime,
-            'end_time'      => $request->endtime,
-            'participants'  => $request->participants,
-            'society'       => $request->society,
-            'applicant'     => $request->applicant,
+        $event = Event::create([
+            'event_name' => strtoupper($request->event_name),
+            'event_Type' => 'University Level Union/Society',
+            'date' => $request->date,
+            'venue' => $venue,
+            'start_time' => $request->starttime,
+            'end_time' => $request->endtime,
+            'participants' => $request->participants,
+            'reason' => $request->reason,
+            'society' => $request->society,
+            'applicant' => $applicantname,
             'registration_number' => $request->reg_no,
-            'contact'       => $request->contact,
-            'email'         => $request->email,
-            'status'        => 'Pending', // default status
-            'faculty'       => 'University', // Assuming this is a university-level event
+            'contact' => $request->contact,
+            'email' => $request->email,
+            'status' => 'Pending',
+            'faculty' => 'University',
+            'image_path' => $imagePath,
         ]);
 
-        // UniversityEventApproval::create([
-        //     'event_id' => $event->id,
-            // other default approval statuses will be defaulted by DB
-            // ]);
-         // Set the correct AR status based on faculty_for_venue
+        // Create approval entry with correct AR based on faculty
         $approvalData = ['event_id' => $event->id];
 
         switch (strtoupper($request->faculty_for_venue)) {
@@ -68,16 +75,16 @@ class UniversityEventApprovalController extends Controller
                 $approvalData['ftsar_status'] = 'Pending';
                 break;
         }
-        // Create approval entry
+
         UniversityEventApproval::create($approvalData);
 
         // Generate PDF
-            $pdf = Pdf::loadView('pdf.ReceiptUniversityLevel', compact('event'));
+        $pdf = Pdf::loadView('pdf.ReceiptUniversityLevel', compact('event'));
 
         // Return PDF for download
-            return $pdf->download('event_details.pdf');
-        // return redirect()->back()->with('success', 'Event scheduled successfully!');
+        return $pdf->download('event_details.pdf');
     }
+
     
     // For Assistant Registrar 
     public function showPendingARRequests()
@@ -311,6 +318,20 @@ class UniversityEventApprovalController extends Controller
 
 
 
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
 
     // For FAS Assistant Registrar 
    public function showPendingFASARRequests()
@@ -353,22 +374,39 @@ class UniversityEventApprovalController extends Controller
         return redirect()->back()->with('success', 'Request accepted.');
     }
 
-    public function FASArReject($id)
+    // public function FASArReject($id)
+    // {
+    //     $approval = UniversityEventApproval::where('event_id', $id)->first();
+
+        
+    //     if ($approval) {
+    //         $approval->fasar_status = 'Rejected';
+    //         $approval->final_status = 'Rejected';
+    //         $approval->save();
+
+    //         // Automatically update the related Event status
+    //          $this->update_event($id);
+    //     }
+
+    //     return redirect()->back()->with('error', 'Request rejected.');
+    // }
+
+    public function FASArReject(Request $request, $id)
     {
         $approval = UniversityEventApproval::where('event_id', $id)->first();
 
-        
         if ($approval) {
             $approval->fasar_status = 'Rejected';
             $approval->final_status = 'Rejected';
+            $approval->rejection_reason = $request->input('reason'); // Save the reason
             $approval->save();
 
             // Automatically update the related Event status
-             $this->update_event($id);
+            $this->update_event($id);
         }
 
-        return redirect()->back()->with('error', 'Request rejected.');
-    }
+        return redirect()->back()->with('error', 'Request rejected with reason.');
+}
 
 
 // FBS Assistant Registrar

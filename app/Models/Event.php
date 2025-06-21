@@ -25,6 +25,8 @@ class Event extends Model
     'contact',
     'email',
     'status',
+    'image_path',
+    'reason',
 ];
 
 
