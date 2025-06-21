@@ -25,25 +25,130 @@ class EventController extends Controller
     //     return view('welcome', compact('today', 'eventCount'));
     // }
 
-    public function home()
+//     public function home()
+// {
+//     $today = Carbon::today()->toDateString();
+//     $eventCount = Event::whereDate('date', $today)->where('status', 'accepted')->count();
+
+//     // Get current month date range
+//     $startOfMonth = Carbon::today()->startOfMonth();
+//     $endOfMonth = Carbon::today()->endOfMonth();
+
+//     // Get all accepted event dates in this month
+//     $eventDates = Event::whereBetween('date', [$startOfMonth, $endOfMonth])
+//                     ->where('status', 'accepted')
+//                     ->pluck('date')
+//                     ->map(function ($date) {
+//                         return \Carbon\Carbon::parse($date)->format('Y-m-d');
+//                     })
+//                     ->toArray();
+
+//     return view('welcome', compact('today', 'eventCount', 'eventDates'));
+// }
+
+// public function home()
+// {
+//     $today = Carbon::today()->toDateString();
+//     $eventCount = Event::whereDate('date', $today)->where('status', 'accepted')->count();
+
+//     // Get current year range
+//     $startOfYear = Carbon::today()->startOfYear();
+//     $endOfYear = Carbon::today()->endOfYear();
+
+//     // Get all accepted events in the year
+//     $events = Event::whereBetween('date', [$startOfYear, $endOfYear])
+//                 ->where('status', 'accepted')
+//                 ->select('date', 'event_name')
+//                 ->get();
+
+//     // Extract dates for quick lookup
+//     $eventDates = $events->pluck('date')->map(function ($date) {
+//         return \Carbon\Carbon::parse($date)->format('Y-m-d');
+//     })->toArray();
+
+//     // Group event names by date
+//     $eventMap = [];
+//     foreach ($events as $event) {
+//         $formattedDate = \Carbon\Carbon::parse($event->date)->format('Y-m-d');
+//         if (!isset($eventMap[$formattedDate])) {
+//             $eventMap[$formattedDate] = [];
+//         }
+//         $eventMap[$formattedDate][] = $event->event_name;
+//     }
+
+//     return view('welcome', compact('today', 'eventCount', 'eventDates', 'eventMap'));
+// }
+
+// public function home()
+// {
+//     $today = Carbon::today()->toDateString();
+
+//     // Count today's accepted events
+//     $eventCount = Event::whereDate('date', $today)
+//         ->where('status', 'accepted')
+//         ->count();
+
+//     // Define the year range
+//     $startOfYear = Carbon::now()->startOfYear();
+//     $endOfYear = Carbon::now()->endOfYear();
+
+//     // Fetch accepted events in the year
+//     $events = Event::whereBetween('date', [$startOfYear, $endOfYear])
+//         ->where('status', 'accepted')
+//         ->select('date', 'event_name')
+//         ->get();
+
+//     // Initialize map and date list
+//     // $eventMap = [];
+    
+//     // foreach ($events as $event) {
+//     //     $formattedDate = Carbon::parse($event->date)->format('Y-m-d');
+//     //     $eventMap[$formattedDate][] = $event->event_name;
+//     // }
+
+//     $eventMap = [];
+
+// foreach ($events as $event) {
+//     $dateKey = \Carbon\Carbon::parse($event->date)->format('Y-m-d');
+//     $eventMap[$dateKey][] = $event; // Group events by date
+// }
+
+
+//     // Ensure eventDates is synced with eventMap keys
+//     $eventDates = array_keys($eventMap);
+
+//     return view('welcome', compact('today', 'eventCount', 'eventDates', 'eventMap'));
+// }
+
+public function home()
 {
     $today = Carbon::today()->toDateString();
-    $eventCount = Event::whereDate('date', $today)->where('status', 'accepted')->count();
 
-    // Get current month date range
-    $startOfMonth = Carbon::today()->startOfMonth();
-    $endOfMonth = Carbon::today()->endOfMonth();
+    // Count today's accepted events
+    $eventCount = Event::whereDate('date', $today)
+        ->where('status', 'accepted')
+        ->count();
 
-    // Get all accepted event dates in this month
-    $eventDates = Event::whereBetween('date', [$startOfMonth, $endOfMonth])
-                    ->where('status', 'accepted')
-                    ->pluck('date')
-                    ->map(function ($date) {
-                        return \Carbon\Carbon::parse($date)->format('Y-m-d');
-                    })
-                    ->toArray();
+    // Define the year range
+    $startOfYear = Carbon::now()->startOfYear();
+    $endOfYear = Carbon::now()->endOfYear();
 
-    return view('welcome', compact('today', 'eventCount', 'eventDates'));
+    // Fetch accepted events in the year with all necessary fields
+    $events = Event::whereBetween('date', [$startOfYear, $endOfYear])
+        ->where('status', 'accepted')
+        ->get();  // <-- get all fields, no select clause limiting fields
+
+    // Group events by date
+    $eventMap = [];
+    foreach ($events as $event) {
+        $dateKey = \Carbon\Carbon::parse($event->date)->format('Y-m-d');
+        $eventMap[$dateKey][] = $event;
+    }
+
+    // Get all event dates (keys)
+    $eventDates = array_keys($eventMap);
+
+    return view('welcome', compact('today', 'eventCount', 'eventDates', 'eventMap'));
 }
 
 

@@ -96,9 +96,20 @@
                             <input type="text" id="event_name" name="event_name" class="form-control" required>
                         </div>
 
-                        <div class="mb-2">
-                            <label for="date" class="form-label">Date:</label>
-                            <input type="date" id="date" name="date" class="form-control" required min="{{ date('Y-m-d') }}">
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label for="date" class="form-label">Date:</label>
+                                <input type="date" id="date" name="date" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="participants" class="form-label">Participants:</label>
+                                <select id="participants" name="participants" class="form-control" required>
+                                    <option value="" disabled selected>Select Type</option>
+                                    <option value="University Students Only">University Students Only</option>
+                                    <option value="Outside Visitors Only">Outside Visitors Only</option>
+                                    <option value="University Students and Outside Visitors">Both</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="mb-3 row">
@@ -134,13 +145,9 @@
                             </div>
                         </div>
 
-                        <div class="mb-2">
-                            <label for="participants" class="form-label">Participants:</label>
-                            <select id="participants" name="participants" class="form-control" required>
-                                <option value="" disabled selected>Select Type</option>
-                                <option value="University Students">University Students</option>
-                                <option value="Outside Visitors">Outside Visitors</option>
-                            </select>
+                        <div class="mb-2" id="reasonField">
+                            <label for="reason" class="form-label">Reason for Booking on other day except Wednesday:</label>
+                            <input type="text" id="reason" name="reason" class="form-control" required>
                         </div>
                 </div>
             </div>
@@ -182,7 +189,7 @@
                         <button type="submit" class="btn btn-success px-4">Submit & Download Receipt</button>
                     </div>
 
-                </form>
+                    </form>
                 </div>
             </div>
         </div>
@@ -200,6 +207,13 @@
         const dateInput = document.getElementById('date');
         const startTimeInput = document.getElementById('starttime');
         const endTimeInput = document.getElementById('endtime');
+        const reasonField = document.getElementById('reasonField');
+        const reasonInput = document.getElementById('reason');
+
+        // Set minimum selectable date to today + 7 days
+        const today = new Date();
+        const minDate = new Date(today.setDate(today.getDate() + 7)).toISOString().split('T')[0];
+        dateInput.min = minDate;
 
         facultyDropdown.addEventListener('change', function () {
             const selectedFaculty = this.value;
@@ -223,10 +237,21 @@
 
         dateInput.addEventListener('change', function () {
             const selectedDate = new Date(dateInput.value);
-            const today = new Date();
-            const now = new Date();
 
-            if (selectedDate.toDateString() === today.toDateString()) {
+            // Wednesday logic
+            if (selectedDate.getDay() === 3) {
+                reasonField.style.display = 'none';
+                reasonInput.value = 'It is a Wednesday';
+                reasonInput.required = false;
+            } else {
+                reasonField.style.display = 'block';
+                reasonInput.value = '';
+                reasonInput.required = true;
+            }
+
+            // Time input restriction logic
+            const now = new Date();
+            if (selectedDate.toDateString() === new Date().toDateString()) {
                 const currentTime = now.toTimeString().slice(0, 5);
                 startTimeInput.min = currentTime;
                 endTimeInput.min = currentTime;

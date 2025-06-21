@@ -30,18 +30,21 @@
         <p class="text-center text-white">No Pending Events Available.</p>
     @else
         @foreach($pendingEvents as $event)
-            <a href="#" class="event-detail-link text-decoration-none" data-bs-toggle="modal" data-bs-target="#eventModal{{ $event->id }}">
+            {{-- <a href="#" class="event-detail-link text-decoration-none" data-bs-toggle="modal" data-bs-target="#eventModal{{ $event->id }}"> --}}
                 <div class="card mb-3 p-3 d-flex flex-row justify-content-between align-items-center">
-                    <div class="d-flex align-items-center">
-                        <div>
-                            <h6 class="mb-0 text-primary text-reset">{{ $event->event_name }} organized by {{ $event->society }}</h6>
-                            <small class="text-muted">
-                                {{ $event->applicant }} wants to book {{ $event->venue }} on {{ $event->date }} at 
-                                {{ \Carbon\Carbon::parse($event->start_time)->format('g:i A') }} : 
-                                {{ \Carbon\Carbon::parse($event->end_time)->format('g:i A') }}
-                            </small>
+                    <a href="#" class="event-detail-link text-decoration-none text-reset" data-bs-toggle="modal" data-bs-target="#eventModal{{ $event->id }}">
+                        <div class="d-flex align-items-center">
+                            <div>
+                                <h6 class="mb-0 text-primary">{{ $event->event_name }} organized by {{ $event->society }}</h6>
+                                <small class="text-muted">
+                                    {{ $event->applicant }} wants to book {{ $event->venue }} on {{ $event->date }} at 
+                                    {{ \Carbon\Carbon::parse($event->start_time)->format('g:i A') }} : 
+                                    {{ \Carbon\Carbon::parse($event->end_time)->format('g:i A') }}
+                                </small>
+                            </div>
                         </div>
-                    </div>
+                    </a>
+
                     <div>
                         <form action="{{ route('fasar.accept', $event->id) }}" method="POST" class="d-inline">
                             @csrf
@@ -53,9 +56,9 @@
                             @method('PATCH')
                             <button class="btn btn-danger btn-sm">Reject</button>
                         </form>
-                    </div>
-                </div>
-            </a>
+                    </div>    
+                </div>    
+            {{-- </a> --}}
             <!-- Modal -->
             <div class="modal fade" id="eventModal{{ $event->id }}" tabindex="-1" aria-labelledby="eventModalLabel{{ $event->id }}" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -95,6 +98,13 @@
             </div>
         @endforeach
     @endif
+
+
+
+
+
+
+    
 
     {{-- Approved Requests --}}
     <h4 class="text-white mt-5">Approved Requests</h4>
