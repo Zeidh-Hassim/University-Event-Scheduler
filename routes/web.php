@@ -109,6 +109,9 @@ Route::post('/faculties', [AuthController::class, 'FacultyStore'])->name('facult
 Route::delete('/venues/{id}', [AuthController::class, 'VenueDestroy'])->name('venues.destroy');
 Route::post('/venues', [AuthController::class, 'VenueStore'])->name('venues.store');
 
+Route::delete('/users/{id}', [AuthController::class, 'UserDestroy'])->name('user.destroy');
+Route::post('/users', [AuthController::class, 'UserStore'])->name('user.store');
+
 
 
 
@@ -135,6 +138,8 @@ Route::get('/schedule/Batch', function () {
 Route::get('/schedule/university', [UniversityEventApprovalController::class, 'showUnionForm'])->name('schedule.university');
 Route::get('/get-halls/{facultyCode}', [UniversityEventApprovalController::class, 'getHalls'])->name('get.halls');
 Route::post('/scheduleUniversityEvent',[UniversityEventApprovalController::class,'store'])->name('scheduleUniEvent');
+Route::get('/get-available-halls/{faculty}/{date}/{start}/{end}', [UniversityEventApprovalController::class, 'getAvailableHalls']);
+
 
 
 Route::get('/schedule/union', [FacultyLevelUnionController::class, 'showUnionForm'])->name('schedule.union');

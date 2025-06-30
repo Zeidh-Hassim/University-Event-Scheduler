@@ -59,6 +59,8 @@ class UniversityEventApprovalController extends Controller
             'status' => 'Pending',
             'faculty' => 'University',
             'image_path' => $imagePath,
+            'faculty_for_venue' => $request->faculty_for_venue,
+            'halls' => $request->hall,
         ]);
 
         // Create approval entry with correct AR based on faculty
@@ -135,147 +137,147 @@ class UniversityEventApprovalController extends Controller
 
    
     
-    // For Marshall 
-    public function showPendingMarshallRequests()
-    {
-        $pendingEvents = Event::whereHas('universityEventApproval', function ($query) {
-            $query->where('marshall_status', 'Pending');
-        })->get();
-        $approvedEvents = Event::whereHas('universityEventApproval', function ($query) {
-            $query->where('marshall_status', 'Approved');
-        })->get();
-        $rejectedEvents = Event::whereHas('universityEventApproval', function ($query) {
-            $query->where('marshall_status', 'Rejected');
-        })->get();
+    // // For Marshall 
+    // public function showPendingMarshallRequests()
+    // {
+    //     $pendingEvents = Event::whereHas('universityEventApproval', function ($query) {
+    //         $query->where('marshall_status', 'Pending');
+    //     })->get();
+    //     $approvedEvents = Event::whereHas('universityEventApproval', function ($query) {
+    //         $query->where('marshall_status', 'Approved');
+    //     })->get();
+    //     $rejectedEvents = Event::whereHas('universityEventApproval', function ($query) {
+    //         $query->where('marshall_status', 'Rejected');
+    //     })->get();
 
-        return view('Users.marshall', compact('pendingEvents', 'approvedEvents', 'rejectedEvents'));
-    }
+    //     return view('Users.marshall', compact('pendingEvents', 'approvedEvents', 'rejectedEvents'));
+    // }
 
-    public function MarshallAccept($id)
-    {
-        $approval = UniversityEventApproval::where('event_id', $id)->first();
+    // public function MarshallAccept($id)
+    // {
+    //     $approval = UniversityEventApproval::where('event_id', $id)->first();
 
-        if ($approval) {
-            $approval->marshall_status = 'Approved';
-            $approval->proctor_status = 'Pending';
-            $approval->save();
-        }
+    //     if ($approval) {
+    //         $approval->marshall_status = 'Approved';
+    //         $approval->proctor_status = 'Pending';
+    //         $approval->save();
+    //     }
 
-        return redirect()->back()->with('success', 'Request accepted.');
-    }
+    //     return redirect()->back()->with('success', 'Request accepted.');
+    // }
 
-    public function MarshallReject($id)
-    {
-        $approval = UniversityEventApproval::where('event_id', $id)->first();
+    // public function MarshallReject($id)
+    // {
+    //     $approval = UniversityEventApproval::where('event_id', $id)->first();
 
-        if ($approval) {
-            $approval->marshall_status = 'Rejected';
-            $approval->final_status = 'Rejected';
-            $approval->save();
+    //     if ($approval) {
+    //         $approval->marshall_status = 'Rejected';
+    //         $approval->final_status = 'Rejected';
+    //         $approval->save();
 
-            // Automatically update the related Event status
-            $this->update_event($id);
-        }
+    //         // Automatically update the related Event status
+    //         $this->update_event($id);
+    //     }
 
-        return redirect()->back()->with('error', 'Request rejected.');
-    } 
+    //     return redirect()->back()->with('error', 'Request rejected.');
+    // } 
     
     
-    // For Proctor 
-    public function showPendingProctorRequests()
-    {
-        $pendingEvents = Event::whereHas('universityEventApproval', function ($query) {
-            $query->where('proctor_status', 'Pending');
-        })->get();
-        $approvedEvents = Event::whereHas('universityEventApproval', function ($query) {
-            $query->where('proctor_status', 'Approved');
-        })->get();
-        $rejectedEvents = Event::whereHas('universityEventApproval', function ($query) {
-            $query->where('proctor_status', 'Rejected');
-        })->get();
+    // // For Proctor 
+    // public function showPendingProctorRequests()
+    // {
+    //     $pendingEvents = Event::whereHas('universityEventApproval', function ($query) {
+    //         $query->where('proctor_status', 'Pending');
+    //     })->get();
+    //     $approvedEvents = Event::whereHas('universityEventApproval', function ($query) {
+    //         $query->where('proctor_status', 'Approved');
+    //     })->get();
+    //     $rejectedEvents = Event::whereHas('universityEventApproval', function ($query) {
+    //         $query->where('proctor_status', 'Rejected');
+    //     })->get();
 
-        return view('Users.proctor', compact('pendingEvents', 'approvedEvents', 'rejectedEvents'));
-    }
+    //     return view('Users.proctor', compact('pendingEvents', 'approvedEvents', 'rejectedEvents'));
+    // }
 
-    public function ProctorAccept($id)
-    {
-        $approval = UniversityEventApproval::where('event_id', $id)->first();
+    // public function ProctorAccept($id)
+    // {
+    //     $approval = UniversityEventApproval::where('event_id', $id)->first();
 
-        if ($approval) {
-            $approval->proctor_status = 'Approved';
-            $approval->vc_status = 'Pending';
-            $approval->save();
-        }
+    //     if ($approval) {
+    //         $approval->proctor_status = 'Approved';
+    //         $approval->vc_status = 'Pending';
+    //         $approval->save();
+    //     }
 
-        return redirect()->back()->with('success', 'Request accepted.');
-    }
+    //     return redirect()->back()->with('success', 'Request accepted.');
+    // }
 
-    public function ProctorReject($id)
-    {
-        $approval = UniversityEventApproval::where('event_id', $id)->first();
+    // public function ProctorReject($id)
+    // {
+    //     $approval = UniversityEventApproval::where('event_id', $id)->first();
 
-        if ($approval) {
-            $approval->proctor_status = 'Rejected';
-            $approval->final_status = 'Rejected';
-            $approval->save();
+    //     if ($approval) {
+    //         $approval->proctor_status = 'Rejected';
+    //         $approval->final_status = 'Rejected';
+    //         $approval->save();
 
-            // Automatically update the related Event status
-            $this->update_event($id);
-        }
+    //         // Automatically update the related Event status
+    //         $this->update_event($id);
+    //     }
 
-        return redirect()->back()->with('error', 'Request rejected.');
-    }
-
-
-    // For Vice Chancellor 
-    public function showPendingVcRequests()
-    {
-        $pendingEvents = Event::whereHas('universityEventApproval', function ($query) {
-            $query->where('vc_status', 'Pending');
-        })->get();
-        $approvedEvents = Event::whereHas('universityEventApproval', function ($query) {
-            $query->where('vc_status', 'Approved');
-        })->get();
-        $rejectedEvents = Event::whereHas('universityEventApproval', function ($query) {
-            $query->where('vc_status', 'Rejected');
-        })->get();
-
-        return view('Users.vice_chancellor', compact('pendingEvents', 'approvedEvents', 'rejectedEvents'));
-    }
-
-    public function VcAccept($id)
-    {
-        $approval = UniversityEventApproval::where('event_id', $id)->first();
-
-        if ($approval) {
-            $approval->vc_status = 'Approved';
-            $approval->final_status = 'Approved';
-            $approval->save();
-
-            // Automatically update the related Event status
-            $this->update_event($id);
-        }
-
-        return redirect()->back()->with('success', 'Request accepted.');
-    }
+    //     return redirect()->back()->with('error', 'Request rejected.');
+    // }
 
 
+    // // For Vice Chancellor 
+    // public function showPendingVcRequests()
+    // {
+    //     $pendingEvents = Event::whereHas('universityEventApproval', function ($query) {
+    //         $query->where('vc_status', 'Pending');
+    //     })->get();
+    //     $approvedEvents = Event::whereHas('universityEventApproval', function ($query) {
+    //         $query->where('vc_status', 'Approved');
+    //     })->get();
+    //     $rejectedEvents = Event::whereHas('universityEventApproval', function ($query) {
+    //         $query->where('vc_status', 'Rejected');
+    //     })->get();
 
-    public function VcReject($id)
-    {
-        $approval = UniversityEventApproval::where('event_id', $id)->first();
+    //     return view('Users.vice_chancellor', compact('pendingEvents', 'approvedEvents', 'rejectedEvents'));
+    // }
 
-        if ($approval) {
-            $approval->vc_status = 'Rejected';
-            $approval->final_status = 'Rejected';
-            $approval->save();
+    // public function VcAccept($id)
+    // {
+    //     $approval = UniversityEventApproval::where('event_id', $id)->first();
 
-            // Automatically update the related Event status
-            $this->update_event($id);
-        }
+    //     if ($approval) {
+    //         $approval->vc_status = 'Approved';
+    //         $approval->final_status = 'Approved';
+    //         $approval->save();
 
-        return redirect()->back()->with('error', 'Request rejected.');
-    }
+    //         // Automatically update the related Event status
+    //         $this->update_event($id);
+    //     }
+
+    //     return redirect()->back()->with('success', 'Request accepted.');
+    // }
+
+
+
+    // public function VcReject($id)
+    // {
+    //     $approval = UniversityEventApproval::where('event_id', $id)->first();
+
+    //     if ($approval) {
+    //         $approval->vc_status = 'Rejected';
+    //         $approval->final_status = 'Rejected';
+    //         $approval->save();
+
+    //         // Automatically update the related Event status
+    //         $this->update_event($id);
+    //     }
+
+    //     return redirect()->back()->with('error', 'Request rejected.');
+    // }
 
     public function update_event($eventId)
     {
@@ -307,6 +309,56 @@ class UniversityEventApprovalController extends Controller
         $halls = Venue::where('faculty', $facultyCode)->get(['name']);
         return response()->json($halls);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function getAvailableHalls($faculty, $date, $start, $end)
+{
+    // Get all halls (venues) for the selected faculty
+    $allHalls = Venue::where('faculty', $faculty)->get();
+
+    // Get already booked halls for the given date and time
+    $bookedHalls = Event::where('faculty_for_venue', $faculty)
+        ->where('status', 'Accepted')
+        ->where('date', $date)
+        ->where(function ($query) use ($start, $end) {
+            $query->whereBetween('start_time', [$start, $end])
+                  ->orWhereBetween('end_time', [$start, $end])
+                  ->orWhere(function ($q) use ($start, $end) {
+                      $q->where('start_time', '<=', $start)
+                        ->where('end_time', '>=', $end);
+                  });
+        })
+        ->pluck('halls') // Must match your field name in DB exactly
+        ->toArray();
+
+    // Filter out the booked halls
+    $availableHalls = $allHalls->filter(function ($hall) use ($bookedHalls) {
+        return !in_array($hall->name, $bookedHalls); // 'name' is the hall name in Venue table
+    });
+    // dd($availableHalls);
+
+    return response()->json($availableHalls);
+}
 
 
 
@@ -374,22 +426,6 @@ class UniversityEventApprovalController extends Controller
         return redirect()->back()->with('success', 'Request accepted.');
     }
 
-    // public function FASArReject($id)
-    // {
-    //     $approval = UniversityEventApproval::where('event_id', $id)->first();
-
-        
-    //     if ($approval) {
-    //         $approval->fasar_status = 'Rejected';
-    //         $approval->final_status = 'Rejected';
-    //         $approval->save();
-
-    //         // Automatically update the related Event status
-    //          $this->update_event($id);
-    //     }
-
-    //     return redirect()->back()->with('error', 'Request rejected.');
-    // }
 
     public function FASArReject(Request $request, $id)
     {
@@ -406,8 +442,118 @@ class UniversityEventApprovalController extends Controller
         }
 
         return redirect()->back()->with('error', 'Request rejected with reason.');
-}
+    }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
 // FBS Assistant Registrar
     public function showPendingFBSARRequests()
@@ -448,13 +594,14 @@ class UniversityEventApprovalController extends Controller
 
         return redirect()->back()->with('success', 'Request accepted.');
     }
-    public function FBSArReject($id)
+    public function FBSArReject(Request $request, $id)
     {
         $approval = UniversityEventApproval::where('event_id', $id)->first();
 
         if ($approval) {
             $approval->fbsar_status = 'Rejected';
             $approval->final_status = 'Rejected';
+            $approval->rejection_reason = $request->input('reason'); // Save the reason
             $approval->save();
 
             // Automatically update the related Event status
@@ -469,28 +616,28 @@ class UniversityEventApprovalController extends Controller
     public function showPendingFTSARRequests()
     {
         $pendingEvents = Event::with('universityEventApproval')
-            ->whereHas('universityEventApproval', function ($query) {
-                $query->where('ftsar_status', 'Pending');
-            })->get();
+        ->whereHas('universityEventApproval', function ($query) {
+            $query->where('ftsar_status', 'Pending');
+        })->get();
 
-        $approvedEvents = Event::with('universityEventApproval')
-            ->whereHas('universityEventApproval', function ($query) {
-                $query->where('ftsar_status', 'Approved');
-            })->get();
+    $approvedEvents = Event::with('universityEventApproval')
+        ->whereHas('universityEventApproval', function ($query) {
+            $query->where('ftsar_status', 'Approved');
+        })->get();
 
-        $rejectedEvents = Event::with('universityEventApproval')
-            ->whereHas('universityEventApproval', function ($query) {
-                $query->where('ftsar_status', 'Rejected');
-            })->get();
+    $rejectedEvents = Event::with('universityEventApproval')
+        ->whereHas('universityEventApproval', function ($query) {
+            $query->where('ftsar_status', 'Rejected');
+        })->get();
 
-        $allEventApprovals = UniversityEventApproval::with('event')->get();
+    $allEventApprovals = UniversityEventApproval::with('event')->get();
 
-        return view('Users.fts_ar', compact(
-            'pendingEvents',
-            'approvedEvents',
-            'rejectedEvents',
-            'allEventApprovals'
-        ));
+    return view('Users.fts_ar', compact(
+        'pendingEvents',
+        'approvedEvents',
+        'rejectedEvents',
+        'allEventApprovals'
+    ));
     }
 
     public function FTSArAccept($id)
@@ -506,20 +653,217 @@ class UniversityEventApprovalController extends Controller
         return redirect()->back()->with('success', 'Request accepted.');
     }
 
-    public function FTSArReject($id)
+    public function FTSArReject(Request $request, $id)
     {
         $approval = UniversityEventApproval::where('event_id', $id)->first();
 
         if ($approval) {
             $approval->ftsar_status = 'Rejected';
             $approval->final_status = 'Rejected';
+            $approval->rejection_reason = $request->input('reason'); // Save the reason
             $approval->save();
 
             // Automatically update the related Event status
             $this->update_event($id);
         }
 
-        return redirect()->back()->with('error', 'Request rejected.');
+        return redirect()->back()->with('error', 'Request rejected with reason.');
+    }
+
+
+     // For Marshall 
+    public function showPendingMarshallRequests()
+    {
+        // Fetch events with their university event approvals where marshall_status is Pending, Approved, or Rejected
+            $pendingEvents = Event::with('universityEventApproval')
+            ->whereHas('universityEventApproval', function ($query) {
+                $query->where('marshall_status', 'Pending');
+            })->get();
+
+        $approvedEvents = Event::with('universityEventApproval')
+            ->whereHas('universityEventApproval', function ($query) {
+                $query->where('marshall_status', 'Approved');
+            })->get();
+
+        $rejectedEvents = Event::with('universityEventApproval')
+            ->whereHas('universityEventApproval', function ($query) {
+                $query->where('marshall_status', 'Rejected');
+            })->get();
+
+        $allEventApprovals = UniversityEventApproval::with('event')->get();
+
+        return view('Users.marshall', compact(
+            'pendingEvents',
+            'approvedEvents',
+            'rejectedEvents',
+            'allEventApprovals'
+        ));
+    }
+
+    public function MarshallAccept($id)
+    {
+        $approval = UniversityEventApproval::where('event_id', $id)->first();
+
+        if ($approval) {
+            $approval->marshall_status = 'Approved';
+            $approval->proctor_status = 'Pending';
+            $approval->save();
+        }
+
+        return redirect()->back()->with('success', 'Request accepted.');
+    }
+
+    public function MarshallReject(Request $request, $id)
+    {
+       
+        $approval = UniversityEventApproval::where('event_id', $id)->first();
+
+        if ($approval) {
+            $approval->marshall_status = 'Rejected';
+            $approval->final_status = 'Rejected';
+            $approval->rejection_reason = $request->input('reason'); // Save the reason
+            $approval->save();
+
+            // Automatically update the related Event status
+            $this->update_event($id);
+        }
+
+        return redirect()->back()->with('error', 'Request rejected with reason.');
+    }
+
+
+    // For Proctor 
+    public function showPendingProctorRequests()
+    {
+        // Fetch events with their university event approvals where proctor_status is Pending, Approved, or Rejected
+         $pendingEvents = Event::with('universityEventApproval')
+            ->whereHas('universityEventApproval', function ($query) {
+            $query->where('proctor_status', 'Pending');
+        })->get();
+
+        $approvedEvents = Event::with('universityEventApproval')
+            ->whereHas('universityEventApproval', function ($query) {
+                $query->where('proctor_status', 'Approved');
+            })->get();
+
+        $rejectedEvents = Event::with('universityEventApproval')
+            ->whereHas('universityEventApproval', function ($query) {
+                $query->where('proctor_status', 'Rejected');
+            })->get();
+
+        $allEventApprovals = UniversityEventApproval::with('event')->get();
+
+        return view('Users.proctor', compact(
+            'pendingEvents',
+            'approvedEvents',
+            'rejectedEvents',
+            'allEventApprovals'
+        ));
+
+
+
+
+    }
+
+    public function ProctorAccept($id)
+    {
+        $approval = UniversityEventApproval::where('event_id', $id)->first();
+
+        if ($approval) {
+            $approval->proctor_status = 'Approved';
+            $approval->vc_status = 'Pending';
+            $approval->save();
+        }
+
+        return redirect()->back()->with('success', 'Request accepted.');
+    }
+
+    public function ProctorReject(Request $request, $id)
+    {
+       
+        $approval = UniversityEventApproval::where('event_id', $id)->first();
+
+        if ($approval) {
+            $approval->proctor_status = 'Rejected';
+            $approval->final_status = 'Rejected';
+            $approval->rejection_reason = $request->input('reason'); // Save the reason
+            $approval->save();
+
+            // Automatically update the related Event status
+            $this->update_event($id);
+        }
+
+        return redirect()->back()->with('error', 'Request rejected with reason.');
+    }
+
+
+    // For Vice Chancellor 
+    public function showPendingVcRequests()
+    {
+        // Fetch events with their university event approvals where vc_status is Pending, Approved, or Rejected
+
+         $pendingEvents = Event::with('universityEventApproval')
+            ->whereHas('universityEventApproval', function ($query) {
+            $query->where('vc_status', 'Pending');
+        })->get();
+
+        $approvedEvents = Event::with('universityEventApproval')
+            ->whereHas('universityEventApproval', function ($query) {
+                $query->where('vc_status', 'Approved');
+            })->get();
+
+        $rejectedEvents = Event::with('universityEventApproval')
+            ->whereHas('universityEventApproval', function ($query) {
+                $query->where('vc_status', 'Rejected');
+            })->get();
+
+        $allEventApprovals = UniversityEventApproval::with('event')->get();
+
+        return view('Users.vice_chancellor', compact(
+            'pendingEvents',
+            'approvedEvents',
+            'rejectedEvents',
+            'allEventApprovals'
+        ));
+
+
+    }
+
+    public function VcAccept($id)
+    {
+        $approval = UniversityEventApproval::where('event_id', $id)->first();
+
+        if ($approval) {
+            $approval->vc_status = 'Approved';
+            $approval->final_status = 'Approved';
+            $approval->save();
+
+            // Automatically update the related Event status
+            $this->update_event($id);
+        }
+
+        return redirect()->back()->with('success', 'Request accepted.');
+    }
+
+
+
+    public function VcReject(Request $request, $id)
+    {
+       
+        $approval = UniversityEventApproval::where('event_id', $id)->first();
+
+        if ($approval) {
+            $approval->vc_status = 'Rejected';
+            $approval->final_status = 'Rejected';
+            $approval->rejection_reason = $request->input('reason'); // Save the reason
+            $approval->save();
+
+            // Automatically update the related Event status
+            $this->update_event($id);
+        }
+
+        return redirect()->back()->with('error', 'Request rejected with reason.');
+        
     }
 
 
@@ -546,25 +890,3 @@ class UniversityEventApprovalController extends Controller
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

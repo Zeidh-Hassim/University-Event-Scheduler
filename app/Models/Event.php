@@ -27,6 +27,8 @@ class Event extends Model
     'status',
     'image_path',
     'reason',
+    'faculty_for_venue',
+    'halls',
 ];
 
 

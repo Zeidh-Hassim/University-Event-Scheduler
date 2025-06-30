@@ -16,58 +16,40 @@
     a.btn.custom:hover {
         background-color: lightgray !important;
     }
+    html {
+        scroll-behavior: smooth;
+    }
 </style>
 
-<h1 class="text-center mb-3 text-white">Administrator</h1>
-
-{{-- Display Pending Requests --}}
-{{-- <div class="container mt-5">
-    <h3 class="text-center mb-3 text-white">Pending Requests</h3>
-
-    @php
-        $showAll = request()->has('show_all');
-        $eventsToShow = $showAll ? $pendingEvents : $pendingEvents->take(5);
-    @endphp
-
-    @if($eventsToShow->isEmpty())
-        <p class="text-center text-white">No Pending Events Available.</p>
-    @else
-        @foreach($eventsToShow as $event)
-            <div class="card mb-3 p-3 d-flex flex-row justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                    <div>
-                        <h6 class="mb-0">{{ $event->event_name }} ({{ $event->society }})</h6>
-                        <small class="text-muted">{{ $event->person_id }} wants to book {{ $event->venue }} on {{ $event->date }} at {{ $event->time }}</small>
-                    </div>
-                </div>
-                <div>
-                    <form action="{{ route('admin.accept', $event->id) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('PATCH')
-                        <button class="btn btn-success btn-sm me-2">Accept</button>
-                    </form>
-
-                    <form action="{{ route('admin.reject', $event->id) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('PATCH')
-                        <button class="btn btn-danger btn-sm">Reject</button>
-                    </form>
-                </div>
-            </div>
-        @endforeach
-    @endif
-
-    Show More / Show Less Button
-    @if($pendingEvents->count() > 5)
-        <div class="text-center mt-3">
-            @if($showAll)
-                <a href="{{ route('admin') }}" class="btn btn-secondary">Show Less</a>
-            @else
-                <a href="{{ route('admin', ['show_all' => 1]) }}" class="btn btn-secondary">Show All</a>
-            @endif
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top mb-4">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">Event Scheduler</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('home') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#university-level-union-society">University Level</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#faculty-union">Faculty Union</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#faculty-level-society">Faculty Level Society</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#faculty-level-batch">Faculty Level Batch</a>
+                </li>
+            </ul>
         </div>
-    @endif
-</div> --}}
+    </div>
+</nav>
+
+<h1 class="text-center mb-3 text-white">Administrator</h1>
 
 
 {{-- Display All Faculties --}}
@@ -182,6 +164,58 @@
 
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Add Venue</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{{-- Display All Users --}}
+<div class="container mt-5">
+    
+    <h3 class="text-center mb-3 text-white">Users</h3>
+
+    @if($users->isEmpty())
+        <p>No faculties available.</p>
+    @else
+        @foreach($users as $user)
+            <div class="card mb-3 p-3 d-flex flex-row justify-content-between align-items-center">
+                <div>
+                    <h6 class="mb-1">{{ $user->designation }}</h6>
+                    <small class="text-muted">Email: {{ $user->email }}</small>
+                </div>
+                <div>
+                    <form action="{{ route('user.destroy', $user->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </div>
+            </div>
+        @endforeach
+    @endif
+
+    {{-- Add User Form  --}}
+     <div class="card mt-4 p-4">
+        <h5 class="text-center mb-3 text-black">Add New User</h5>
+        <form action="{{ route('user.store') }}" method="POST">
+            @csrf
+            <div class="mb-3">
+                <label for="designation" class="form-label">Designation</label>
+                <input type="text" name="designation" id="designation" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" name="email" id="email" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="password" id="password" class="form-control" required>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Add User</button>
             </div>
         </form>
     </div>

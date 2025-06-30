@@ -137,11 +137,7 @@ class AuthController extends Controller
         return redirect()->route('loginpage')->with('success', 'User created successfully');
     }
 
-    // public function pendingEvents()
-    // {
-    //     $pendingEvents = Event::where('status', 'pending')->get();
-    //     return view('admin', compact('pendingEvents'));
-    // }
+    
 
     public function accept($id)
     {
@@ -167,9 +163,10 @@ class AuthController extends Controller
     {
         $venues = Venue::all();
         $faculties = Faculty::all();
-        $pendingEvents = Event::where('status', 'pending')->get();
+        // $pendingEvents = Event::where('status', 'pending')->get();
+        $users = User::all();
 
-        return view('admin', compact('pendingEvents', 'faculties',  'venues'));
+        return view('admin', compact('users', 'faculties',  'venues'));
     }
 
     public function FacultyDestroy($id)
@@ -219,5 +216,34 @@ class AuthController extends Controller
 
         return redirect()->back()->with('success', 'Venue added successfully.');
     }
+
+
+
+    public function UserDestroy($id)
+    {
+        $faculty = User::findOrFail($id);
+        $faculty->delete();
+
+        return redirect()->back()->with('success', 'Faculty deleted successfully.');
+    }
+
+    public function UserStore(Request $request)
+{
+    $request->validate([
+            'designation' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8'
+        ]);
+
+        //create user
+        User::create([
+            'designation' => $request->designation,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            ]);
+
+    return redirect()->back()->with('success', 'User added successfully.');
+}
+
 
 }
