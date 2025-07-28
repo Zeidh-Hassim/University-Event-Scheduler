@@ -22,6 +22,7 @@ class FacultyUnionEventApproval extends Model
         'fbsdean_status',
         'ftsdean_status',
         'final_status',
+        'rejection_reason',
     ];
 
     // Define the relationship to the Event

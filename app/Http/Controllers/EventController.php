@@ -190,7 +190,9 @@ public function home()
         public function scheduledEvents()
     {
         $events = Event::all(); // or filtered/sorted
-        return view('scheduled_events', compact('events'));
+        // Get all approvals indexed by event_id
+        $approval_statuses = UniversityEventApproval::all()->keyBy('event_id');
+        return view('scheduled_events', compact('events','approval_statuses'));
     }
 
     public function showSchedule(Request $request)

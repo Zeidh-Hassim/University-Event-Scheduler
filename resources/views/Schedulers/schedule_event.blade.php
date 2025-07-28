@@ -309,8 +309,71 @@
 @section('content')
 
 <style>
-    /* ... your existing styles unchanged ... */
+    a.btn.custom {
+        background-color: white !important;
+        color: black !important;
+        padding: 10px 20px !important;
+        font-size: 16px !important;
+        border: none !important;
+        cursor: pointer;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    a.btn.custom:hover {
+        background-color: lightgray !important;
+    }
+
+    .card {
+        padding: 15px !important;
+    }
+
+    .card-header h3,
+    .card h1 {
+        font-size: 20px !important;
+        margin: 10px 0 !important;
+    }
+
+    .form-label {
+        font-size: 14px !important;
+        margin-bottom: 4px;
+    }
+
+    .form-control {
+        padding: 6px 10px !important;
+        font-size: 14px;
+    }
+
+    button.btn {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .container {
+        padding: 0;
+    }
+
+    .vh-full {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .row.g-1 > * {
+        padding: 0.25rem;
+    }
+
+    .text-center h1 {
+        font-size: 22px;
+    }
+
+    .btn-secondary {
+        margin-top: 10px;
+    }
 </style>
+
 
 <div class="vh-full">
     <div class="container">
@@ -441,7 +504,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="event_image" class="form-label">Upload Event Poster/Image (optional):</label>
+                        <label for="event_image" class="form-label">Upload Event Permission Letter:</label>
                         <input type="file" class="form-control" id="event_image" name="event_image" accept="image/*">
                     </div>
 

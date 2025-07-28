@@ -91,7 +91,7 @@
 </head>
 <body>
     <div class="container">
-                <h1 class="text-center mb-3 text-white">Scheduled Events</h1>
+                <h1 class="text-center mb-3 text-white">Events Statuses</h1>
         <div class="schedule-wrapper">
             <div class="container">
 
@@ -115,6 +115,7 @@
                 <!-- Event Items -->
                 @if($events->count())
                     @foreach($events as $event)
+                        <a href="#" class="event-detail-link text-decoration-none text-reset" data-bs-toggle="modal" data-bs-target="#eventModal{{ $event->id }}">
                         <div class="event-item d-flex align-items-center">
                             <div class="pe-4 text-nowrap">
                                 <div class="event-date">{{ \Carbon\Carbon::parse($event->date)->format('D, M d Y') }}</div>
@@ -126,6 +127,59 @@
                                 <div class="text-muted small">Status: {{ ucfirst($event->status) }}</div>
                             </div>
                         </div>
+                        @php
+                            $approval = $approval_statuses[$event->id] ?? null;
+                        @endphp
+                        </a>
+                        @if($event->event_Type == 'University Level Union/Society')
+                            <!-- Event Modal -->
+                            <div class="modal fade" id="eventModal{{ $event->id }}" tabindex="-1" aria-labelledby="eventModalLabel{{ $event->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-sm">
+                                    <div class="modal-content text-dark">
+                                        <div class="modal-header justify-content-center">
+                                            <h5 class="modal-title" id="eventModalLabel{{ $event->id }}">{{ $event->event_name }} Details</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row justify-content-center g-4">
+                                                <div class="card col-12 shadow-sm border-0 p-3" style="background-color: #f9f9f9;">
+                                                    <h6 class="text-primary mb-3 border-bottom pb-1">📅 Event Status</h6>
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li><strong>AR Status:</strong>
+                                                            @php
+                                                                $arValue = 'N/A';
+                                                                $arSource = '';
+
+                                                                if ($approval) {
+                                                                    if ($approval->fasar_status !== null) {
+                                                                        $arValue = $approval->fasar_status;
+                                                                        $arSource = 'fasar_status';
+                                                                    } elseif ($approval->fbsar_status !== null) {
+                                                                        $arValue = $approval->fbsar_status;
+                                                                        $arSource = 'fbsar_status';
+                                                                    } elseif ($approval->ftsar_status !== null) {
+                                                                        $arValue = $approval->ftsar_status;
+                                                                        $arSource = 'ftsar_status';
+                                                                    }
+                                                                }
+                                                            @endphp
+                                                            {{ $arValue }} @if($arSource) ({{ $arSource }}) @endif
+                                                        </li>
+                                                        <li><strong>Marshall Status:</strong> {{ $approval->marshall_status ?? 'N/A' }} </li>
+                                                        <li><strong>Proctor Status:</strong> {{ $approval->proctor_status ?? 'N/A' }}</li>
+                                                        <li><strong>VC Status:</strong> {{ $approval->vc_status ?? 'N/A' }}</li>
+                                                        <li><strong>Reject Reason:</strong> {{ $approval->rejection_reason ?? 'N/A' }}</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-center">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{-- @elseif(strtolower($event->event_name) == 'department') --}}
+                        @endif
                     @endforeach
                 @else
                     <p class="text-center">No events found.</p>
@@ -135,7 +189,7 @@
         </div>
 
         <div class="text-center mt-5">
-            <button type="button" class="btn btn-secondary" onclick="history.back()">Back</button>
+            <a href="{{ route('home') }}" class="btn btn-secondary">Back</a>
         </div>
     </div>
 

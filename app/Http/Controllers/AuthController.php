@@ -87,6 +87,9 @@ class AuthController extends Controller
                 'FAS HOD'                 => 'fashod.pending.requests',
                 'FBS HOD'                 => 'fbshod.pending.requests',
                 'FTS HOD'                 => 'ftshod.pending.requests',
+                'FAS Dean'                => 'fasdean.pending.requests',
+                'FBS Dean'                => 'fbsdean.pending.requests',
+                'FTS Dean'                => 'ftsdean.pending.requests',
 
                 'Proctor'                 => 'proctor.pending.requests',
                 'Vice Chancellor'         => 'vice_chancellor.pending.requests',
