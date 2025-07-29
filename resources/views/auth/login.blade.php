@@ -35,7 +35,10 @@
                     <label for="password" class="form-label">Password</label>
                     <input type="password" name="password" class="form-control" id="password" placeholder="Enter your password" required>
                 </div>
-                <button type="submit" class="btn btn-danger w-100">Login</button>
+               <button type="submit" class="btn btn-danger w-100">Login</button>
+
+                <button type="#" class="btn btn-danger w-100 mt-2">Reset Password</button>
+
             </form>
         </div>
     </div>

@@ -51,27 +51,42 @@ Route::patch('/ar/reject/{id}', [UniversityEventApprovalController::class, 'ArRe
 
 // FAS Assistant Registrar
 Route::get('/fas-ar-pending-requests', [UniversityEventApprovalController::class, 'showPendingFASARRequests'])->name('fasar.pending.requests')->middleware('auth');
+
 Route::patch('/fas-ar/accept/{id}', [UniversityEventApprovalController::class, 'FASArAccept'])->name('fasar.accept');
 Route::patch('/fas-ar/reject/{id}', [UniversityEventApprovalController::class, 'FASArReject'])->name('fasar.reject');
-// Route::get('/fas-ar-union-pending-requests', [FacultyLevelUnionController::class, 'showPendingFASARUnionRequests'])->name('fasar.union.pending.requests')->middleware('auth');
 
 Route::patch('/fas-ar-union/accept/{id}', [UniversityEventApprovalController::class, 'FASArUnionAccept'])->name('fasarUnion.accept');
 Route::patch('/fas-ar-union/reject/{id}', [UniversityEventApprovalController::class, 'FASArUnionReject'])->name('fasarUnion.reject');
+Route::patch('/fas-ar-society/accept/{id}', [UniversityEventApprovalController::class, 'FASArSocietyAccept'])->name('fasarSociety.accept');
+Route::patch('/fas-ar-society/reject/{id}', [UniversityEventApprovalController::class, 'FASArSocietyReject'])->name('fasarSociety.reject');
+Route::patch('/fas-ar-batch/accept/{id}', [UniversityEventApprovalController::class, 'FASArBatchAccept'])->name('fasarBatch.accept');
+Route::patch('/fas-ar-batch/reject/{id}', [UniversityEventApprovalController::class, 'FASArBatchReject'])->name('fasarBatch.reject');
+
 
 
 // FBS Assistant Registrar
 Route::get('/fbs-ar-pending-requests', [UniversityEventApprovalController::class, 'showPendingFBSARRequests'])->name('fbsar.pending.requests')->middleware('auth');
 Route::patch('/fbs-ar/accept/{id}', [UniversityEventApprovalController::class, 'FBSArAccept'])->name('fbsar.accept');
 Route::patch('/fbs-ar/reject/{id}', [UniversityEventApprovalController::class, 'FBSArReject'])->name('fbsar.reject');
-
 Route::patch('/fbs-ar-union/accept/{id}', [UniversityEventApprovalController::class, 'FBSArUnionAccept'])->name('fbsarUnion.accept');
 Route::patch('/fbs-ar-union/reject/{id}', [UniversityEventApprovalController::class, 'FBSArUnionReject'])->name('fbsarUnion.reject');
+Route::patch('/fbs-ar-society/accept/{id}', [UniversityEventApprovalController::class, 'FBSArSocietyAccept'])->name('fbsarSociety.accept');
+Route::patch('/fbs-ar-society/reject/{id}', [UniversityEventApprovalController::class, 'FBSArSocietyReject'])->name('fbsarSociety.reject');
+Route::patch('/fbs-ar-batch/accept/{id}', [UniversityEventApprovalController::class, 'FBSArBatchAccept'])->name('fbsarBatch.accept');
+Route::patch('/fbs-ar-batch/reject/{id}', [UniversityEventApprovalController::class, 'FBSArBatchReject'])->name('fbsarBatch.reject');
 
 
 // FTS Assistant Registrar
 Route::get('/fts-ar-pending-requests', [UniversityEventApprovalController::class, 'showPendingFTSARRequests'])->name('ftsar.pending.requests')->middleware('auth');
 Route::patch('/fts-ar/accept/{id}', [UniversityEventApprovalController::class, 'FTSArAccept'])->name('ftsar.accept');
 Route::patch('/fts-ar/reject/{id}', [UniversityEventApprovalController::class, 'FTSArReject'])->name('ftsar.reject');
+
+Route::patch('/fts-ar-union/accept/{id}', [UniversityEventApprovalController::class, 'FTSArUnionAccept'])->name('ftsarUnion.accept');
+Route::patch('/fts-ar-union/reject/{id}', [UniversityEventApprovalController::class, 'FTSArUnionReject'])->name('ftsarUnion.reject');
+Route::patch('/fts-ar-society/accept/{id}', [UniversityEventApprovalController::class, 'FTSArSocietyAccept'])->name('ftsarSociety.accept');
+Route::patch('/fts-ar-society/reject/{id}', [UniversityEventApprovalController::class, 'FTSArSocietyReject'])->name('ftsarSociety.reject');
+Route::patch('/fts-ar-batch/accept/{id}', [UniversityEventApprovalController::class, 'FTSArBatchAccept'])->name('ftsarBatch.accept');
+Route::patch('/fts-ar-batch/reject/{id}', [UniversityEventApprovalController::class, 'FTSArBatchReject'])->name('ftsarBatch.reject');
 
 // Marshall 
 Route::get('/marshall-pending-requests', [UniversityEventApprovalController::class, 'showPendingMarshallRequests'])->name('marshall.pending.requests')->middleware('auth');
@@ -80,6 +95,8 @@ Route::patch('/marshall/reject/{id}', [UniversityEventApprovalController::class,
 
 Route::patch('/marshall-union/accept/{id}', [UniversityEventApprovalController::class, 'MarshallUnionAccept'])->name('marshallUnion.accept');
 Route::patch('/marshall-union/reject/{id}', [UniversityEventApprovalController::class, 'MarshallUnionReject'])->name('marshallUnion.reject');
+Route::patch('/marshall-batch/accept/{id}', [UniversityEventApprovalController::class, 'MarshallBatchAccept'])->name('marshallBatch.accept');
+Route::patch('/marshall-batch/reject/{id}', [UniversityEventApprovalController::class, 'MarshallBatchReject'])->name('marshallBatch.reject');
 
 
 // Proctor 
@@ -105,24 +122,59 @@ Route::get('/fas-dp-pending-requests', [UniversityEventApprovalController::class
 Route::patch('/fas-dp-union/accept/{id}', [UniversityEventApprovalController::class, 'FASDPUnionAccept'])->name('fasdpUnion.accept');
 Route::patch('/fas-dp-union/reject/{id}', [UniversityEventApprovalController::class, 'FASDPUnionReject'])->name('fasdpUnion.reject');
 
+Route::patch('/fas-dp-batch/accept/{id}', [UniversityEventApprovalController::class, 'FASDPBatchAccept'])->name('fasdpBatch.accept');
+Route::patch('/fas-dp-batch/reject/{id}', [UniversityEventApprovalController::class, 'FASDPBatchReject'])->name('fasdpBatch.reject');
+
+
+
 //FBS Deputy proctor
 Route::get('/fbs-dp-pending-requests', [UniversityEventApprovalController::class, 'showPendingFBSDPRequests'])->name('fbsdp.pending.requests')->middleware('auth');
 Route::patch('/fbs-dp-union/accept/{id}', [UniversityEventApprovalController::class, 'FBSDPUnionAccept'])->name('fbsdpUnion.accept');
 Route::patch('/fbs-dp-union/reject/{id}', [UniversityEventApprovalController::class, 'FBSDPUnionReject'])->name('fbsdpUnion.reject');
+
+Route::patch('/fbs-dp-batch/accept/{id}', [UniversityEventApprovalController::class, 'FBSDPBatchAccept'])->name('fbsdpBatch.accept');
+Route::patch('/fbs-dp-batch/reject/{id}', [UniversityEventApprovalController::class, 'FBSDPBatchReject'])->name('fbsdpBatch.reject');
 
 //FTS Deputy proctor
 Route::get('/fts-dp-pending-requests', [UniversityEventApprovalController::class, 'showPendingFTSDPRequests'])->name('ftsdp.pending.requests')->middleware('auth');
 Route::patch('/fts-dp-union/accept/{id}', [UniversityEventApprovalController::class, 'FTSDPUnionAccept'])->name('ftsdpUnion.accept');
 Route::patch('/fts-dp-union/reject/{id}', [UniversityEventApprovalController::class, 'FTSDPUnionReject'])->name('ftsdpUnion.reject');
 
+Route::patch('/fts-dp-batch/accept/{id}', [UniversityEventApprovalController::class, 'FTSDPBatchAccept'])->name('ftsdpBatch.accept');
+Route::patch('/fts-dp-batch/reject/{id}', [UniversityEventApprovalController::class, 'FTSDPBatchReject'])->name('ftsdpBatch.reject');
+
 // FAS Dean
 Route::get('/fas-dean-pending-requests', [UniversityEventApprovalController::class, 'showPendingFASDeanRequests'])->name('fasdean.pending.requests')->middleware('auth');
 Route::patch('/fas-dean-union/accept/{id}', [UniversityEventApprovalController::class, 'FASDeanUnionAccept'])->name('fasdeanUnion.accept');
 Route::patch('/fas-dean-union/reject/{id}', [UniversityEventApprovalController::class, 'FASDeanUnionReject'])->name('fasdeanUnion.reject');
 
+Route::patch('/fas-dean-batch/accept/{id}', [UniversityEventApprovalController::class, 'FASDeanBatchAccept'])->name('fasdeanBatch.accept');
+Route::patch('/fas-dean-batch/reject/{id}', [UniversityEventApprovalController::class, 'FASDeanBatchReject'])->name('fasdeanBatch.reject');
 
+Route::patch('/fas-dean-Society/accept/{id}', [UniversityEventApprovalController::class, 'FASDeanSocietyAccept'])->name('fasdeanSociety.accept');
+Route::patch('/fas-dean-Society/reject/{id}', [UniversityEventApprovalController::class, 'FASDeanSocietyReject'])->name('fasdeanSociety.reject');
 
+// FBS Dean
+Route::get('/fbs-dean-pending-requests', [UniversityEventApprovalController::class, 'showPendingFASDeanRequests'])->name('fasdean.pending.requests')->middleware('auth');
+Route::patch('/fbs-dean-union/accept/{id}', [UniversityEventApprovalController::class, 'FBSDeanUnionAccept'])->name('fbsdeanUnion.accept');
+Route::patch('/fbs-dean-union/reject/{id}', [UniversityEventApprovalController::class, 'FBSDeanUnionReject'])->name('fbsdeanUnion.reject');
 
+Route::patch('/fbs-dean-batch/accept/{id}', [UniversityEventApprovalController::class, 'FBSDeanBatchAccept'])->name('fbsdeanBatch.accept');
+Route::patch('/fbs-dean-batch/reject/{id}', [UniversityEventApprovalController::class, 'FBSDeanBatchReject'])->name('fbsdeanBatch.reject');
+
+Route::patch('/fbs-dean-Society/accept/{id}', [UniversityEventApprovalController::class, 'FBSDeanSocietyAccept'])->name('fbsdeanSociety.accept');
+Route::patch('/fbs-dean-Society/reject/{id}', [UniversityEventApprovalController::class, 'FBSDeanSocietyReject'])->name('fbsdeanSociety.reject');
+
+// FTS Dean
+Route::get('/fts-dean-pending-requests', [UniversityEventApprovalController::class, 'showPendingFASDeanRequests'])->name('fasdean.pending.requests')->middleware('auth');
+Route::patch('/fts-dean-union/accept/{id}', [UniversityEventApprovalController::class, 'FTSDeanUnionAccept'])->name('ftsdeanUnion.accept');
+Route::patch('/fts-dean-union/reject/{id}', [UniversityEventApprovalController::class, 'FTSDeanUnionReject'])->name('ftsdeanUnion.reject');
+
+Route::patch('/fts-dean-batch/accept/{id}', [UniversityEventApprovalController::class, 'FTSDeanBatchAccept'])->name('ftsdeanBatch.accept');
+Route::patch('/fts-dean-batch/reject/{id}', [UniversityEventApprovalController::class, 'FTSDeanBatchReject'])->name('ftsdeanBatch.reject');
+
+Route::patch('/fts-dean-Society/accept/{id}', [UniversityEventApprovalController::class, 'FTSDeanSocietyAccept'])->name('ftsdeanSociety.accept');
+Route::patch('/fts-dean-Society/reject/{id}', [UniversityEventApprovalController::class, 'FTSDeanSocietyReject'])->name('ftsdeanSociety.reject');
 
 
 //Administrator Routes
@@ -141,6 +193,21 @@ Route::delete('/users/{id}', [AuthController::class, 'UserDestroy'])->name('user
 Route::post('/users', [AuthController::class, 'UserStore'])->name('user.store');
 
 
+//FAS HOD
+Route::get('/fas-hod-pending-requests', [UniversityEventApprovalController::class, 'showPendingFASHODRequests'])->name('fashod.pending.requests')->middleware('auth');
+Route::patch('/fas-hod-society/accept/{id}', [UniversityEventApprovalController::class, 'FASHODSocietyAccept'])->name('fashodSociety.accept');
+Route::patch('/fas-hod-society/reject/{id}', [UniversityEventApprovalController::class, 'FASHODSocietyReject'])->name('fashodSociety.reject');
+
+//FBS HOD
+Route::get('/fbs-hod-pending-requests', [UniversityEventApprovalController::class, 'showPendingFBSHODRequests'])->name('fbshod.pending.requests')->middleware('auth');
+Route::patch('/fbs-hod-society/accept/{id}', [UniversityEventApprovalController::class, 'FBSHODSocietyAccept'])->name('fbshodSociety.accept');
+Route::patch('/fbs-hod-society/reject/{id}', [UniversityEventApprovalController::class, 'FBSHODSocietyReject'])->name('fbshodSociety.reject');
+
+//FTS HOD
+Route::get('/fts-hod-pending-requests', [UniversityEventApprovalController::class, 'showPendingFTSHODRequests'])->name('ftshod.pending.requests')->middleware('auth');
+Route::patch('/fts-hod-society/accept/{id}', [UniversityEventApprovalController::class, 'FTSHODSocietyAccept'])->name('ftshodSociety.accept');
+Route::patch('/fts-hod-society/reject/{id}', [UniversityEventApprovalController::class, 'FTSHODSocietyReject'])->name('ftshodSociety.reject');
+
 
 
 
@@ -155,13 +222,13 @@ Route::post('/users', [AuthController::class, 'UserStore'])->name('user.store');
 //     return view('Schedulers.FacultyLevelUnion'); // Make sure this view exists
 // })->name('schedule.union');
 
-Route::get('/schedule/society', function () {
-    return view('Schedulers.FacultyLevelSocieties'); // Make sure this view exists
-})->name('schedule.society');
+// Route::get('/schedule/society', function () {
+//     return view('Schedulers.FacultyLevelSocieties'); // Make sure this view exists
+// })->name('schedule.society');
 
-Route::get('/schedule/Batch', function () {
-    return view('Schedulers.FacultyLevelBatch'); // Make sure this view exists
-})->name('schedule.batch');
+// Route::get('/schedule/Batch', function () {
+//     return view('Schedulers.FacultyLevelBatch'); // Make sure this view exists
+// })->name('schedule.batch');
 
 Route::get('/schedule/university', [UniversityEventApprovalController::class, 'showUnionForm'])->name('schedule.university');
 Route::get('/get-halls/{facultyCode}', [UniversityEventApprovalController::class, 'getHalls'])->name('get.halls');
@@ -174,7 +241,11 @@ Route::get('/schedule/union', [UniversityEventApprovalController::class, 'showUn
 Route::post('/scheduleUnionEvent',[UniversityEventApprovalController::class,'storeUnion'])->name('scheduleUniionEvent');
 // Route::get('/get-available-halls/{faculty}/{date}/{start}/{end}', [UniversityEventApprovalController::class, 'g/etAvailableHalls']);
 
+Route::get('/schedule/society', [UniversityEventApprovalController::class, 'showUnionFormSociety'])->name('schedule.society');
+Route::post('/scheduleSocietyEvent',[UniversityEventApprovalController::class,'storeSociety'])->name('scheduleSocietyEvent');
 
+Route::get('/schedule/batch', [UniversityEventApprovalController::class, 'showUnionFormBatch'])->name('schedule.batch');
+Route::post('/scheduleBatchEvent',[UniversityEventApprovalController::class,'storeBatch'])->name('scheduleBatchEvent');
 
 // Route::get('/schedule/union', [FacultyLevelUnionController::class, 'showUnionForm'])->name('schedule.union');
 // Route::get('/get-halls/{facultyCode}', [FacultyLevelUnionController::class, 'getHalls'])->name('get.halls');
@@ -221,17 +292,17 @@ Route::post('/scheduleUnionEvent',[UniversityEventApprovalController::class,'sto
 
 
 
-Route::get('/fas-hod', function () {
-    return view('Users.fas_hod');
-})->name('fashod.pending.requests')->middleware('auth');
+// Route::get('/fas-hod', function () {
+//     return view('Users.fas_hod');
+// })->name('fashod.pending.requests')->middleware('auth');
 
-Route::get('/fbs-hod', function () {
-    return view('Users.fbs_hod');
-})->name('fbshod.pending.requests')->middleware('auth');
+// Route::get('/fbs-hod', function () {
+//     return view('Users.fbs_hod');
+// })->name('fbshod.pending.requests')->middleware('auth');
 
-Route::get('/fts-hod', function () {
-    return view('Users.fts_hod');
-})->name('ftshod.pending.requests')->middleware('auth');
+// Route::get('/fts-hod', function () {
+//     return view('Users.fts_hod');
+// })->name('ftshod.pending.requests')->middleware('auth');
 
 
 // Route::get('/fas-dean', function () {

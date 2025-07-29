@@ -153,11 +153,203 @@
 </div>
 
 <div class="container mt-5" id="faculty-level-society">
-    <h3 class="text-center text-white">Faculty Level Society</h3>
-</div>
+    <h3 class="text-center text-white">Faculty Level Approved Society</h3>
 
+    {{-- Pending Requests --}}
+    <h4 class="text-white">Pending Requests</h4>
+    @if($pendingSocietyEvents->isEmpty())
+        <p class="text-center text-white">No Pending Events Available.</p>
+    @else
+        @foreach($pendingSocietyEvents as $event)
+            <div class="card mb-3 p-3 d-flex flex-row justify-content-between align-items-center">
+                <a href="#" class="event-detail-link text-decoration-none text-reset" data-bs-toggle="modal" data-bs-target="#eventModal{{ $event->id }}">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h6 class="mb-0 text-primary">{{ $event->event_name }} organized by {{ $event->society }}</h6>
+                            <small class="text-muted">
+                                {{ $event->applicant }} wants to book {{ $event->venue }} on {{ $event->date }} at 
+                                {{ \Carbon\Carbon::parse($event->start_time)->format('g:i A') }} : 
+                                {{ \Carbon\Carbon::parse($event->end_time)->format('g:i A') }}
+                            </small>
+                        </div>
+                    </div>
+                </a>
+                <div>
+                    {!! renderImageButton($event->image_path) !!}
+                    <form action="{{ route('fasdeanSociety.accept', $event->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('PATCH')
+                        <button class="btn btn-success btn-sm me-2">Accept</button>
+                    </form>
+                    <form action="{{ route('fasdeanSociety.reject', $event->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('PATCH')
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal{{ $event->id }}">
+                            Reject
+                        </button>
+                        <!-- Reject Modal (styled like eventModal) -->
+                        <div class="modal fade" id="rejectModal{{ $event->id }}" tabindex="-1" aria-labelledby="rejectModalLabel{{ $event->id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content text-dark">
+                                    <div class="modal-header justify-content-center">
+                                        <h5 class="modal-title" id="rejectModalLabel{{ $event->id }}">Reject {{ $event->event_name }}</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mt-4">
+                                            <label for="reason{{ $event->id }}" class="form-label"><strong>Reason for Rejection</strong></label>
+                                            <textarea class="form-control" id="reason{{ $event->id }}" name="reason" rows="3" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-center">
+                                        <button type="submit" class="btn btn-danger">Submit Rejection</button>
+                                        {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Event Modal  -->
+            <div class="modal fade" id="eventModal{{ $event->id }}" tabindex="-1" aria-labelledby="eventModalLabel{{ $event->id }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content text-dark">
+                        <div class="modal-header justify-content-center">
+                            <h5 class="modal-title" id="eventModalLabel{{ $event->id }}">{{ $event->event_name }} Details</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row justify-content-center g-4">
+                                <div class="card col-md-5 shadow-sm border-0 p-3" style="background-color: #f9f9f9;">
+                                    <h6 class="text-primary mb-3 border-bottom pb-1">📅 Event Details</h6>
+                                    <ul class="list-unstyled mb-0">
+                                        <li><strong>Event Name:</strong> {{ $event->event_name }}</li>
+                                        <li><strong>Organized by:</strong> {{ $event->society }}</li>
+                                        <li><strong>Date:</strong> {{ $event->date }}</li>
+                                        <li><strong>Time:</strong> {{ \Carbon\Carbon::parse($event->start_time)->format('g:i A') }} – {{ \Carbon\Carbon::parse($event->end_time)->format('g:i A') }}</li>
+                                        <li><strong>Venue:</strong> {{ $event->venue }}</li>
+                                        <li><strong>Participants:</strong> {{ $event->participants }}</li>
+                                        <li><strong>Reason for booking except wednesday:</strong> {{ $event->reason }}</li>
+                                    </ul>
+                                </div>
+                                <div class="card col-md-5 shadow-sm border-0 p-3" style="background-color: #f9f9f9;">
+                                    <h6 class="text-success mb-3 border-bottom pb-1">👤 Applicant Details</h6>
+                                    <ul class="list-unstyled mb-0">
+                                        <li><strong>Name:</strong> {{ $event->applicant }}</li>
+                                        <li><strong>Registration No:</strong> {{ $event->registration_number }}</li>
+                                        <li><strong>Contact Number:</strong> {{ $event->contact ?? 'N/A' }}</li>
+                                        <li><strong>Email:</strong> {{ $event->email ?? 'N/A' }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @endif
+
+</div>
 <div class="container mt-5" id="faculty-level-batch">
     <h3 class="text-center text-white">Faculty Level Batch</h3>
+
+        {{-- Pending Requests --}}
+    <h4 class="text-white">Pending Requests</h4>
+    @if($pendingBatchEvents->isEmpty())
+        <p class="text-center text-white">No Pending Events Available.</p>
+    @else
+        @foreach($pendingBatchEvents as $event)
+            <div class="card mb-3 p-3 d-flex flex-row justify-content-between align-items-center">
+                <a href="#" class="event-detail-link text-decoration-none text-reset" data-bs-toggle="modal" data-bs-target="#eventModal{{ $event->id }}">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h6 class="mb-0 text-primary">{{ $event->event_name }} organized by {{ $event->society }}</h6>
+                            <small class="text-muted">
+                                {{ $event->applicant }} wants to book {{ $event->venue }} on {{ $event->date }} at 
+                                {{ \Carbon\Carbon::parse($event->start_time)->format('g:i A') }} : 
+                                {{ \Carbon\Carbon::parse($event->end_time)->format('g:i A') }}
+                            </small>
+                        </div>
+                    </div>
+                </a>
+                <div>
+                    {!! renderImageButton($event->image_path) !!}
+                    <form action="{{ route('fasdeanBatch.accept', $event->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('PATCH')
+                        <button class="btn btn-success btn-sm me-2">Accept</button>
+                    </form>
+                    <form action="{{ route('fasdeanBatch.reject', $event->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('PATCH')
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal{{ $event->id }}">
+                            Reject
+                        </button>
+                        <!-- Reject Modal (styled like eventModal) -->
+                        <div class="modal fade" id="rejectModal{{ $event->id }}" tabindex="-1" aria-labelledby="rejectModalLabel{{ $event->id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content text-dark">
+                                    <div class="modal-header justify-content-center">
+                                        <h5 class="modal-title" id="rejectModalLabel{{ $event->id }}">Reject {{ $event->event_name }}</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mt-4">
+                                            <label for="reason{{ $event->id }}" class="form-label"><strong>Reason for Rejection</strong></label>
+                                            <textarea class="form-control" id="reason{{ $event->id }}" name="reason" rows="3" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-center">
+                                        <button type="submit" class="btn btn-danger">Submit Rejection</button>
+                                        {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Event Modal  -->
+            <div class="modal fade" id="eventModal{{ $event->id }}" tabindex="-1" aria-labelledby="eventModalLabel{{ $event->id }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content text-dark">
+                        <div class="modal-header justify-content-center">
+                            <h5 class="modal-title" id="eventModalLabel{{ $event->id }}">{{ $event->event_name }} Details</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row justify-content-center g-4">
+                                <div class="card col-md-5 shadow-sm border-0 p-3" style="background-color: #f9f9f9;">
+                                    <h6 class="text-primary mb-3 border-bottom pb-1">📅 Event Details</h6>
+                                    <ul class="list-unstyled mb-0">
+                                        <li><strong>Event Name:</strong> {{ $event->event_name }}</li>
+                                        <li><strong>Organized by:</strong> {{ $event->society }}</li>
+                                        <li><strong>Date:</strong> {{ $event->date }}</li>
+                                        <li><strong>Time:</strong> {{ \Carbon\Carbon::parse($event->start_time)->format('g:i A') }} – {{ \Carbon\Carbon::parse($event->end_time)->format('g:i A') }}</li>
+                                        <li><strong>Venue:</strong> {{ $event->venue }}</li>
+                                        <li><strong>Participants:</strong> {{ $event->participants }}</li>
+                                        <li><strong>Reason for booking except wednesday:</strong> {{ $event->reason }}</li>
+                                    </ul>
+                                </div>
+                                <div class="card col-md-5 shadow-sm border-0 p-3" style="background-color: #f9f9f9;">
+                                    <h6 class="text-success mb-3 border-bottom pb-1">👤 Applicant Details</h6>
+                                    <ul class="list-unstyled mb-0">
+                                        <li><strong>Name:</strong> {{ $event->applicant }}</li>
+                                        <li><strong>Registration No:</strong> {{ $event->registration_number }}</li>
+                                        <li><strong>Contact Number:</strong> {{ $event->contact ?? 'N/A' }}</li>
+                                        <li><strong>Email:</strong> {{ $event->email ?? 'N/A' }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @endif
 </div>
 
 <div class="text-center mt-5">

@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\UniversityEventApproval;
 use Carbon\Carbon;
+use App\Models\FacultySocietyEventApproval;
+use App\Models\FacultyUnionEventApproval;
+use App\Models\FacultyBatchEventApproval;
 
 
 class EventController extends Controller
@@ -192,6 +195,9 @@ public function home()
         $events = Event::all(); // or filtered/sorted
         // Get all approvals indexed by event_id
         $approval_statuses = UniversityEventApproval::all()->keyBy('event_id');
+        $approval_Societystatuses = FacultySocietyEventApproval::all()->keyBy('event_id');
+        $approval_Unionstatuses = FacultyUnionEventApproval::all()->keyBy('event_id');
+        $approval_Batchstatuses = FacultyBatchEventApproval::all()->keyBy('event_id');
         return view('scheduled_events', compact('events','approval_statuses'));
     }
 

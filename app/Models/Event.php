@@ -42,8 +42,16 @@ public function facultyUnionEventApproval()
     return $this->hasOne(FacultyUnionEventApproval::class, 'event_id');
 }
 
+public function facultySocietyEventApproval()
+{
+    return $this->hasOne(FacultySocietyEventApproval::class, 'event_id');
 }
 
+public function facultyBatchEventApproval()
+{
+    return $this->hasOne(FacultyBatchEventApproval::class, 'event_id');
+}
+}
 
 
 

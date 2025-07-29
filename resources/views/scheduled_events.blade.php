@@ -128,7 +128,12 @@
                             </div>
                         </div>
                         @php
-                            $approval = $approval_statuses[$event->id] ?? null;
+                            $approval = $approval_statuses[$event->id] 
+                                        ?? $approval_Societystatuses[$event->id] 
+                                        ?? $approval_Unioinstatuses[$event->id] 
+                                        ?? $approval_Batchstatuses[$event->id] 
+                                        ?? null;
+
                         @endphp
                         </a>
                         @if($event->event_Type == 'University Level Union/Society')
@@ -167,6 +172,240 @@
                                                         <li><strong>Marshall Status:</strong> {{ $approval->marshall_status ?? 'N/A' }} </li>
                                                         <li><strong>Proctor Status:</strong> {{ $approval->proctor_status ?? 'N/A' }}</li>
                                                         <li><strong>VC Status:</strong> {{ $approval->vc_status ?? 'N/A' }}</li>
+                                                        <li><strong>Reject Reason:</strong> {{ $approval->rejection_reason ?? 'N/A' }}</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-center">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        @elseif($event->event_Type == 'Faculty Level Students Union')
+                            <!-- Event Modal -->
+                            <div class="modal fade" id="eventModal{{ $event->id }}" tabindex="-1" aria-labelledby="eventModalLabel{{ $event->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-sm">
+                                    <div class="modal-content text-dark">
+                                        <div class="modal-header justify-content-center">
+                                            <h5 class="modal-title" id="eventModalLabel{{ $event->id }}">{{ $event->event_name }} Details</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row justify-content-center g-4">
+                                                <div class="card col-12 shadow-sm border-0 p-3" style="background-color: #f9f9f9;">
+                                                    <h6 class="text-primary mb-3 border-bottom pb-1">📅 Event Status</h6>
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li><strong>AR Status:</strong>
+                                                            @php
+                                                                $arValue = 'N/A';
+                                                                $arSource = '';
+
+                                                                if ($approval) {
+                                                                    if ($approval->fasar_status !== null) {
+                                                                        $arValue = $approval->fasar_status;
+                                                                        $arSource = 'fasar_status';
+                                                                    } elseif ($approval->fbsar_status !== null) {
+                                                                        $arValue = $approval->fbsar_status;
+                                                                        $arSource = 'fbsar_status';
+                                                                    } elseif ($approval->ftsar_status !== null) {
+                                                                        $arValue = $approval->ftsar_status;
+                                                                        $arSource = 'ftsar_status';
+                                                                    }
+                                                                }
+                                                            @endphp
+                                                            {{ $arValue }} @if($arSource) ({{ $arSource }}) @endif
+                                                        </li>
+                        
+                                                        <li><strong>Deputy Proctor Status:</strong> @php
+                                                                $dpValue = 'N/A';
+                                                                $dpSource = '';
+
+                                                                if ($approval) {
+                                                                    if ($approval->fasdp_status !== null) {
+                                                                        $dpValue = $approval->fasdp_status;
+                                                                        $dpSource = 'fasdp_status';
+                                                                    } elseif ($approval->fbsdp_status !== null) {
+                                                                        $dpValue = $approval->fbsdp_status;
+                                                                        $dpSource = 'fbsdp_status';
+                                                                    } elseif ($approval->fbsdp_status !== null) {
+                                                                        $dpValue = $approval->fbsdp_status;
+                                                                        $dpSource = 'fbsdp_status';
+                                                                    }
+                                                                }
+                                                            @endphp
+                                                            {{ $dpValue }} @if($dpSource) ({{ $dpSource }}) @endif</li>
+                                                         <li><strong>Marshall Status:</strong> {{ $approval->marshall_status ?? 'N/A' }} </li>
+                                                        <li><strong>Dean Status:</strong> {{ $approval->vc_status ?? 'N/A' }}</li>
+                                                        <li><strong>Reject Reason:</strong> {{ $approval->rejection_reason ?? 'N/A' }}</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-center">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{-- @elseif(strtolower($event->event_name) == 'department') --}}
+                        @elseif($event->event_Type == 'Faculty Level Batch')
+                            <!-- Event Modal -->
+                            <div class="modal fade" id="eventModal{{ $event->id }}" tabindex="-1" aria-labelledby="eventModalLabel{{ $event->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-sm">
+                                    <div class="modal-content text-dark">
+                                        <div class="modal-header justify-content-center">
+                                            <h5 class="modal-title" id="eventModalLabel{{ $event->id }}">{{ $event->event_name }} Details</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row justify-content-center g-4">
+                                                <div class="card col-12 shadow-sm border-0 p-3" style="background-color: #f9f9f9;">
+                                                    <h6 class="text-primary mb-3 border-bottom pb-1">📅 Event Status</h6>
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li><strong>AR Status:</strong>
+                                                            @php
+                                                                $arValue = 'N/A';
+                                                                $arSource = '';
+
+                                                                if ($approval) {
+                                                                    if ($approval->fasar_status !== null) {
+                                                                        $arValue = $approval->fasar_status;
+                                                                        $arSource = 'fasar_status';
+                                                                    } elseif ($approval->fbsar_status !== null) {
+                                                                        $arValue = $approval->fbsar_status;
+                                                                        $arSource = 'fbsar_status';
+                                                                    } elseif ($approval->ftsar_status !== null) {
+                                                                        $arValue = $approval->ftsar_status;
+                                                                        $arSource = 'ftsar_status';
+                                                                    }
+                                                                }
+                                                            @endphp
+                                                            {{ $arValue }} @if($arSource) ({{ $arSource }}) @endif
+                                                        </li>
+                        
+                                                        <li><strong>Deputy Proctor Status:</strong> @php
+                                                                $dpValue = 'N/A';
+                                                                $dpSource = '';
+
+                                                                if ($approval) {
+                                                                    if ($approval->fasdp_status !== null) {
+                                                                        $dpValue = $approval->fasdp_status;
+                                                                        $dpSource = 'fasdp_status';
+                                                                    } elseif ($approval->fbsdp_status !== null) {
+                                                                        $dpValue = $approval->fbsdp_status;
+                                                                        $dpSource = 'fbsdp_status';
+                                                                    } elseif ($approval->fbsdp_status !== null) {
+                                                                        $dpValue = $approval->fbsdp_status;
+                                                                        $dpSource = 'fbsdp_status';
+                                                                    }
+                                                                }
+                                                            @endphp
+                                                            {{ $dpValue }} @if($dpSource) ({{ $dpSource }}) @endif
+                                                        </li>
+                                                         <li><strong>Marshall Status:</strong> {{ $approval->marshall_status ?? 'N/A' }} </li>
+                                                        <li><strong>Dean Status:</strong>@php
+                                                                $deanValue = 'N/A';
+                                                                $deanSource = '';
+
+                                                                if ($approval) {
+                                                                    if ($approval->fasdean_status !== null) {
+                                                                        $deanValue = $approval->fasdean_status;
+                                                                        $deanSource = 'fasdean_status';
+                                                                    } elseif ($approval->fbsdean_status !== null) {
+                                                                        $deanValue = $approval->fbsdean_status;
+                                                                        $deanSource = 'fbsdean_status';
+                                                                    } elseif ($approval->ftsdean_status !== null) {
+                                                                        $deanValue = $approval->ftsdean_status;
+                                                                        $deanSource = 'ftsdean_status';
+                                                                    }
+                                                                }
+                                                            @endphp
+                                                            {{ $deanValue }} @if($dpSource) ({{ $dpSource }}) @endif
+                                                        </li>
+                                                        <li><strong>Reject Reason:</strong> {{ $approval->rejection_reason ?? 'N/A' }}</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-center">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        @elseif($event->event_Type == 'Faculty Level Approved Societies')
+                            <!-- Event Modal -->
+                            <div class="modal fade" id="eventModal{{ $event->id }}" tabindex="-1" aria-labelledby="eventModalLabel{{ $event->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-sm">
+                                    <div class="modal-content text-dark">
+                                        <div class="modal-header justify-content-center">
+                                            <h5 class="modal-title" id="eventModalLabel{{ $event->id }}">{{ $event->event_name }} Details</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row justify-content-center g-4">
+                                                <div class="card col-12 shadow-sm border-0 p-3" style="background-color: #f9f9f9;">
+                                                    <h6 class="text-primary mb-3 border-bottom pb-1">📅 Event Status</h6>
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li><strong>AR Status:</strong>
+                                                            @php
+                                                                $arValue = 'N/A';
+                                                                $arSource = '';
+
+                                                                if ($approval) {
+                                                                    if ($approval->fasar_status !== null) {
+                                                                        $arValue = $approval->fasar_status;
+                                                                        $arSource = 'fasar_status';
+                                                                    } elseif ($approval->fbsar_status !== null) {
+                                                                        $arValue = $approval->fbsar_status;
+                                                                        $arSource = 'fbsar_status';
+                                                                    } elseif ($approval->ftsar_status !== null) {
+                                                                        $arValue = $approval->ftsar_status;
+                                                                        $arSource = 'ftsar_status';
+                                                                    }
+                                                                }
+                                                            @endphp
+                                                            {{ $arValue }} @if($arSource) ({{ $arSource }}) @endif
+                                                        </li>
+                        
+                                                        <li><strong>HOD Status:</strong> @php
+                                                                $hodValue = 'N/A';
+                                                                $hodSource = '';
+
+                                                                if ($approval) {
+                                                                    if ($approval->fashod_status !== null) {
+                                                                        $hodValue = $approval->fashod_status;
+                                                                        $hodSource = 'fashod_status';
+                                                                    } elseif ($approval->fbshod_status !== null) {
+                                                                        $hodValue = $approval->fbshod_status;
+                                                                        $hodSource = 'fbshod_status';
+                                                                    } elseif ($approval->ftshod_status !== null) {
+                                                                        $hodValue = $approval->ftshod_status;
+                                                                        $hodSource = 'fshod_status';
+                                                                    }
+                                                                }
+                                                            @endphp
+                                                            {{ $hodValue }} @if($dpSource) ({{ $dpSource }}) @endif</li>
+                                                         <li><strong>Dean Status:</strong>@php
+                                                                $deanValue = 'N/A';
+                                                                $deanSource = '';
+
+                                                                if ($approval) {
+                                                                    if ($approval->fasdean_status !== null) {
+                                                                        $deanValue = $approval->fasdean_status;
+                                                                        $deanSource = 'fasdean_status';
+                                                                    } elseif ($approval->fbsdean_status !== null) {
+                                                                        $deanValue = $approval->fbsdean_status;
+                                                                        $deanSource = 'fbsdean_status';
+                                                                    } elseif ($approval->ftsdean_status !== null) {
+                                                                        $deanValue = $approval->ftsdean_status;
+                                                                        $deanSource = 'ftsdean_status';
+                                                                    }
+                                                                }
+                                                            @endphp
+                                                            {{ $deanValue }} @if($dpSource) ({{ $dpSource }}) @endif
+                                                        </li>
                                                         <li><strong>Reject Reason:</strong> {{ $approval->rejection_reason ?? 'N/A' }}</li>
                                                     </ul>
                                                 </div>
