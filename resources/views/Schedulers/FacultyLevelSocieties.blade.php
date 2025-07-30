@@ -499,17 +499,27 @@
 
                     <div class="mb-2">
                         <label for="reg_no" class="form-label">Registration No:</label>
-                        <input type="text" id="reg_no" name="reg_no" class="form-control" required>
+                        <input type="text" id="reg_no" name="reg_no" class="form-control" 
+                            required 
+                            pattern="^\d{4}\/[A-Z]{2,3}\/[1-9]\d{0,2}$"
+                            placeholder="2023/CSC/123"
+                            title="Format: YYYY/ABC/1–999 (e.g., 2023/CSC/123)">
                     </div>
+
 
                     <div class="mb-2">
                         <label for="contact" class="form-label">Contact:</label>
-                        <input type="text" id="contact" name="contact" class="form-control" required>
+                        <input type="text" id="contact" name="contact" class="form-control" 
+                            required 
+                            pattern="^07\d{8}$"
+                            placeholder="0771234567"
+                            title="Enter a valid 10-digit mobile number (e.g., 0771234567)">
                     </div>
+
 
                     <div class="mb-2">
                         <label for="email" class="form-label">Email:</label>
-                        <input type="email" id="email" name="email" class="form-control" required>
+                        <input type="email" id="email" name="email" class="form-control"  placeholder="abc@gmail.com" required>
                     </div>
 
                     <div class="mb-3">

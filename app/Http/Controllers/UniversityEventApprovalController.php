@@ -30,8 +30,8 @@ class UniversityEventApprovalController extends Controller
 
             'society' => 'required|string|max:255',
             'applicant' => 'required|string|max:255',
-            'reg_no' => 'required|string|max:100',
-            'contact' => 'required|string|max:20',
+            'reg_no' => 'required', 'regex:/^\d{4}\/[A-Z]{2,3}\/[1-9]\d{0,2}$/',
+            'contact' => 'required','regex:^07\d{8}$',
             'email' => 'required|email|max:255',
             'event_image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
         ]);
@@ -110,8 +110,8 @@ class UniversityEventApprovalController extends Controller
 
             'society' => 'required|string|max:255',
             'applicant' => 'required|string|max:255',
-            'reg_no' => 'required|string|max:100',
-            'contact' => 'required|string|max:20',
+            'reg_no' => 'required', 'regex:/^\d{4}\/[A-Z]{2,3}\/[1-9]\d{0,2}$/',
+            'contact' => 'required','regex:^07\d{8}$',
             'email' => 'required|email|max:255',
             'event_image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
         ]);
@@ -190,8 +190,8 @@ class UniversityEventApprovalController extends Controller
 
             'society' => 'required|string|max:255',
             'applicant' => 'required|string|max:255',
-            'reg_no' => 'required|string|max:100',
-            'contact' => 'required|string|max:20',
+            'reg_no' => 'required', 'regex:/^\d{4}\/[A-Z]{2,3}\/[1-9]\d{0,2}$/',
+            'contact' => 'required','regex:^07\d{8}$',
             'email' => 'required|email|max:255',
             'event_image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
         ]);
@@ -269,8 +269,8 @@ class UniversityEventApprovalController extends Controller
 
             'society' => 'required|string|max:255',
             'applicant' => 'required|string|max:255',
-            'reg_no' => 'required|string|max:100',
-            'contact' => 'required|string|max:20',
+            'reg_no' => 'required', 'regex:/^\d{4}\/[A-Z]{2,3}\/[1-9]\d{0,2}$/',
+            'contact' => 'required','regex:^07\d{8}$',
             'email' => 'required|email|max:255',
             'event_image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
         ]);
@@ -1303,7 +1303,7 @@ class UniversityEventApprovalController extends Controller
                 $query->where('marshall_status', 'Rejected');
             })->get();
 
-        $allBatchEventApprovals = FacultyBatchEventApproval::with('event')->get();
+        $allBatchApprovals = FacultyBatchEventApproval::with('event')->get();
 
         return view('Users.marshall', compact(
             'pendingEvents',
@@ -1317,7 +1317,7 @@ class UniversityEventApprovalController extends Controller
             'pendingBatchEvents',
             'approvedBatchEvents',
             'rejectedBatchEvents',
-            'allBatchEventApprovals'
+            'allBatchApprovals'
         ));
     }
 

@@ -25,6 +25,7 @@ class VenueSeeder extends Seeder
             ['faculty' => 'FBS', 'name' => 'Soosairathnam Hall - 3', 'code' => 'S-3'],
             ['faculty' => 'FBS', 'name' => 'Soosairathnam Hall - 4', 'code' => 'S-4'],
             ['faculty' => 'FBS', 'name' => 'Smart Computer Laboratory', 'code' => 'SCL'],
+            ['faculty' => 'FBS', 'name' => 'Common Area', 'code' => 'Common Area'],
 
             // FAS Venues
             ['faculty' => 'FAS', 'name' => 'Lecture Hall - 1', 'code' => 'LH-1'],
@@ -40,12 +41,21 @@ class VenueSeeder extends Seeder
             ['faculty' => 'FAS', 'name' => 'Environmental Information System Laboratory', 'code' => 'EISL'],
             ['faculty' => 'FAS', 'name' => 'Environmental Biological Laboratory', 'code' => 'EBL'],
             ['faculty' => 'FAS', 'name' => 'Environmental Chemistry Laboratory', 'code' => 'ECL'],
+            ['faculty' => 'FAS', 'name' => 'Common Area', 'code' => 'Common Area'],
 
             // FTS Venues
             ['faculty' => 'FTS', 'name' => 'Technological Lecture Hall - 1', 'code' => 'TLH-1'],
             ['faculty' => 'FTS', 'name' => 'Technological Lecture Hall - 2', 'code' => 'TLH-2'],
             ['faculty' => 'FTS', 'name' => 'Technological Computer Laboratory - 1', 'code' => 'TCL-1'],
             ['faculty' => 'FTS', 'name' => 'Technological Computer Laboratory - 2', 'code' => 'TCL-2'],
+            ['faculty' => 'FTS', 'name' => 'Common Area', 'code' => 'Common Area'],
+
+            //University Venues
+            ['faculty' => 'University', 'name' => 'University Common Area 1', 'code' => 'University Common Area 1'],
+            ['faculty' => 'University', 'name' => 'University Common Area 2', 'code' => 'University Common Area 2'],
+            ['faculty' => 'University', 'name' => 'University Common Area 3', 'code' => 'University Common Area 3'],
+            ['faculty' => 'University', 'name' => 'University Common Area 4', 'code' => 'University Common Area 4'],
+            ['faculty' => 'University', 'name' => 'University Common Area 5', 'code' => 'University Common Area 5'],
         ]);
     }
 }

@@ -14,6 +14,10 @@ Route::get('/', [EventController::class, 'home'])->name('home');
 Route::get('/login',[AuthController::class,'loginpage'])->name('loginpage');
 Route::post('/login',[AuthController::class,'login'])->name('loginsubmit');
 
+Route::post('/logout', [AuthController::class, 'logout'])->name('logoutsubmit');
+
+
+
 Route::get('/sign',[AuthController::class,'signpage'])->name('signpage');
 Route::post('/sign',[AuthController::class,'sign'])->name('signsubmit');
 

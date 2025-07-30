@@ -14,6 +14,7 @@ class FacultySeeder extends Seeder
     public function run()
 {
     Faculty::insert([
+        ['name' => 'University', 'code' => 'University'],
         ['name' => 'Faculty of Business Studies', 'code' => 'FBS'],
         ['name' => 'Faculty of Applied Science', 'code' => 'FAS'],
         ['name' => 'Faculty of Technological Studies', 'code' => 'FTS']

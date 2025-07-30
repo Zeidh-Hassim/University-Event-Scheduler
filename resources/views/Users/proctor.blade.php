@@ -20,6 +20,12 @@
     html {
         scroll-behavior: smooth;
     }
+
+    .highlightdiv {
+        background-color: rgba(255, 255, 255, 0.1); /* white with 50% opacity */
+        padding: 20px;
+        border-radius: 8px;
+    }
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top mb-4">
@@ -36,7 +42,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#university-level-union-society">University Level</a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="#faculty-union">Faculty Union</a>
                 </li>
                 <li class="nav-item">
@@ -44,6 +50,18 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#faculty-level-batch">Faculty Level Batch</a>
+                </li> --}}
+                <li class="nav-item">
+                    <form action="{{ route('logoutsubmit') }}" method="POST" class="d-inline">
+                        @csrf         
+                        {{-- <button type="submit" class="nav-link btn btn-link" style="padding: 0; border: none; background: none;">
+                            Logout
+                        </button> --}}
+
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            Logout
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>
@@ -52,7 +70,7 @@
 
 <h1 class="text-center mb-3 text-white">Proctor</h1>
 
-<div class="container mt-5" id="university-level-union-society">
+<div class="container mt-5 highlightdiv" id="university-level-union-society">
     <h3 class="text-center text-white">University Level Union/Society</h3>
 
     {{-- Pending Requests --}}
@@ -327,7 +345,7 @@
     @endif
 </div>
 
-<div class="container mt-5" id="faculty-union">
+{{-- <div class="container mt-5" id="faculty-union">
     <h3 class="text-center text-white">Faculty Level Union</h3>
 </div>
 
@@ -341,8 +359,10 @@
 
 <div class="text-center mt-5">
     <a href="{{ route('home') }}" class="btn btn-secondary">Back</a>
+</div> --}}
+<div class="text-center mt-5">
+    <a href="{{ route('home') }}" class="btn btn-secondary">Back</a>
 </div>
-
 @php
     function renderImageButton($imagePath) {
         if ($imagePath) {
