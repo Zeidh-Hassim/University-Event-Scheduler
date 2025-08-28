@@ -198,7 +198,7 @@ public function home()
         $approval_Societystatuses = FacultySocietyEventApproval::all()->keyBy('event_id');
         $approval_Unionstatuses = FacultyUnionEventApproval::all()->keyBy('event_id');
         $approval_Batchstatuses = FacultyBatchEventApproval::all()->keyBy('event_id');
-        return view('scheduled_events', compact('events','approval_statuses'));
+        return view('scheduled_events', compact('events','approval_statuses', 'approval_Societystatuses', 'approval_Unionstatuses', 'approval_Batchstatuses'));
     }
 
     public function showSchedule(Request $request)

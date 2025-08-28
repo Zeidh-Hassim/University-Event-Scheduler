@@ -305,7 +305,7 @@
         <div class="table-responsive">
             <table class="table table-bordered table-striped bg-white text-center">
                 <thead class="table-dark">
-                    <tr>
+                    <tr><th>Date</th>
                         <th>Event Name</th>
                         <th>AR Status</th>
                         <th>HOD Status</th>
@@ -315,7 +315,7 @@
                 </thead>
                 <tbody>
                     @foreach($allSocietyEventApprovals as $approval)
-                        <tr>
+                        <tr> <td>{{ $approval->event->date ?? 'N/A' }}</td>
                             <td>{{ $approval->event->event_name ?? 'N/A' }}</td>
                             <td>
                                 @php

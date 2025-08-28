@@ -128,13 +128,19 @@
                             </div>
                         </div>
                         @php
-                            $approval = $approval_statuses[$event->id] 
-                                        ?? $approval_Societystatuses[$event->id] 
-                                        ?? $approval_Unioinstatuses[$event->id] 
-                                        ?? $approval_Batchstatuses[$event->id] 
-                                        ?? null;
+                            $approval = null;
 
+                            if ($event->event_Type == 'University Level Union/Society') {
+                                $approval = $approval_statuses[$event->id] ?? null;
+                            } elseif ($event->event_Type == 'Faculty Level Students Union') {
+                                $approval = $approval_Societystatuses[$event->id] ?? null;
+                            } elseif ($event->event_Type == 'Faculty Level Batch Faculty Level Approved Societies') {
+                                $approval = $approval_Unioinstatuses[$event->id] ?? null;
+                            } elseif ($event->event_Type == 'Faculty Level Approved Societies') {
+                                $approval = $approval_Batchstatuses[$event->id] ?? null;
+                            }
                         @endphp
+
                         </a>
                         @if($event->event_Type == 'University Level Union/Society')
                             <!-- Event Modal -->
@@ -149,6 +155,7 @@
                                                 <div class="card col-12 shadow-sm border-0 p-3" style="background-color: #f9f9f9;">
                                                     <h6 class="text-primary mb-3 border-bottom pb-1">📅 Event Status</h6>
                                                     <ul class="list-unstyled mb-0">
+                                                        <li><strong>EventType :</strong> {{ $event->event_Type }} </li>
                                                         <li><strong>AR Status:</strong>
                                                             @php
                                                                 $arValue = 'N/A';
@@ -197,6 +204,7 @@
                                                 <div class="card col-12 shadow-sm border-0 p-3" style="background-color: #f9f9f9;">
                                                     <h6 class="text-primary mb-3 border-bottom pb-1">📅 Event Status</h6>
                                                     <ul class="list-unstyled mb-0">
+                                                        <li><strong>EventType :</strong> {{ $event->event_Type }} </li>
                                                         <li><strong>AR Status:</strong>
                                                             @php
                                                                 $arValue = 'N/A';
@@ -263,6 +271,7 @@
                                                 <div class="card col-12 shadow-sm border-0 p-3" style="background-color: #f9f9f9;">
                                                     <h6 class="text-primary mb-3 border-bottom pb-1">📅 Event Status</h6>
                                                     <ul class="list-unstyled mb-0">
+                                                        <li><strong>EventType :</strong> {{ $event->event_Type }} </li>
                                                         <li><strong>AR Status:</strong>
                                                             @php
                                                                 $arValue = 'N/A';
@@ -348,6 +357,7 @@
                                                 <div class="card col-12 shadow-sm border-0 p-3" style="background-color: #f9f9f9;">
                                                     <h6 class="text-primary mb-3 border-bottom pb-1">📅 Event Status</h6>
                                                     <ul class="list-unstyled mb-0">
+                                                        <li><strong>EventType :</strong> {{ $event->event_Type }} </li>
                                                         <li><strong>AR Status:</strong>
                                                             @php
                                                                 $arValue = 'N/A';

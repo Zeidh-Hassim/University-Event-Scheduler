@@ -25,6 +25,12 @@
             background-color: #670047; /* Change this to any color */
             font-family: Arial, sans-serif;
         }
+        .highlightnav {
+        background-color:rgba(103, 0, 71, 0.1);
+; /* white with 50% opacity */
+        padding: 20px;
+        border-radius: 8px;
+    }
     </style>
 </head>
 <body>
@@ -41,6 +47,83 @@
             </p>
         </div>
     </footer>
+
+
+     {{-- <footer class="text-white text-center py-3 mt-5 bg-dark">
+    <div class="container">
+        <p class="mb-0">&copy; 2025 University of Vavuniya. All Rights Reserved.</p>
+        <p class="mb-0">
+            <button class="btn btn-outline-light btn-sm" data-bs-toggle="modal" data-bs-target="#teamModal">
+                Meet the Team
+            </button>
+        </p>
+    </div>
+    </footer>
+
+
+
+<!-- Meet the Team Modal -->
+<div class="modal fade" id="teamModal" tabindex="-1" aria-labelledby="teamModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 500px;">
+    <div class="modal-content shadow-lg rounded-4">
+<div class="modal-header rounded-top-4 text-center" style="background-color: #670047;">
+  <h5 class="modal-title fw-bold text-white mx-auto" id="teamModalLabel">Meet the Team</h5>
+</div>
+
+      <div class="modal-body bg-light text-center">
+
+        <div class="mb-4 highlightnav ">
+          <h6 class="fw-bold">Project Supervisor</h6>
+          <p class="mb-1"><strong>Dr.T.Kartheeswaran</strong></p>
+        </div>
+
+        <div class="mb-4 highlightnav">
+          <h6 class="fw-bold">Lead Developer & Project Coordinator</h6>
+          <p class="mb-1"><strong>Zeidh H.M</strong> – 2020/ASP/52</p>
+        </div>
+
+<div class="mb-3 highlightnav">
+  <h6 class="fw-bold">Contributing Team Members</h6>
+  <ul class="mx-auto px-0" style="max-width: 500px; list-style: none;">
+    <li class="text-center py-1">
+      <strong>Wijesooriya W.A.D.S.S.</strong> – 2020/ASP/28
+    </li>
+    <li class="text-center py-1">
+      <strong>Sathursha</strong> – 2020/ASP/35
+    </li>
+    <li class="text-center py-1">
+      <strong>Krishnarathna V.S.M.</strong> – 2020/ASP/54
+    </li>
+    <li class="text-center py-1">
+      <strong>Thirunilavan T</strong> – 2020/ASP/64
+    </li>
+    <li class="text-center py-1">
+      <strong>Abeysinghe D.D</strong> – 2020/ASP/95
+    </li>
+  </ul>
+</div>
+
+      </div>
+      <div class="modal-footer rounded-bottom-4">
+      </div>
+    </div>
+  </div>
+</div>  --}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <!-- Bootstrap 5.3.3 JS Bundle (with Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

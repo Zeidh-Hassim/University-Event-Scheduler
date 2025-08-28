@@ -14,6 +14,7 @@
             margin: 0;
             padding: 0;
             position: relative;
+            font-size: 14px;
         }
 
         h2, h3 {
@@ -28,33 +29,18 @@
         }
 
         col.label-col {
-            width: 10%;
+            width: 30%;
         }
 
         col.value-col {
-            width: 90%;
+            width: 70%;
         }
 
-        /* table, th, td {
-            border: 1px solid black;
-            padding: 8px;
+        th, td {
+            padding: 8px 10px;
             text-align: left;
-        } */
-
-        table, th, td {
-            /* add table border */
-            border: 1px solid black;
-            padding: 0;              /* remove padding */
-            margin: 0;               /* remove any margin */
-            text-align: center;
+            border: none;
         }
-
-
-        /* table, th, td {
-        padding: 8px;
-        text-align: left;
-        } */
-
 
         th {
             background-color: black;
@@ -62,47 +48,45 @@
         }
 
         .cardmy {
-            /* add border to the event and detail section  */
-            border: 2px solid black;
+            border: 1px solid #ccc;
             border-radius: 10px;
-            padding: 15px;
-            margin: 20px 0;
+            padding: 15px 20px;
+            margin: 25px 0;
+            /* background-color: #f9f9f9; */
         }
 
         .header-container {
-            display: table;
-            width: 100%;
+            text-align: center;
             margin-bottom: 20px;
         }
 
-        .header-left,
-        .header-right {
-            display: table-cell;
-            vertical-align: middle;
-            width: 50%;
-        }
-
-        .header-left img {
-            max-height: 100px;
-        }
-
-        .header-right {
-            text-align: right;
-        }
-
-        .header-right img {
+        .header-container img {
             max-height: 100px;
         }
 
         .signature-table {
-            position: fixed;
-            bottom: 30mm;
             width: 100%;
+            margin-top: 50px;
         }
 
         .signature-table td {
             text-align: center;
-            padding: 20px;
+            padding: 30px;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-style: italic;
+            font-size: 12px;
+            margin-top: 60px;
+            color: #555;
+        }
+
+        .header-container h1,
+        .header-container h2,
+        .header-container h3 {
+            margin: 5px 0; /* reduce vertical spacing */
+            line-height: 1.2; /* tighter line spacing */
         }
 
     </style>
@@ -111,92 +95,49 @@
 
     <!-- Logos Header Section -->
     <div class="header-container">
-        <div class="header-left">
-            <img src="{{ public_path('img/cropped-UoV_Logo.png') }}" alt="University of Vavuniya Logo">
-        </div>
-        <div class="header-right">
-            <img src="{{ public_path('img/logo.png') }}" alt="QR Code">
-        </div>
+        <img src="{{ public_path('img/cropped-UoV_Logo.png') }}" alt="University of Vavuniya Logo"><br>
+        <h1>University of Vavuniya</h1>
+        <h2>Event Scheduling System</h2>
+        <h3>Event Receipt</h3>
+        
     </div>
 
-
-
-
     <!-- Event Details -->
-<div class="cardmy">
-    <h3><u>Event Details</u></h3>
-    <table>
-        <colgroup>
-            <col class="label-col">
-            <col class="value-col">
-        </colgroup>
-        <tr><td><strong>Event Name (Title): </strong></td><td>{{ $event->event_name }}</td></tr>
-        <tr><td><strong>Date: </strong></td><td>{{ $event->date }}</td></tr>
-        <tr><td><strong>Venue: </strong></td><td>{{ $event->venue }}</td></tr>
-        <tr><td><strong>Time: </strong></td><td>{{ $event->start_time }} - {{ $event->end_time }}</td></tr>
-        <tr><td><strong>Participants: </strong></td><td>{{ $event->participants }}</td></tr>
-        {{-- <tr><td><strong>Society: </strong></td><td>{{ $event->society }}</td></tr> --}}
-    </table>
-</div>
-
-<!-- Person Details -->
-<div class="cardmy">
-    <h3><u>Person Details</u></h3>
-    <table>
-        <colgroup>
-            <col class="label-col">
-            <col class="value-col">
-        </colgroup>
-        <tr><td><strong>Society: </strong></td><td>{{ $event->society }}</td></tr>
-        <tr><td><strong>Name (President/Secretary): </strong></td><td>{{ $event->applicant }}</td></tr>
-        <tr><td><strong>Registration No: </strong></td><td>{{ $event->registration_number }}</td></tr>
-        <tr><td><strong>Contact: </strong></td><td>{{ $event->contact }}</td></tr>
-        <tr><td><strong>Email: </strong></td><td>{{ $event->email }}</td></tr>
-        {{-- <tr><td><strong>Faculty: </strong></td><td>{{ $event->faculty }}</td></tr> --}}
-    </table>
-</div>
-
-
-
-
-
-
-
-
-    <!-- Event Details -->
-    {{-- <div class="cardmy">
-        <h3><u>Event Details</u></h3>
+    <div class="cardmy">
+        <h3>Event Details</h3>
         <table>
             <colgroup>
                 <col class="label-col">
                 <col class="value-col">
             </colgroup>
-            <tr><td><strong>Date: </strong></td><td>{{ $event['date'] }}</td></tr>
-            <tr><td><strong>Venue: </strong></td><td>{{ $event['venue'] }}</td></tr>
-            <tr><td><strong>Time: </strong></td><td>{{ $event['time'] }}</td></tr>
+            <tr><td><strong>Event ID: </strong></td><td>{{ $event->id }}</td></tr>
+            <tr><td><strong>Event Name (Title): </strong></td><td>{{ $event->event_name }}</td></tr>
+            <tr><td><strong>Event Type: </strong></td><td>{{ $event->event_Type }}</td></tr>
+            <tr><td><strong>Date: </strong></td><td>{{ $event->date }}</td></tr>
+            <tr><td><strong>Venue: </strong></td><td>{{ $event->venue }}</td></tr>
+            <tr><td><strong>Time: </strong></td><td>{{ $event->start_time }} - {{ $event->end_time }}</td></tr>
+            <tr><td><strong>Participants: </strong></td><td>{{ $event->participants }}</td></tr>
         </table>
-    </div> --}}
+    </div>
 
     <!-- Person Details -->
-    {{-- <div class="cardmy">
-        <h3><u>Person Details</u></h3>
+    <div class="cardmy">
+        <h3>Person Details</h3>
         <table>
             <colgroup>
                 <col class="label-col">
                 <col class="value-col">
             </colgroup>
-            <tr><td><strong>ID: </strong></td><td>{{ $event['person_id'] }}</td></tr>
-            <tr><td><strong>Contact: </strong></td><td>{{ $event['contact'] }}</td></tr>
-            <tr><td><strong>Email: </strong></td><td>{{ $event['email'] }}</td></tr>
-            <tr><td><strong>Reg No: </strong></td><td>{{ $event['reg_no'] }}</td></tr>
-            <tr><td><strong>Faculty: </strong></td><td>{{ $event['faculty'] }}</td></tr>
-
-           
+            <tr><td><strong>Society: </strong></td><td>{{ $event->society }}</td></tr>
+            <tr><td><strong>Name (President/Secretary): </strong></td><td>{{ $event->applicant }}</td></tr>
+            <tr><td><strong>Registration No: </strong></td><td>{{ $event->registration_number }}</td></tr>
+            <tr><td><strong>Contact: </strong></td><td>{{ $event->contact }}</td></tr>
+            <tr><td><strong>Email: </strong></td><td>{{ $event->email }}</td></tr>
         </table>
-    </div> --}}
+    </div>
 
-    <!-- Signature Section at Bottom -->
-    <table class="signature-table">
+    <!-- Signature Section -->
+    {{-- <table class="signature-table">
         <tr>
             <td>
                 ________________________<br>
@@ -207,7 +148,14 @@
                 Date
             </td>
         </tr>
-    </table>
+    </table> --}}
+
+    <!-- Footer Note -->
+<div class="footer-note">
+    This is a computer-generated document and does not require a physical signature.<br>
+    Generated on {{ $event->created_at->format('Y-m-d') }}
+</div>
+
 
 </body>
 </html>

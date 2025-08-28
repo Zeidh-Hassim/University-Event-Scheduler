@@ -303,7 +303,7 @@
         <div class="table-responsive">
             <table class="table table-bordered table-striped bg-white text-center">
                 <thead class="table-dark">
-                    <tr>
+                    <tr><th>Date</th>
                         <th>Event Name</th>
                         <th>AR Status</th>
                         <th>Marshall Status</th>
@@ -314,7 +314,7 @@
                 </thead>
                 <tbody>
                     @foreach($allEventApprovals as $approval)
-                        <tr>
+                        <tr><td>{{ $approval->event->date ?? 'N/A' }}</td>
                             <td>{{ $approval->event->event_name ?? 'N/A' }}</td>
                             <td>
                                 @php
@@ -614,7 +614,7 @@
         <div class="table-responsive">
             <table class="table table-bordered table-striped bg-white text-center">
                 <thead class="table-dark">
-                    <tr>
+                    <tr><th>Date</th>
                         <th>Event Name</th>
                         <th>AR Status</th>
                         <th>Deputy Proctor Status</th>
@@ -625,7 +625,7 @@
                 </thead>
                 <tbody>
                     @foreach($allUnionEventApprovals as $approval)
-                        <tr>
+                        <tr><td>{{ $approval->event->date ?? 'N/A' }}</td>
                             <td>{{ $approval->event->event_name ?? 'N/A' }}</td>
                             <td>
                                 @php
@@ -949,7 +949,7 @@
         <div class="table-responsive">
             <table class="table table-bordered table-striped bg-white text-center">
                 <thead class="table-dark">
-                    <tr>
+                    <tr><th>Date</th>
                         <th>Event Name</th>
                         <th>AR Status</th>
                         <th>Deputy Proctor Status</th>
@@ -960,7 +960,7 @@
                 </thead>
                 <tbody>
                     @foreach($allBatchApprovals as $approval)
-                        <tr>
+                        <tr><td>{{ $approval->event->date ?? 'N/A' }}</td>
                             <td>{{ $approval->event->event_name ?? 'N/A' }}</td>
                             <td>
                                 @php

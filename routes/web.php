@@ -159,7 +159,7 @@ Route::patch('/fas-dean-Society/accept/{id}', [UniversityEventApprovalController
 Route::patch('/fas-dean-Society/reject/{id}', [UniversityEventApprovalController::class, 'FASDeanSocietyReject'])->name('fasdeanSociety.reject');
 
 // FBS Dean
-Route::get('/fbs-dean-pending-requests', [UniversityEventApprovalController::class, 'showPendingFASDeanRequests'])->name('fasdean.pending.requests')->middleware('auth');
+Route::get('/fbs-dean-pending-requests', [UniversityEventApprovalController::class, 'showPendingFBSDeanRequests'])->name('fbsdean.pending.requests')->middleware('auth');
 Route::patch('/fbs-dean-union/accept/{id}', [UniversityEventApprovalController::class, 'FBSDeanUnionAccept'])->name('fbsdeanUnion.accept');
 Route::patch('/fbs-dean-union/reject/{id}', [UniversityEventApprovalController::class, 'FBSDeanUnionReject'])->name('fbsdeanUnion.reject');
 
@@ -170,7 +170,7 @@ Route::patch('/fbs-dean-Society/accept/{id}', [UniversityEventApprovalController
 Route::patch('/fbs-dean-Society/reject/{id}', [UniversityEventApprovalController::class, 'FBSDeanSocietyReject'])->name('fbsdeanSociety.reject');
 
 // FTS Dean
-Route::get('/fts-dean-pending-requests', [UniversityEventApprovalController::class, 'showPendingFASDeanRequests'])->name('fasdean.pending.requests')->middleware('auth');
+Route::get('/fts-dean-pending-requests', [UniversityEventApprovalController::class, 'showPendingFTSDeanRequests'])->name('ftsdean.pending.requests')->middleware('auth');
 Route::patch('/fts-dean-union/accept/{id}', [UniversityEventApprovalController::class, 'FTSDeanUnionAccept'])->name('ftsdeanUnion.accept');
 Route::patch('/fts-dean-union/reject/{id}', [UniversityEventApprovalController::class, 'FTSDeanUnionReject'])->name('ftsdeanUnion.reject');
 
